@@ -1,15 +1,13 @@
-# Run with: uvicorn main:app --reload
-
-from fastapi import FastAPI, Form
-from fastapi.middleware.cors import CORSMiddleware
-import cv2
-import numpy as np
-from groq import Groq
+from fastapi import FastAPI, Form # type: ignore
+from fastapi.middleware.cors import CORSMiddleware # type: ignore
+import cv2 # type: ignore
+import numpy as np # type: ignore
+from groq import Groq # type: ignore
 import os
 import base64
-from dotenv import load_dotenv
-from langdetect import detect
-from pydantic import BaseModel
+from dotenv import load_dotenv # type: ignore
+from langdetect import detect # type: ignore 
+from pydantic import BaseModel # type: ignore
 
 app = FastAPI()
 load_dotenv()
