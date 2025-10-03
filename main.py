@@ -13,8 +13,6 @@ from pydantic import BaseModel  # type: ignore
 import pytesseract  # type: ignore
 from pytesseract import Output  # type: ignore
 
-print("Tesseract version:", pytesseract.get_tesseract_version())
-
 # Ensure consistent language detection
 DetectorFactory.seed = 0
 
@@ -51,12 +49,11 @@ def map_detected_language(detected_lang: str) -> str:
     return "unknown"
 
 # --- Image preprocessing ---
-def preprocess_image_bytes(image_bytes: bytes, mode="grayscale", save_debug_path=None) -> np.ndarray:
+def preprocess_image_bytes(image_bytes: bytes, mode="grayscale") -> np.ndarray:
     """
     Preprocess image for OCR.
 
     mode: "grayscale" | "binary"
-    save_debug_path: optional path to save a displayable debug image
     """
     image = cv2.imdecode(np.frombuffer(image_bytes, np.uint8), cv2.IMREAD_COLOR)
     if image is None:
@@ -71,12 +68,6 @@ def preprocess_image_bytes(image_bytes: bytes, mode="grayscale", save_debug_path
         )
     else:
         processed = gray
-
-    # Save debug image if requested
-    if save_debug_path:
-        # convert single-channel to BGR for viewers
-        display_img = cv2.cvtColor(processed, cv2.COLOR_GRAY2BGR) if len(processed.shape) == 2 else processed
-        cv2.imwrite(save_debug_path, display_img)
 
     return processed
 
@@ -107,7 +98,6 @@ async def extract_text(request: OCRRequest):
         image = cv2.imdecode(np.frombuffer(image_bytes, np.uint8), cv2.IMREAD_COLOR)
         if image is None:
             raise ValueError("Image decoding failed")
-        cv2.imwrite("debug_preprocessed.png", image)
         H, W = image.shape[:2]
 
         # Build base64 data URI for Groq
@@ -211,17 +201,13 @@ async def extract_text(request: OCRRequest):
         tess_langs = "eng+jpn+jpn_vert+kor+chi_sim+chi_sim_vert+chi_tra+chi_tra_vert"
 
         # --- 1st pass: grayscale preprocessing ---
-        denoised = preprocess_image_bytes(
-            image_bytes, mode="grayscale", save_debug_path="debug_preprocessed.png"
-        )
+        denoised = preprocess_image_bytes(image_bytes, mode="grayscale")
         data = pytesseract.image_to_data(denoised, lang=tess_langs, output_type=Output.DICT)
 
         # --- If no text, retry with binary preprocessing ---
         if all((t or "").strip() == "" for t in data.get("text", [])):
             print("OCR grayscale failed → retrying with binary mode")
-            denoised = preprocess_image_bytes(
-                image_bytes, mode="binary", save_debug_path="debug_preprocessed.png"
-            )
+            denoised = preprocess_image_bytes(image_bytes, mode="binary")
             data = pytesseract.image_to_data(denoised, lang=tess_langs, output_type=Output.DICT)
 
         # --- Group words into lines with bounding boxes ---
