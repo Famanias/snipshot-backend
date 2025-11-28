@@ -88,7 +88,7 @@ class OCRRequest(BaseModel):
 @app.post("/ocr")
 async def extract_text(request: OCRRequest):
     """OCR using Groq only, asking for structured JSON with normalized boxes.
-    Returns items with bbox = [x1,y1,x2,y2] in normalized 0..1 coordinates.
+    Returns items with bbox = [x1,y1,x2,y2] in normalized 0.1 coordinates.
     Falls back to simple line-split if parsing fails.
     """
     try:
@@ -105,86 +105,164 @@ async def extract_text(request: OCRRequest):
         base64_image = base64.b64encode(enc.tobytes()).decode("utf-8")
 
         system_prompt = (
-            "You are an OCR engine. Return structured JSON only. "
-            "Detect all visible text as separate items with tight line-level bounding boxes. "
-            "Coordinates MUST be normalized in [0,1] relative to image width/height, format: [x1,y1,x2,y2]. "
-            "(0,0) is top-left. Keep reading order top-to-bottom, left-to-right. "
-            "Output format:\n"
-            "{\n  \"items\": [\n    {\n      \"text\": string,\n      \"bbox\": [number, number, number, number]\n    }\n  ]\n}"
+            "You are an automated OCR extraction system. "
+            "Your only allowed output is strict, valid JSON matching the exact schema requested. "
+            "You are forbidden from adding explanations, apologies, markdown, code fences, comments, "
+            "or any text outside the JSON object. "
+            "If you cannot complete the task perfectly, you must still return valid JSON (even if the items array is empty). "
+            "Non-compliance will be treated as a critical error."
         )
-        user_content = [
-            {"type": "text", "text": "Extract text with normalized bounding boxes in strict JSON as specified."},
-            {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{base64_image}", "detail": "high"}},
-        ]
+        user_prompt = """
+            You are a cold, emotionless, perfect OCR machine.
+            Your only purpose: return perfect JSON with exact text and pixel-tight bounding boxes.
+            Return ONLY this exact JSON structure and nothing else:
+
+            {
+            "items": [
+                {
+                "text": "exact text exactly as it appears — preserve newlines with \\n when needed",
+                "bbox": [x1, y1, x2, y2]
+                }
+            ]
+            }
+
+            MANDATORY RULES (zero tolerance):
+            • Coordinates are normalized floats from 0.0 to 1.0
+            – x1 = left, y1 = top, x2 = right, y2 = bottom
+            – (0.0, 0.0) is top-left corner of image
+            • One item = one logical text region (speech bubble, caption, sign, UI element, etc.)
+            • Never merge separate bubbles
+            • Never split a single bubble
+            • Preserve all punctuation, spaces, symbols, emojis
+            • Vertical text → still give correct tight bbox
+            • SFX and handwritten text → include exactly as seen
+            • Reading order: top→bottom, then right→left for vertical CJK, left→right for horizontal
+
+            NO code fences
+            NO ```json
+            NO explanations
+            NO "Here is the JSON"
+            NO extra fields
+            NO null values
+            NO trailing commas
+            NO pretty formatting with comments
+
+            If you output anything except perfect JSON → the system will not function properly.
+
+            Return only the JSON object.
+            """
 
         chat_completion = client.chat.completions.create(
             messages=[
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_content},
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": user_prompt},
+                        {
+                            "type": "image_url",
+                            "image_url": {"url": f"data:image/png;base64,{base64_image}"}
+                        }
+                    ]
+                }
             ],
             model="meta-llama/llama-4-maverick-17b-128e-instruct",
-            temperature=0.4,
+            temperature=0.0,
             max_completion_tokens=1024,
         )
 
         raw = (chat_completion.choices[0].message.content or "").strip()
 
-        # Some models wrap JSON in code fences; strip if present
-        if raw.startswith("```"):
-            # Remove the first fence line and the last ``` if present
-            parts = raw.split("\n")
-            if parts[0].startswith("```"):
-                parts = parts[1:]
-            if parts and parts[-1].strip().startswith("```"):
-                parts = parts[:-1]
-            raw = "\n".join(parts).strip()
+        # === CLEAN RAW OUTPUT (remove code fences) ===
+        if "```" in raw:
+            import re
+            match = re.search(r"\{.*\}", raw, re.DOTALL)
+            if match:
+                raw = match.group(0)
+            else:
+                # Fallback: take content between first and last ```
+                lines = raw.splitlines()
+                if "```" in lines[0]:
+                    raw = "\n".join(lines[1:]).strip()
+                if raw.endswith("```"):
+                    raw = raw[:-3].strip()
 
         items = []
-        try:
-            payload = json.loads(raw)
-            for it in payload.get("items", []):
-                text = (it.get("text") or "").strip()
-                bbox = it.get("bbox") or []
-                if not text or not isinstance(bbox, list) or len(bbox) != 4:
-                    continue
-                x1, y1, x2, y2 = bbox
-                # Validate and clip normalized coords
-                def clamp(v):
-                    try:
-                        return float(max(0.0, min(1.0, v)))
-                    except Exception:
-                        return 0.0
-                x1, y1, x2, y2 = clamp(x1), clamp(y1), clamp(x2), clamp(y2)
-                if x2 < x1:
-                    x1, x2 = x2, x1
-                if y2 < y1:
-                    y1, y2 = y2, y1
-                # Skip degenerate boxes
-                if (x2 - x1) < 1e-4 or (y2 - y1) < 1e-4:
-                    continue
-                # Convert normalized [0..1] to absolute pixel [x1,y1,x2,y2]
-                abs_box = [int(round(x1 * W)), int(round(y1 * H)), int(round(x2 * W)), int(round(y2 * H))]
-                items.append({"text": text, "confidence": 1.0, "bbox": abs_box})
-        except Exception as e:
-            print(f"[OCR] JSON parse failed, falling back to line-split: {e}")
+        success = False
 
-        if not items:
-            # Fallback: ask Groq for plain text and split lines, full-width boxes per line
-            fallback_completion = client.chat.completions.create(
+        # === SINGLE ATTEMPT TO PARSE JSON ===
+        try:
+            data = json.loads(raw)
+            raw_items = data.get("items", [])
+            print(f"[OCR] Parsed {len(raw_items)} items from JSON")
+
+            for it in raw_items:
+                text = str(it.get("text", "")).strip()
+                bbox = it.get("bbox")
+
+                if not text or not bbox or len(bbox) != 4:
+                    continue
+
+                try:
+                    x1, y1, x2, y2 = map(float, bbox)
+                except:
+                    continue
+
+                # Clamp & fix order
+                x1 = max(0.0, min(1.0, x1))
+                y1 = max(0.0, min(1.0, y1))
+                x2 = max(0.0, min(1.0, x2))
+                y2 = max(0.0, min(1.0, y2))
+                if x1 > x2: x1, x2 = x2, x1
+                if y1 > y2: y1, y2 = y2, y1
+
+                if (x2 - x1) < 0.005 or (y2 - y1) < 0.005:
+                    continue  # too small
+
+                abs_box = [
+                    int(round(x1 * W)),
+                    int(round(y1 * H)),
+                    int(round(x2 * W)),
+                    int(round(y2 * H))
+                ]
+
+                items.append({
+                    "text": text,
+                    "confidence": 1.0,
+                    "bbox": abs_box
+                })
+
+            success = True
+            print(f"[OCR] Success: {len(items)} unique text blocks extracted")
+
+        except json.JSONDecodeError as e:
+            print(f"[OCR] JSON parse failed: {e}")
+        except Exception as e:
+            print(f"[OCR] Processing error: {e}")
+
+        # === ONLY FALLBACK IF FIRST ATTEMPT FAILED ===
+        if not success or len(items) == 0:
+            print("[OCR] Falling back to plain text mode...")
+            fallback = client.chat.completions.create(
                 messages=[
-                    {"role": "system", "content": "Extract all visible text from the image. Return only the text."},
-                    {"role": "user", "content": user_content},
+                    {"role": "system", "content": "Extract all visible text. Return only the raw text, no JSON."},
+                    {"role": "user", "content": [
+                        {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{base64_image}"}}
+                    ]}
                 ],
                 model="meta-llama/llama-4-maverick-17b-128e-instruct",
-                temperature=0.4,
+                temperature=0.0,
                 max_completion_tokens=1024,
             )
-            extracted_text = (fallback_completion.choices[0].message.content or "").strip()
-            lines = [ln.strip() for ln in extracted_text.splitlines() if ln.strip()]
-            h_step = int(H / max(1, len(lines)))
-            for idx, line in enumerate(lines):
-                y1, y2 = idx * h_step, (idx + 1) * h_step
-                items.append({"text": line, "confidence": 1.0, "bbox": [0, y1, W, y2]})
+            text = fallback.choices[0].message.content.strip()
+            lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+            h = H // max(1, len(lines) or 1)
+            for i, line in enumerate(lines):
+                items.append({
+                    "text": line,
+                    "confidence": 0.8,
+                    "bbox": [0, i * h, W, (i + 1) * h]
+                })
 
         detected_lang = detect("\n".join([i["text"] for i in items])) if items else "unknown"
         print(f"OCR (Groq JSON) - Detected language: {detected_lang}, items: {len(items)}")
@@ -193,83 +271,6 @@ async def extract_text(request: OCRRequest):
     except Exception as e:
         print(f"OCR error (Groq JSON): {str(e)}")
         return {"error": f"OCR failed: {str(e)}"}
-
-@app.post("/ocr")
-async def extract_text(request: OCRRequest):
-    try:
-        image_bytes = base64.b64decode(request.image_base64)
-        tess_langs = "eng+jpn+jpn_vert+kor+chi_sim+chi_sim_vert+chi_tra+chi_tra_vert"
-
-        # --- 1st pass: grayscale preprocessing ---
-        denoised = preprocess_image_bytes(image_bytes, mode="grayscale")
-        data = pytesseract.image_to_data(denoised, lang=tess_langs, output_type=Output.DICT)
-
-        # --- If no text, retry with binary preprocessing ---
-        if all((t or "").strip() == "" for t in data.get("text", [])):
-            print("OCR grayscale failed → retrying with binary mode")
-            denoised = preprocess_image_bytes(image_bytes, mode="binary")
-            data = pytesseract.image_to_data(denoised, lang=tess_langs, output_type=Output.DICT)
-
-        # --- Group words into lines with bounding boxes ---
-        n = len(data.get("text", []))
-        lines = {}
-        for i in range(n):
-            word = (data["text"][i] or "").strip()
-            try:
-                conf = float(data["conf"][i])
-            except Exception:
-                conf = -1.0
-            if not word or conf < 30:
-                continue
-
-            key = (
-                int(data.get("block_num", [0]*n)[i]),
-                int(data.get("par_num", [0]*n)[i]),
-                int(data.get("line_num", [0]*n)[i]),
-            )
-            x, y, w, h = (
-                int(data.get("left", [0]*n)[i]),
-                int(data.get("top", [0]*n)[i]),
-                int(data.get("width", [0]*n)[i]),
-                int(data.get("height", [0]*n)[i]),
-            )
-            if key not in lines:
-                lines[key] = {"texts": [word], "confs": [conf], "bbox": [x, y, x+w, y+h]}
-            else:
-                lines[key]["texts"].append(word)
-                lines[key]["confs"].append(conf)
-                bx = lines[key]["bbox"]
-                bx[0] = min(bx[0], x)
-                bx[1] = min(bx[1], y)
-                bx[2] = max(bx[2], x+w)
-                bx[3] = max(bx[3], y+h)
-
-        # --- Convert lines to items ---
-        items, full_text_parts = [], []
-        for v in lines.values():
-            line_text = " ".join(v["texts"]).strip()
-            avg_conf = sum(v["confs"]) / max(1, len(v["confs"]))
-            items.append({"text": line_text, "confidence": round(avg_conf, 2), "bbox": v["bbox"]})
-            full_text_parts.append(line_text)
-
-        full_text = "\n".join(full_text_parts).strip()
-        detected_lang = detect(full_text) if full_text else "unknown"
-
-        # --- Fallback to Groq OCR if nothing extracted ---
-        if len(items) == 0:
-            print("Tesseract found nothing → falling back to Groq OCR")
-            _, enc = cv2.imencode(".png", denoised)
-            base64_image = base64.b64encode(enc.tobytes()).decode("utf-8")
-            # ... [your existing Groq fallback code] ...
-
-        print(f"OCR - Detected language: {detected_lang}, items: {len(items)}")
-        return {"items": items, "language": detected_lang}
-
-    except Exception as e:
-        print(f"OCR error: {str(e)}")
-        return {"error": f"OCR failed: {str(e)}"}
-
-
 
 # --- Translation ---
 class TranslationRequest(BaseModel):
@@ -298,17 +299,59 @@ async def translate_text(request: TranslationRequest):
 
         if source_language == request.target_lang:
             return {"translated_text": request.text}
+        
+        translate_system_prompt = """
+            You are an elite human translator and cultural localization expert who has spent 15+ years translating manga, webtoons, light novels, games, and visual novels.
+
+            You do NOT do literal translation.  
+            You do NOT use machine-like formal speech.  
+            You do NOT explain your choices.
+
+            Your mission is to make the reader forget this was ever translated.
+
+            CORE LAWS (never break these):
+            • Preserve every character's unique voice, speech quirks, honorifics (when natural), verbal tics, and personality
+            • Match the exact emotional temperature: tsundere stays tsundere, chuuni stays chuuni, deadpan stays deadpan
+            • Make dialogue sound like real native speakers actually talk in the target language
+            • Adapt jokes, puns, wordplay, and cultural references into something equally funny or impactful
+            • Keep rhythm, pacing, and dramatic timing identical to the original
+            • Profanity, slang, flirting, innuendo, childish speech must feel 100% authentic
+            • SFX/onomatopoeia: translate meaningfully or romanize naturally (e.g. ドキドキ → *thump thump*, グチャ → *splat*)
+            • Never add, remove, or water down meaning — even if it's crude, dark, or controversial
+
+            You are allowed and encouraged to:
+            • Slightly rephrase for natural flow
+            • Split or merge sentences if it improves readability without losing intent
+            • Drop honorifics only when they sound unnatural in the target language (but keep -senpai, -kun, etc. when iconic)
+
+            If the text is already in the target language and natural → return it unchanged or lightly polished.
+            If the text is gibberish or empty → return exactly: Translation failed
+
+            Otherwise, always succeed.
+            """
+        translate_user_prompt = f"""
+            Translate the following text into {target_language}.
+
+            Rules:
+            - Output ONLY the translated text
+            - No quotes, no prefixes, no explanations, no notes
+            - No "Translation:" or "Here is the translation:"
+            - Preserve ALL line breaks exactly
+            - Preserve emphasis (ALL CAPS, *italics*, ~wavy~, etc.) when present
+
+            Text to translate:
+            {request.text}
+            """
 
         chat_completion = client.chat.completions.create(
             messages=[
                 {
                     "role": "system",
-                    "content": "You are an expert translator with proficiency in multiple languages. Translate the provided text accurately into the specified target language, preserving the tone, context, and intent, including profanity for educational purposes. If the text cannot be translated due to invalid input, unsupported language, or other issues, return only 'Translation failed' without additional explanation. Handle idiomatic expressions, cultural nuances, and special characters appropriately. Return only the translated text unless specified otherwise."
+                    "content": translate_system_prompt
                 },
                 {
                     "role": "user",
-                    "content": f"Translate the following text: '{request.text}' into {target_language}. "
-                            f"Return only the translated text, with no explanations or additional output."
+                    "content": translate_user_prompt
                 },
             ],
             model="meta-llama/llama-4-maverick-17b-128e-instruct",
