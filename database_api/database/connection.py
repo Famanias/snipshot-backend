@@ -1,6 +1,5 @@
 """
-Database connection and session management
-Uses async SQLAlchemy for better performance with FastAPI
+Database connection
 """
 
 import os
@@ -12,9 +11,6 @@ from .models import Base
 
 load_dotenv()
 
-# Database URL from environment variable
-# For Render PostgreSQL: postgres://user:pass@host:port/dbname
-# We need to convert postgres:// to postgresql+asyncpg://
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./snipshot.db")
 
 # Handle Render's postgres:// URL format
@@ -23,14 +19,8 @@ if DATABASE_URL.startswith("postgres://"):
 elif DATABASE_URL.startswith("postgresql://"):
     DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
 
-# Create async engine
-engine = create_async_engine(
-    DATABASE_URL,
-    echo=os.getenv("DEBUG", "false").lower() == "true",
-    future=True
-)
+engine = create_async_engine(DATABASE_URL, echo=False, future=True)
 
-# Create async session factory
 AsyncSessionLocal = sessionmaker(
     engine,
     class_=AsyncSession,
@@ -47,7 +37,7 @@ async def init_db():
 
 
 async def get_db():
-    """Dependency to get database session"""
+    """Dependency for database session"""
     async with AsyncSessionLocal() as session:
         try:
             yield session

@@ -1,0 +1,27 @@
+# Database API - User Auth & Image Metadata Service
+# Deploy to Render with PostgreSQL add-on
+
+# Core
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+python-dotenv==1.0.0
+
+# Database
+sqlalchemy[asyncio]==2.0.23
+asyncpg==0.29.0        # PostgreSQL async driver
+aiosqlite==0.19.0      # SQLite async driver (local dev)
+
+# Auth
+python-jose[cryptography]==3.3.0
+bcrypt==4.0.1
+
+# Validation
+pydantic[email]==2.5.2
+email-validator==2.1.0
+
+# Cloudinary (for image deletion only)
+cloudinary==1.36.0
+
+# HTTP client (for calling VM translator)
+httpx==0.25.2
