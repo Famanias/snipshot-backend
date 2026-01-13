@@ -1,4 +1,4 @@
-from .models import Base, User, Image
+from .models import Base, Image, Folder
 from .connection import engine, AsyncSessionLocal, get_db, init_db
 
-__all__ = ["Base", "User", "Image", "engine", "AsyncSessionLocal", "get_db", "init_db"]
+__all__ = ["Base", "Image", "Folder", "engine", "AsyncSessionLocal", "get_db", "init_db"]
