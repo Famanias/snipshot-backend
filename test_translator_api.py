@@ -1,6 +1,6 @@
 """
 Test script for translator_api.py
-Tests the Cloudinary upload flow.
+Tests the Supabase Storage upload flow.
 """
 
 import httpx
@@ -13,7 +13,7 @@ API_URL = "http://localhost:8000"
 
 async def test_translator_api():
     print("=" * 60)
-    print("Testing Translator API (Cloudinary Upload)")
+    print("Testing Translator API (Supabase Storage Upload)")
     print("=" * 60)
     
     async with httpx.AsyncClient(timeout=120.0) as client:
@@ -27,8 +27,8 @@ async def test_translator_api():
             print(f"    ✗ Health check failed: {resp.status_code}")
             return
         
-        # 2. Test translation with Cloudinary upload
-        print("\n[2] Testing /translate (Cloudinary upload)...")
+        # 2. Test translation with Supabase upload
+        print("\n[2] Testing /translate (Supabase Storage upload)...")
         
         config = {
             "detector": {
@@ -77,13 +77,13 @@ async def test_translator_api():
             print(f"    ✓ Translation successful!")
             print(f"    → Success: {result.get('success')}")
             print(f"    → Image URL: {result.get('image_url')}")
-            print(f"    → Public ID: {result.get('public_id')}")
+            print(f"    → Storage Path: {result.get('storage_path')}")
         else:
             print(f"    ✗ Translation failed: {resp.status_code}")
             print(f"    → Response: {resp.text}")
             return
         
-        # 3. Test /translate/raw (no Cloudinary)
+        # 3. Test /translate/raw (no storage upload)
         print("\n[3] Testing /translate/raw (raw PNG)...")
         
         resp = await client.post(
@@ -113,8 +113,8 @@ async def test_translator_api():
         print("\nYour VM is ready to:")
         print("  1. Receive images from frontend")
         print("  2. Translate them")
-        print("  3. Upload to Cloudinary")
-        print("  4. Return {image_url, public_id}")
+        print("  3. Upload to Supabase Storage")
+        print("  4. Return {image_url, storage_path}")
 
 
 if __name__ == "__main__":

@@ -4,8 +4,8 @@ SnipShot Translator API - VM Backend (Google Cloud)
 This is a STATELESS translation service:
 1. Receives image + config
 2. Translates using manga_translator
-3. Uploads result to Cloudinary
-4. Returns Cloudinary URL
+3. Uploads result to Supabase Storage
+4. Returns Supabase Storage URL
 
 NO user authentication here - that's handled by the Database API.
 """
@@ -23,21 +23,21 @@ from fastapi.responses import Response, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 from dotenv import load_dotenv
-import cloudinary
-import cloudinary.uploader
+from supabase import create_client, Client
 
 from manga_translator import Config
 
 # Load environment variables
 load_dotenv()
 
-# Configure Cloudinary
-cloudinary.config(
-    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.getenv("CLOUDINARY_API_KEY"),
-    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
-    secure=True
-)
+# Configure Supabase
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
+SUPABASE_STORAGE_BUCKET = os.getenv("SUPABASE_STORAGE_BUCKET", "images")
+
+supabase: Optional[Client] = None
+if SUPABASE_URL and SUPABASE_SERVICE_KEY:
+    supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
 # Configuration
 BACKEND_PORT = os.getenv("BACKEND_PORT", "8001")
@@ -47,7 +47,7 @@ BACKEND_URL = f"http://127.0.0.1:{BACKEND_PORT}/simple_execute/translate"
 app = FastAPI(
     title="SnipShot Translator API",
     description="Stateless image translation service",
-    version="1.0.0"
+    version="2.0.0"
 )
 
 # CORS middleware
@@ -60,28 +60,34 @@ app.add_middleware(
 )
 
 
-def upload_to_cloudinary(image: Image.Image, folder: str = "snipshot/translated") -> dict:
-    """Upload PIL Image to Cloudinary and return URL + public_id"""
+def upload_to_supabase(image: Image.Image, folder: str = "translated") -> dict:
+    """Upload PIL Image to Supabase Storage and return URL + path"""
+    if not supabase:
+        raise Exception("Supabase not configured")
+    
     # Convert PIL to bytes
     buffer = io.BytesIO()
     image.save(buffer, format="PNG")
     buffer.seek(0)
+    image_bytes = buffer.getvalue()
     
-    # Generate unique public_id
-    public_id = f"{folder}/{int(time.time() * 1000)}"
+    # Generate unique path
+    timestamp = int(time.time() * 1000)
+    storage_path = f"{folder}/{timestamp}.png"
     
-    # Upload
-    result = cloudinary.uploader.upload(
-        buffer.getvalue(),
-        public_id=public_id,
-        resource_type="image",
-        format="png",
-        overwrite=True
+    # Upload to Supabase Storage
+    result = supabase.storage.from_(SUPABASE_STORAGE_BUCKET).upload(
+        path=storage_path,
+        file=image_bytes,
+        file_options={"content-type": "image/png"}
     )
     
+    # Get public URL
+    public_url = supabase.storage.from_(SUPABASE_STORAGE_BUCKET).get_public_url(storage_path)
+    
     return {
-        "url": result["secure_url"],
-        "public_id": result["public_id"]
+        "url": public_url,
+        "storage_path": storage_path
     }
 
 
@@ -90,9 +96,10 @@ def root():
     """Root endpoint"""
     return {
         "service": "SnipShot Translator API",
-        "version": "1.0.0",
+        "version": "2.0.0",
+        "storage": "Supabase",
         "endpoints": {
-            "/translate": "POST - Translate image and get Cloudinary URL",
+            "/translate": "POST - Translate image and get Supabase Storage URL",
             "/translate/raw": "POST - Translate image and get raw PNG",
             "/health": "GET - Health check"
         }
@@ -102,7 +109,8 @@ def root():
 @app.get("/health")
 def health():
     """Health check"""
-    return JSONResponse({"ok": True, "service": "translator-api"})
+    supabase_status = "connected" if supabase else "not configured"
+    return JSONResponse({"ok": True, "service": "translator-api", "storage": supabase_status})
 
 
 @app.post("/translate")
@@ -111,13 +119,13 @@ async def translate(
     config: str = Form(...)
 ):
     """
-    Translate image and upload to Cloudinary.
+    Translate image and upload to Supabase Storage.
     
     Returns:
         {
             "success": true,
-            "image_url": "https://res.cloudinary.com/...",
-            "public_id": "snipshot/translated/..."
+            "image_url": "https://xxx.supabase.co/storage/v1/object/public/...",
+            "storage_path": "translated/1234567890.png"
         }
     """
     try:
@@ -150,14 +158,14 @@ async def translate(
                     )
                 ctx = pickle.loads(await resp.read())
 
-        # 5. Upload to Cloudinary
-        result = upload_to_cloudinary(ctx.result)
+        # 5. Upload to Supabase Storage
+        result = upload_to_supabase(ctx.result)
 
         # 6. Return URL
         return {
             "success": True,
             "image_url": result["url"],
-            "public_id": result["public_id"]
+            "storage_path": result["storage_path"]
         }
 
     except HTTPException:

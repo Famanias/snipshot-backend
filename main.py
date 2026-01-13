@@ -35,7 +35,7 @@ def start_api():
     """Start FastAPI wrapper with uvicorn on $PORT (Render’s public port)."""
     port = os.getenv("PORT", "8000")
     
-    # Use translator_api for VM (stateless, uploads to Cloudinary)
+    # Use translator_api for VM (stateless, uploads to Supabase Storage)
     api_module = os.getenv("API_MODULE", "server.translator_api:app")
 
     cmd = [
