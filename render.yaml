@@ -1,0 +1,38 @@
+# Render Blueprint for SnipShot Backend
+# Deploy with: render blueprint sync
+
+services:
+  # PostgreSQL Database
+  - type: pserv
+    name: snipshot-db
+    plan: free
+    env: docker
+    autoDeploy: false
+    databases:
+      - name: snipshot
+        plan: free
+
+  # FastAPI Web Service (the wrapper only)
+  # Note: The manga translator backend runs on the VM, not on Render
+  # This is just for the database API if you want to separate it
+  - type: web
+    name: snipshot-api
+    plan: free
+    runtime: python
+    buildCommand: pip install -r requirements-2.txt
+    startCommand: uvicorn server.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: snipshot
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: BACKEND_PORT
+        value: "8001"
