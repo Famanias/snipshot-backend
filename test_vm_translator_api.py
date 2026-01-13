@@ -1,6 +1,6 @@
 """
 Test script for VM Translator API
-Sends image from local PC to VM, gets Cloudinary URL back.
+Sends image from local PC to VM, gets Supabase Storage URL back.
 """
 
 import httpx
@@ -35,8 +35,8 @@ async def test_vm_translator():
             print(f"    → Make sure VM is running and port 8000 is open")
             return
         
-        # 2. Test translation with Cloudinary upload
-        print("\n[2] Testing /translate (Cloudinary upload)...")
+        # 2. Test translation with Supabase upload
+        print("\n[2] Testing /translate (Supabase Storage upload)...")
         
         config = {
             "detector": {
@@ -67,7 +67,7 @@ async def test_vm_translator():
         data = {"config": json.dumps(config)}
         
         print("    → Sending image to VM...")
-        print("    → This may take 1-2 minutes (translation + Cloudinary upload)...")
+        print("    → This may take 1-2 minutes (translation + Supabase upload)...")
         
         try:
             resp = await client.post(
@@ -82,7 +82,7 @@ async def test_vm_translator():
                 print(f"    ┌─────────────────────────────────────")
                 print(f"    │ Success: {result.get('success')}")
                 print(f"    │ Image URL: {result.get('image_url')}")
-                print(f"    │ Public ID: {result.get('public_id')}")
+                print(f"    │ Storage Path: {result.get('storage_path')}")
                 print(f"    └─────────────────────────────────────")
                 
                 # Save the URL for reference
@@ -130,7 +130,7 @@ async def test_vm_translator():
         print("✓ VM Translator API Test Complete!")
         print("=" * 60)
         print("\nYour architecture is working:")
-        print("  Local PC → VM (34.87.58.21:8000) → Cloudinary")
+        print("  Local PC → VM (34.87.58.21:8000) → Supabase Storage")
         print("\nNext step:")
         print("  Frontend can now save the image_url to Database API")
 
