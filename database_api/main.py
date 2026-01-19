@@ -99,3 +99,8 @@ def root():
 @app.get("/health")
 def health():
     return {"ok": True, "service": "database-api", "backend": "supabase"}
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8002, reload=True)
