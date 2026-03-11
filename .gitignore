@@ -25,3 +25,7 @@ models/ocr/pcr/pcr_ar_48px.ckpt
 models/translators/jpa_crawI/big-en-ja/model.bin
 models/translators/jpa_crawI/big-ja-er/model.bin
 models/translators/sugoI/big-ja-er/model.bin
+
+
+database_api/
+database_api/*
