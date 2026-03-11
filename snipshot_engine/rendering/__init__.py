@@ -7,6 +7,7 @@ from shapely import affinity
 from shapely.geometry import Polygon
 
 from . import text_render
+from .bubble import detect_bubbles
 from ..utils import TextBlock, color_difference, get_logger, rotate_polygons
 
 logger = get_logger("render")
@@ -249,6 +250,36 @@ def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, 
     return img
 
 
+def _find_optimal_font_size(text, box_w, box_h, initial_fs, lang, min_fs=10):
+    """Binary-search for the largest font size that fits *text* inside *box_w* × *box_h*."""
+    # Upper bound: at most half the box width (so calc_horizontal won't auto-expand),
+    # a fraction of box height, and never absurdly large.
+    max_fs = min(int(box_w / 2), int(box_h * 0.4), initial_fs * 3, 80)
+    lo, hi = min_fs, max(min_fs, max_fs)
+    best = min_fs
+
+    for _ in range(12):
+        if lo > hi:
+            break
+        mid = (lo + hi) // 2
+        if mid < 1:
+            break
+
+        lines, _ = text_render.calc_horizontal(mid, text, box_w, box_h, lang)
+        # Match put_text_horizontal canvas height:
+        #   canvas_h = fs * n_lines + spacing*(n-1) + (fs + bg_size)*2
+        bg_size = int(max(mid * 0.07, 1))
+        total_h = mid * len(lines) + (mid + bg_size) * 2
+
+        if total_h <= box_h:
+            best = mid
+            lo = mid + 1
+        else:
+            hi = mid - 1
+
+    return best
+
+
 async def dispatch(
     img: np.ndarray,
     text_regions: List[TextBlock],
@@ -262,11 +293,38 @@ async def dispatch(
     text_render.set_font(font_path)
     text_regions = [r for r in text_regions if r.translation]
 
-    # Expand bounding boxes to fit translated text
-    dst_points_list = _resize_regions_to_font_size(
-        img, text_regions, font_size_offset, font_size_minimum,
-    )
+    # ── 1. Detect speech bubbles ─────────────────────────────────────
+    bubble_rects = detect_bubbles(img, text_regions)
 
+    dst_points_list: list = [None] * len(text_regions)
+    non_bubble_indices: list[int] = []
+    non_bubble_regions: list[TextBlock] = []
+
+    for i, (region, bubble_rect) in enumerate(zip(text_regions, bubble_rects)):
+        if bubble_rect is not None:
+            bw = int(bubble_rect[0, 1, 0] - bubble_rect[0, 0, 0])
+            bh = int(bubble_rect[0, 2, 1] - bubble_rect[0, 0, 1])
+            optimal_fs = _find_optimal_font_size(
+                region.get_translation_for_rendering(),
+                bw, bh,
+                region.font_size,
+                getattr(region, "target_lang", "en_US"),
+            )
+            region.font_size = optimal_fs
+            dst_points_list[i] = bubble_rect
+        else:
+            non_bubble_indices.append(i)
+            non_bubble_regions.append(region)
+
+    # ── 2. Fallback: expand textline boxes for non-bubble regions ────
+    if non_bubble_regions:
+        fallback = _resize_regions_to_font_size(
+            img, non_bubble_regions, font_size_offset, font_size_minimum,
+        )
+        for idx, pts in zip(non_bubble_indices, fallback):
+            dst_points_list[idx] = pts
+
+    # ── 3. Render ────────────────────────────────────────────────────
     for region, dst_points in zip(text_regions, dst_points_list):
         img = _render_region(img, region, dst_points, hyphenate, line_spacing, disable_font_border)
     return img
