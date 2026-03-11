@@ -412,10 +412,10 @@ class OCR(nn.Module):
             color_feats = self.color_pred1(decoded[-1].unsqueeze(0))
             result.append((
                 final_idx[1:], prob,
-                self.color_pred_fg(color_feats),
-                self.color_pred_bg(color_feats),
-                self.color_pred_fg_ind(color_feats),
-                self.color_pred_bg_ind(color_feats),
+                self.color_pred_fg(color_feats)[0],
+                self.color_pred_bg(color_feats)[0],
+                self.color_pred_fg_ind(color_feats)[0],
+                self.color_pred_bg_ind(color_feats)[0],
             ))
         return result
 

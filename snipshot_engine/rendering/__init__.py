@@ -2,7 +2,9 @@
 
 import cv2
 import numpy as np
-from typing import List
+from typing import List, Optional
+from shapely import affinity
+from shapely.geometry import Polygon
 
 from . import text_render
 from ..utils import TextBlock, color_difference, get_logger, rotate_polygons
@@ -17,11 +19,149 @@ def _fg_bg_compare(fg, bg):
     return fg, bg
 
 
+def _count_text_length(text: str) -> float:
+    half_width_chars = 'っッぁぃぅぇぉ'
+    length = 0.0
+    for char in text.strip():
+        if char in half_width_chars:
+            length += 0.5
+        else:
+            length += 1.0
+    return length
+
+
+def _resize_regions_to_font_size(
+    img: np.ndarray,
+    text_regions: List[TextBlock],
+    font_size_offset: int,
+    font_size_minimum: int,
+):
+    """Expand text bounding boxes when translated text is longer than the original."""
+    if font_size_minimum == -1:
+        font_size_minimum = round((img.shape[0] + img.shape[1]) / 200)
+    font_size_minimum = max(1, font_size_minimum)
+
+    dst_points_list = []
+    for region in text_regions:
+        original_fs = region.font_size
+        if original_fs <= 0:
+            original_fs = font_size_minimum
+
+        target_fs = original_fs + font_size_offset
+        target_fs = max(target_fs, font_size_minimum, 1)
+
+        single_axis_expanded = False
+        dst_points = None
+
+        # Try single-axis expansion based on how many rows/cols the translation needs
+        if region.horizontal:
+            used_rows = max(len(region.texts), 1)
+            line_text_list, _ = text_render.calc_horizontal(
+                region.font_size,
+                region.translation,
+                max_width=region.unrotated_size[0],
+                max_height=region.unrotated_size[1],
+                language=getattr(region, "target_lang", "en_US"),
+            )
+            needed_rows = len(line_text_list)
+            if needed_rows > used_rows:
+                scale_x = ((needed_rows - used_rows) / used_rows) + 1
+                try:
+                    poly = Polygon(region.unrotated_min_rect[0])
+                    minx, miny, maxx, maxy = poly.bounds
+                    poly = affinity.scale(poly, xfact=scale_x, yfact=1.0, origin=(minx, miny))
+                    pts = np.array(poly.exterior.coords[:4])
+                    dst_points = rotate_polygons(
+                        region.center, pts.reshape(1, -1), -region.angle, to_int=False
+                    ).reshape(-1, 4, 2).astype(np.int64)
+                    single_axis_expanded = True
+                except Exception:
+                    pass
+
+        elif region.vertical:
+            used_cols = max(len(region.texts), 1)
+            line_text_list, _ = text_render.calc_vertical(
+                region.font_size,
+                region.translation,
+                max_height=region.unrotated_size[1],
+            )
+            needed_cols = len(line_text_list)
+            if needed_cols > used_cols:
+                scale_x = ((needed_cols - used_cols) / used_cols) + 1
+                try:
+                    poly = Polygon(region.unrotated_min_rect[0])
+                    minx, miny, maxx, maxy = poly.bounds
+                    poly = affinity.scale(poly, xfact=1.0, yfact=scale_x, origin=(minx, miny))
+                    pts = np.array(poly.exterior.coords[:4])
+                    dst_points = rotate_polygons(
+                        region.center, pts.reshape(1, -1), -region.angle, to_int=False
+                    ).reshape(-1, 4, 2).astype(np.int64)
+                    single_axis_expanded = True
+                except Exception:
+                    pass
+
+        # Fallback: general scaling based on text length difference
+        if not single_axis_expanded:
+            orig_text = getattr(region, "text_raw", region.text)
+            char_count_orig = _count_text_length(orig_text)
+            char_count_trans = _count_text_length(region.translation.strip())
+
+            target_scale = 1.0
+            if char_count_orig > 0 and char_count_trans > char_count_orig:
+                increase_pct = (char_count_trans - char_count_orig) / char_count_orig
+                font_increase_ratio = min(1.5, max(1.0, 1 + increase_pct * 0.3))
+                target_fs = int(target_fs * font_increase_ratio)
+                target_scale = max(1, min(1 + increase_pct * 0.3, 2))
+
+            font_size_scale = (
+                (((target_fs - original_fs) / original_fs) * 0.4 + 1)
+                if original_fs > 0 else 1.0
+            )
+            final_scale = max(font_size_scale, target_scale)
+            final_scale = max(1, min(final_scale, 1.1))
+
+            if final_scale > 1.001:
+                try:
+                    poly = Polygon(region.unrotated_min_rect[0])
+                    poly = affinity.scale(poly, xfact=final_scale, yfact=final_scale, origin='center')
+                    scaled_pts = np.array(poly.exterior.coords[:4])
+                    dst_points = rotate_polygons(
+                        region.center, scaled_pts.reshape(1, -1), -region.angle, to_int=False
+                    ).reshape(-1, 4, 2).astype(np.int64)
+                except Exception:
+                    dst_points = region.min_rect
+            else:
+                dst_points = region.min_rect
+
+        if dst_points is None:
+            dst_points = region.min_rect
+
+        dst_points_list.append(dst_points)
+        region.font_size = int(target_fs)
+
+    return dst_points_list
+
+
+def _order_points(pts: np.ndarray) -> np.ndarray:
+    """Reorder 4 corner points to [TL, TR, BR, BL] regardless of input ordering."""
+    pts = pts.reshape(4, 2).astype(np.float64)
+    s = pts.sum(axis=1)
+    d = np.diff(pts, axis=1).flatten()  # y - x
+    tl = pts[np.argmin(s)]
+    br = pts[np.argmax(s)]
+    tr = pts[np.argmin(d)]
+    bl = pts[np.argmax(d)]
+    return np.array([tl, tr, br, bl])
+
+
 def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, disable_font_border):
     fg, bg = region.get_font_colors()
     fg, bg = _fg_bg_compare(fg, bg)
     if disable_font_border:
         bg = None
+
+    # Reorder dst_points to [TL, TR, BR, BL] so the homography maps correctly
+    dst_points = _order_points(dst_points[0])[np.newaxis].astype(dst_points.dtype)
 
     middle_pts = (dst_points[:, [1, 2, 3, 0]] + dst_points) / 2
     norm_h = np.linalg.norm(middle_pts[:, 1] - middle_pts[:, 3], axis=1)
@@ -63,19 +203,20 @@ def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, 
     r_orig = np.mean(norm_h / norm_v)
 
     # Pad temp_box to match original region aspect ratio
+    box = None
     if render_h:
         if r_temp > r_orig:
             h_ext = int((w / r_orig - h) // 2) if r_orig > 0 else 0
             if h_ext >= 0:
                 box = np.zeros((h + h_ext * 2, w, 4), dtype=np.uint8)
-                box[h_ext:h_ext + h, :w] = temp_box
+                box[h_ext:h_ext + h, 0:w] = temp_box
             else:
                 box = temp_box.copy()
         else:
             w_ext = int((h * r_orig - w) // 2)
             if w_ext >= 0:
                 box = np.zeros((h, w + w_ext * 2, 4), dtype=np.uint8)
-                box[:h, :w] = temp_box
+                box[0:h, 0:w] = temp_box
             else:
                 box = temp_box.copy()
     else:
@@ -83,14 +224,14 @@ def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, 
             h_ext = int(w / (2 * r_orig) - h / 2) if r_orig > 0 else 0
             if h_ext >= 0:
                 box = np.zeros((h + h_ext * 2, w, 4), dtype=np.uint8)
-                box[:h, :w] = temp_box
+                box[0:h, 0:w] = temp_box
             else:
                 box = temp_box.copy()
         else:
             w_ext = int((h * r_orig - w) / 2)
             if w_ext >= 0:
                 box = np.zeros((h, w + w_ext * 2, 4), dtype=np.uint8)
-                box[:h, w_ext:w_ext + w] = temp_box
+                box[0:h, w_ext:w_ext + w] = temp_box
             else:
                 box = temp_box.copy()
 
@@ -121,7 +262,11 @@ async def dispatch(
     text_render.set_font(font_path)
     text_regions = [r for r in text_regions if r.translation]
 
-    for region in text_regions:
-        dst_points = region.min_rect
+    # Expand bounding boxes to fit translated text
+    dst_points_list = _resize_regions_to_font_size(
+        img, text_regions, font_size_offset, font_size_minimum,
+    )
+
+    for region, dst_points in zip(text_regions, dst_points_list):
         img = _render_region(img, region, dst_points, hyphenate, line_spacing, disable_font_border)
     return img
