@@ -178,3 +178,6 @@ async def translate_raw(
     result.save(buf, format="PNG")
     buf.seek(0)
     return Response(content=buf.getvalue(), media_type="image/png")
+
+
+# uvicorn snipshot_engine.server:app --host 0.0.0.0 --port 8000

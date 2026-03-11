@@ -55,7 +55,7 @@ class SnipshotTranslator:
         # OCR
         await prepare_ocr(self.config.ocr.ocr, self.device)
         # Translation (no-op for API-based translators, but keeps interface consistent)
-        await prepare_translation(self.config.translator.translator)
+        await prepare_translation()
         # Inpainting
         if self.config.inpainter.inpainter != Inpainter.none:
             await prepare_inpainting(self.config.inpainter.inpainter, self.device)
@@ -124,11 +124,10 @@ class SnipshotTranslator:
         target_lang = cfg.translator.target_lang
         for region in text_regions:
             region.target_lang = target_lang
-            # Detect orientation preset
+            # Detect orientation preset (values are strings like "h", "auto", "hr")
             preset = LANGUAGE_ORIENTATION_PRESETS.get(target_lang)
             if preset:
-                region._direction = preset.get("direction", "auto")
-                region.alignment = preset.get("alignment", "auto")
+                region._direction = preset
 
         # ── 4. Translation ───────────────────────────────────────────
         logger.info("Translating %d regions...", len(text_regions))
