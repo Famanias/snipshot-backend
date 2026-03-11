@@ -72,6 +72,9 @@ def compact_special_symbols(text: str) -> str:
 
 FALLBACK_FONTS = [
     os.path.join(BASE_PATH, 'fonts/Arial-Unicode-Regular.ttf'),
+    # System fonts (filtered by os.path.isfile in set_font)
+    'C:/Windows/Fonts/arial.ttf',
+    '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
     os.path.join(BASE_PATH, 'fonts/msyh.ttc'),
     os.path.join(BASE_PATH, 'fonts/msgothic.ttc'),
 ]
