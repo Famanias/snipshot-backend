@@ -29,3 +29,6 @@ models/translators/sugoI/big-ja-er/model.bin
 
 database_api/
 database_api/*
+
+landing/
+landing/*
