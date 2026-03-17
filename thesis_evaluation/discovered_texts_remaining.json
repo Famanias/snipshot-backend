@@ -1,0 +1,397 @@
+{
+  "complex/test-image-complex2.jpg": {
+    "category": "complex",
+    "filename": "test-image-complex2.jpg",
+    "path": "D:\\repos\\snipshot-backend\\test images\\complex\\test-image-complex2.jpg",
+    "resolution": [
+      3000,
+      2250
+    ],
+    "detected_texts": [
+      "お先に‼",
+      "計算シタ",
+      "優勝したら",
+      "二の星に",
+      "いただいたせ\"",
+      "悪いがー位は",
+      "橋をフくるんだ",
+      "最短距離ヲ",
+      "後編へ続く！",
+      "撹乱させている！",
+      "技の忍者、ロードロケット！",
+      "分身の術で他のレーサー達を",
+      "次にトップに躍り出たのは",
+      "そして崖を登ってコースを横切り",
+      "勝利を収めてきたブラーが自慢の",
+      "超スピードを駆使してトップに！",
+      "2人で力を合わせて優勝を狙うぞ！",
+      "まずは過去に数多くのレースで",
+      "コンビ、ダイアバーンアウトだ！",
+      "障害物の落石を蹴散らしトップを狙う！",
+      "トップを狙うのは、人間とAIロボの",
+      "元ビルドロンのー員ロードホーラーも",
+      "勝負の行方はまだ誰にもわからない‥",
+      "だが後ろから黒いタンクローリーの影が・・"
+    ],
+    "confidences": [
+      0.5788754820823669,
+      0.9321348071098328,
+      0.7105783820152283,
+      0.7824387550354004,
+      0.7744719982147217,
+      0.44675520062446594,
+      0.929564893245697,
+      0.7662971019744873,
+      0.9834309220314026,
+      0.9910681247711182,
+      0.9938833117485046,
+      0.999398946762085,
+      0.998613715171814,
+      0.9971134662628174,
+      0.998168408870697,
+      0.9975343346595764,
+      0.9075986742973328,
+      0.9979215860366821,
+      0.6352292895317078,
+      0.994072675704956,
+      0.7315875887870789,
+      0.47046470642089844,
+      0.34220749139785767,
+      0.6883384585380554
+    ],
+    "translated_texts": [
+      "The one who has taken the top spot is the technical ninja, Road Rocket! He is causing chaos among the other racers with his clone jutsu!",
+      "First, Bura, who has won numerous races in the past, will use her proud super speed to take the top!",
+      "I got at least that much, if not more",
+      "To be continued in the next part!",
+      "Former Buildron member, Road Holler, kicks aside obstacles like falling rocks and aims for the top! However, a black tanker truck is closing in from behind... The outcome of the competition is still unknown...",
+      "If we win, to the Second Star",
+      "I'll kick you off the bridge",
+      "And the one climbing up the cliff, crossing the course, and aiming for the top is Dia Burnout, a combo of a human and an AI robot! The two of them will work together to aim for the championship!",
+      "See you later!!",
+      "Calculated the shortest distance"
+    ],
+    "text_regions": [
+      {
+        "source": "次にトップに躍り出たのは技の忍者、ロードロケット！分身の術で他のレーサー達を撹乱させている！",
+        "translation": "The one who has taken the top spot is the technical ninja, Road Rocket! He is causing chaos among the other racers with his clone jutsu!"
+      },
+      {
+        "source": "まずは過去に数多くのレースで勝利を収めてきたブラーが自慢の超スピードを駆使してトップに！",
+        "translation": "First, Bura, who has won numerous races in the past, will use her proud super speed to take the top!"
+      },
+      {
+        "source": "悪いがー位はいただいたせ",
+        "translation": "I got at least that much, if not more"
+      },
+      {
+        "source": "後編へ続く！",
+        "translation": "To be continued in the next part!"
+      },
+      {
+        "source": "元ビルドロンのー員ロードホーラーも障害物の落石を蹴散らしトップを狙う！だが後ろから黒いタンクローリーの影が・・勝負の行方はまだ誰にもわからない‥",
+        "translation": "Former Buildron member, Road Holler, kicks aside obstacles like falling rocks and aims for the top! However, a black tanker truck is closing in from behind... The outcome of the competition is still unknown..."
+      },
+      {
+        "source": "優勝したら二の星に",
+        "translation": "If we win, to the Second Star"
+      },
+      {
+        "source": "橋をフくるんだ",
+        "translation": "I'll kick you off the bridge"
+      },
+      {
+        "source": "そして崖を登ってコースを横切りトップを狙うのは、人間とAIロボのコンビ、ダイアバーンアウトだ！ 2人で力を合わせて優勝を狙うぞ！",
+        "translation": "And the one climbing up the cliff, crossing the course, and aiming for the top is Dia Burnout, a combo of a human and an AI robot! The two of them will work together to aim for the championship!"
+      },
+      {
+        "source": "お先に‼",
+        "translation": "See you later!!"
+      },
+      {
+        "source": "最短距離ヲ計算シタ",
+        "translation": "Calculated the shortest distance"
+      }
+    ]
+  },
+  "complex/test-image-complex3.png": {
+    "category": "complex",
+    "filename": "test-image-complex3.png",
+    "path": "D:\\repos\\snipshot-backend\\test images\\complex\\test-image-complex3.png",
+    "resolution": [
+      1600,
+      1200
+    ],
+    "detected_texts": [
+      "⁈",
+      "話題",
+      "警戒。",
+      "です、",
+      "です",
+      "限り",
+      "ィーズ",
+      "アは眠い",
+      "父、アニ",
+      "うか？",
+      "ええと……",
+      "落花生！",
+      "でいます。",
+      "ようなアニア",
+      "ビーナッツの",
+      "これを望ん",
+      "きです。",
+      "アーニャは",
+      "て育てやすい",
+      "せんか？",
+      "？ ええと…",
+      "私は何をし",
+      "ください。",
+      "手をつないで",
+      "行くのは時期",
+      "……何して",
+      "たのでしょ",
+      "でください",
+      "「ああ、そん",
+      "るの……2",
+      "アニアは安く",
+      "良いです…",
+      "ベーカリーは",
+      "アニアはサッ",
+      "pコインは１",
+      "ポンター１０",
+      "カーベーコン",
+      "になるのが好",
+      "「ナッツを買っ",
+      "た、泣かないで",
+      "ませんか？",
+      "私を捨てない",
+      "なぜ突然泣い",
+      "が苦手です…？",
+      "意味がありま",
+      "Ｄを購入でき",
+      "たのですか？",
+      "供を変える方が",
+      "ればなりません。",
+      "尚早です……",
+      "今、何人かの子",
+      "私はあなたに日",
+      "それは外交のようなも",
+      "ることは、平和への最",
+      "のです！ 相",
+      "初のステップですー",
+      "世界は平和になります…",
+      "…ー この生き物についてのす",
+      "…この男は実際には彼の心",
+      "女と良い関係を維持しなけ",
+      "これはトリッキ！です…私",
+      "はタスクが完了する前に彼",
+      "私は理解しなけれはなりません",
+      "あなたがアニアを理解している"
+    ],
+    "confidences": [
+      0.9984594583511353,
+      0.99714595079422,
+      0.9960237741470337,
+      0.991841733455658,
+      0.5005295872688293,
+      0.999915361404419,
+      0.9959517121315002,
+      0.9994709491729736,
+      0.7947158217430115,
+      0.9967804551124573,
+      0.9605022668838501,
+      0.9171776175498962,
+      0.9990283846855164,
+      0.9810026288032532,
+      0.6222200393676758,
+      0.9998552203178406,
+      0.9620897173881531,
+      0.8753994703292847,
+      0.9978129267692566,
+      0.9972681403160095,
+      0.9321861863136292,
+      0.9999480843544006,
+      0.9757183790206909,
+      0.9987534284591675,
+      0.9996602535247803,
+      0.8903910517692566,
+      0.999538004398346,
+      0.9998807311058044,
+      0.29624539613723755,
+      0.7949697375297546,
+      0.9226614832878113,
+      0.9954708814620972,
+      0.9502112865447998,
+      0.9532147645950317,
+      0.35590502619743347,
+      0.5794872641563416,
+      0.6111687421798706,
+      0.9998632669448853,
+      0.6624186038970947,
+      0.9948498010635376,
+      0.9960982203483582,
+      0.9997959733009338,
+      0.8536052703857422,
+      0.976660966873169,
+      0.9999333024024963,
+      0.3996463119983673,
+      0.9882417917251587,
+      0.99957674741745,
+      0.9974378943443298,
+      0.5411279201507568,
+      0.989042341709137,
+      0.5471081733703613,
+      0.9999136924743652,
+      0.9950835108757019,
+      0.9980164170265198,
+      0.5480594635009766,
+      0.9889516234397888,
+      0.22040317952632904,
+      0.9918249249458313,
+      0.9456658959388733,
+      0.42075130343437195,
+      0.9522257447242737,
+      0.6872602105140686,
+      0.6069563627243042
+    ],
+    "translated_texts": [
+      "……What are you doing……2",
+      "Caution.",
+      "What have I done?",
+      "It's too early to hold hands...",
+      "This is tricky... I have to maintain a good relationship with her before the task is completed.",
+      "Ania loves becoming soccer bacon.",
+      "Does \"Bakery\" not make sense to you?",
+      "Anya wants this.",
+      "Can't I buy 1 D with 10 Ponta coins?",
+      "I have to understand...this creature...",
+      "It's like diplomacy! To understand is the first step towards peace.",
+      "...does this man actually have a hard time with his own heart...?",
+      "It's better to change some kids now...",
+      "to the limit",
+      "You understand Ania",
+      "The world will be at peace...",
+      "Like Veranits, a Veranits-like Ane",
+      "Um... what?",
+      "Please don't abandon me.",
+      "ease",
+      "topic",
+      "Ah, yeah",
+      "Why are you suddenly crying?",
+      "I bought you peanuts, please don't cry.",
+      "Peanuts!",
+      "Aニア is cheap and easy to raise.",
+      "Father, Ania is sleepy,"
+    ],
+    "text_regions": [
+      {
+        "source": "……何してるの……2",
+        "translation": "……What are you doing……2"
+      },
+      {
+        "source": "警戒。",
+        "translation": "Caution."
+      },
+      {
+        "source": "私は何をしたのでしょうか？",
+        "translation": "What have I done?"
+      },
+      {
+        "source": "手をつないで行くのは時期尚早です……",
+        "translation": "It's too early to hold hands..."
+      },
+      {
+        "source": "これはトリッキ！です…私はタスクが完了する前に彼女と良い関係を維持しなければなりません。",
+        "translation": "This is tricky... I have to maintain a good relationship with her before the task is completed."
+      },
+      {
+        "source": "アニアはサッカーベーコンになるのが好きです。",
+        "translation": "Ania loves becoming soccer bacon."
+      },
+      {
+        "source": "ベーカリーは意味がありませんか？",
+        "translation": "Does \"Bakery\" not make sense to you?"
+      },
+      {
+        "source": "アーニャはこれを望んでいます。",
+        "translation": "Anya wants this."
+      },
+      {
+        "source": "ポンター１０ pコインは１ Ｄを購入できませんか？",
+        "translation": "Can't I buy 1 D with 10 Ponta coins?"
+      },
+      {
+        "source": "私は理解しなけれはなりません…ー この生き物についてのす",
+        "translation": "I have to understand...this creature..."
+      },
+      {
+        "source": "それは外交のようなものです！ 相ることは、平和への最初のステップですー",
+        "translation": "It's like diplomacy! To understand is the first step towards peace."
+      },
+      {
+        "source": "…この男は実際には彼の心が苦手です…？",
+        "translation": "...does this man actually have a hard time with his own heart...?"
+      },
+      {
+        "source": "今、何人かの子供を変える方が良いです…",
+        "translation": "It's better to change some kids now..."
+      },
+      {
+        "source": "限り",
+        "translation": "to the limit"
+      },
+      {
+        "source": "あなたがアニアを理解している",
+        "translation": "You understand Ania"
+      },
+      {
+        "source": "世界は平和になります…",
+        "translation": "The world will be at peace..."
+      },
+      {
+        "source": "ビーナッツのようなアニア",
+        "translation": "Like Veranits, a Veranits-like Ane"
+      },
+      {
+        "source": "ええと…… ？ ええと…",
+        "translation": "Um... what?"
+      },
+      {
+        "source": "私を捨てないでください",
+        "translation": "Please don't abandon me."
+      },
+      {
+        "source": "ィーズ",
+        "translation": "ease"
+      },
+      {
+        "source": "話題",
+        "translation": "topic"
+      },
+      {
+        "source": "ああ、そん",
+        "translation": "Ah, yeah"
+      },
+      {
+        "source": "なぜ突然泣いたのですか？",
+        "translation": "Why are you suddenly crying?"
+      },
+      {
+        "source": "私はあなたに日ナッツを買った、泣かないでください。",
+        "translation": "I bought you peanuts, please don't cry."
+      },
+      {
+        "source": "落花生！",
+        "translation": "Peanuts!"
+      },
+      {
+        "source": "アニアは安くて育てやすいです",
+        "translation": "Aニア is cheap and easy to raise."
+      },
+      {
+        "source": "父、アニアは眠いです、",
+        "translation": "Father, Ania is sleepy,"
+      }
+    ]
+  }
+}

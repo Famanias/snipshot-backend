@@ -1,0 +1,160 @@
+{
+  "metadata": {
+    "timestamp": "2026-02-05T19:44:38.637443",
+    "total_images": 3,
+    "ground_truth_file": null
+  },
+  "summary": {
+    "error": "All benchmarks failed"
+  },
+  "detailed_results": [
+    {
+      "image_path": "15.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 0.0,
+        "detection_ms": 0.0,
+        "ocr_ms": 0.0,
+        "translation_ms": 0.0,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "detected_texts": [],
+      "translated_texts": [],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large_512px"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": "1 validation error for Config\ninpainter.inpainter\n  Input should be 'default', 'lama_large', 'lama_mpe', 'sd', 'none' or 'original' [type=enum, input_value='lama_large_512px', input_type=str]"
+    },
+    {
+      "image_path": "15.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 0.0,
+        "detection_ms": 0.0,
+        "ocr_ms": 0.0,
+        "translation_ms": 0.0,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "detected_texts": [],
+      "translated_texts": [],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large_512px"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": "1 validation error for Config\ninpainter.inpainter\n  Input should be 'default', 'lama_large', 'lama_mpe', 'sd', 'none' or 'original' [type=enum, input_value='lama_large_512px', input_type=str]"
+    },
+    {
+      "image_path": "15.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 0.0,
+        "detection_ms": 0.0,
+        "ocr_ms": 0.0,
+        "translation_ms": 0.0,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "detected_texts": [],
+      "translated_texts": [],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large_512px"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": "1 validation error for Config\ninpainter.inpainter\n  Input should be 'default', 'lama_large', 'lama_mpe', 'sd', 'none' or 'original' [type=enum, input_value='lama_large_512px', input_type=str]"
+    }
+  ],
+  "accuracy_evaluation": {
+    "ocr_results": [],
+    "translation_results": [],
+    "aggregate": {
+      "ocr": {
+        "mean_accuracy": 0.0,
+        "mean_cer": 0.0,
+        "sample_count": 0
+      },
+      "translation": {
+        "mean_bleu": 0.0,
+        "sample_count": 0
+      }
+    }
+  },
+  "performance_profile": {
+    "summary": {},
+    "resolution_analysis": {},
+    "raw_timings": {
+      "detection": [],
+      "ocr": [],
+      "translation": [],
+      "inpainting": [],
+      "rendering": [],
+      "total": []
+    },
+    "total_runs": 3
+  }
+}

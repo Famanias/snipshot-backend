@@ -1,0 +1,2400 @@
+{
+  "metadata": {
+    "timestamp": "2026-02-05T20:20:55.638222",
+    "total_images": 9,
+    "ground_truth_file": "thesis_evaluation/ground_truth.json"
+  },
+  "summary": {
+    "total_images": 9,
+    "successful": 9,
+    "failed": 0,
+    "timing": {
+      "mean_total_ms": 6554.6410222143295,
+      "mean_detection_ms": 691.3552777777012,
+      "mean_ocr_ms": 521.6446111056333,
+      "mean_translation_ms": 1731.0735888863242,
+      "mean_inpainting_ms": 703.0384444450546,
+      "mean_rendering_ms": 2256.7547888870145
+    },
+    "ocr_confidence": {
+      "mean": 0.8898238910569085,
+      "all_scores": [
+        0.7733237147331238,
+        0.997994065284729,
+        0.9981014132499695,
+        0.6444511413574219,
+        0.9959740042686462,
+        0.9966579675674438,
+        0.6481794118881226,
+        0.998454749584198,
+        0.8996500968933105,
+        0.9971475005149841,
+        0.7733237147331238,
+        0.997994065284729,
+        0.9981014132499695,
+        0.6444511413574219,
+        0.9959740042686462,
+        0.9966579675674438,
+        0.6481794118881226,
+        0.998454749584198,
+        0.8996500968933105,
+        0.9971475005149841,
+        0.7733237147331238,
+        0.997994065284729,
+        0.9981014132499695,
+        0.6444511413574219,
+        0.9959740042686462,
+        0.9966579675674438,
+        0.6481794118881226,
+        0.998454749584198,
+        0.8996500968933105,
+        0.9971475005149841
+      ]
+    },
+    "accuracy": {
+      "mean_accuracy": 1.0,
+      "mean_cer": 0.0,
+      "min_accuracy": 1.0,
+      "max_accuracy": 1.0,
+      "sample_count": 30
+    },
+    "bleu": {
+      "mean_bleu": 0.6290304589092192,
+      "min_bleu": 0.10774873428428315,
+      "max_bleu": 1.0,
+      "sample_count": 12
+    },
+    "profiler_stats": {
+      "summary": {
+        "detection": {
+          "mean_ms": 691.3552777777012,
+          "median_ms": 359.1969999833964,
+          "std_dev_ms": 1130.6641956182575,
+          "min_ms": 200.0980000011623,
+          "max_ms": 3698.2333000050858,
+          "sample_count": 9
+        },
+        "ocr": {
+          "mean_ms": 521.6446111056333,
+          "median_ms": 265.1902999787126,
+          "std_dev_ms": 782.5502639119243,
+          "min_ms": 229.70060000079684,
+          "max_ms": 2607.9822999890894,
+          "sample_count": 9
+        },
+        "translation": {
+          "mean_ms": 1731.0735888863242,
+          "median_ms": 1507.4756999965757,
+          "std_dev_ms": 988.7444311294439,
+          "min_ms": 769.2108000046574,
+          "max_ms": 3727.386899990961,
+          "sample_count": 9
+        },
+        "inpainting": {
+          "mean_ms": 703.0384444450546,
+          "median_ms": 756.0528999892995,
+          "std_dev_ms": 167.97032244594027,
+          "min_ms": 499.55859998590313,
+          "max_ms": 1008.876899984898,
+          "sample_count": 9
+        },
+        "rendering": {
+          "mean_ms": 2256.7547888870145,
+          "median_ms": 1667.5804999831598,
+          "std_dev_ms": 988.0467531017819,
+          "min_ms": 1568.3117000153288,
+          "max_ms": 4199.969700013753,
+          "sample_count": 9
+        },
+        "total": {
+          "mean_ms": 6554.6410222143295,
+          "median_ms": 5382.68879998941,
+          "std_dev_ms": 3850.4941003698973,
+          "min_ms": 3926.566999987699,
+          "max_ms": 16271.184699988225,
+          "sample_count": 9
+        }
+      },
+      "resolution_analysis": {
+        "690x1600": {
+          "mean_ms": 6554.6410222143295,
+          "median_ms": 5382.68879998941,
+          "min_ms": 3926.566999987699,
+          "max_ms": 16271.184699988225,
+          "sample_count": 9
+        }
+      },
+      "raw_timings": {
+        "detection": [
+          {
+            "duration_ms": 3698.2333000050858,
+            "timestamp": "2026-02-05T20:20:00.194758",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 375.8418000070378,
+            "timestamp": "2026-02-05T20:20:13.179278",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 349.69030000502244,
+            "timestamp": "2026-02-05T20:20:19.539490",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          },
+          {
+            "duration_ms": 206.42299999599345,
+            "timestamp": "2026-02-05T20:20:24.371437",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 408.8438999897335,
+            "timestamp": "2026-02-05T20:20:31.225742",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 200.0980000011623,
+            "timestamp": "2026-02-05T20:20:35.160108",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          },
+          {
+            "duration_ms": 359.1969999833964,
+            "timestamp": "2026-02-05T20:20:39.266488",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 398.7073999887798,
+            "timestamp": "2026-02-05T20:20:46.691253",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 225.1628000230994,
+            "timestamp": "2026-02-05T20:20:51.910453",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          }
+        ],
+        "ocr": [
+          {
+            "duration_ms": 2607.9822999890894,
+            "timestamp": "2026-02-05T20:20:02.802392",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 277.95320001314394,
+            "timestamp": "2026-02-05T20:20:13.457454",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 271.8444000056479,
+            "timestamp": "2026-02-05T20:20:19.811257",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          },
+          {
+            "duration_ms": 253.50779999280348,
+            "timestamp": "2026-02-05T20:20:24.625669",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 282.02469999087043,
+            "timestamp": "2026-02-05T20:20:31.507230",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 229.70060000079684,
+            "timestamp": "2026-02-05T20:20:35.390317",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          },
+          {
+            "duration_ms": 244.4977999839466,
+            "timestamp": "2026-02-05T20:20:39.510710",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 262.10039999568835,
+            "timestamp": "2026-02-05T20:20:46.953492",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 265.1902999787126,
+            "timestamp": "2026-02-05T20:20:52.175198",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          }
+        ],
+        "translation": [
+          {
+            "duration_ms": 3727.386899990961,
+            "timestamp": "2026-02-05T20:20:07.558008",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 2808.7361000070814,
+            "timestamp": "2026-02-05T20:20:16.826472",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 1507.4756999965757,
+            "timestamp": "2026-02-05T20:20:21.780361",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          },
+          {
+            "duration_ms": 1270.7675000128802,
+            "timestamp": "2026-02-05T20:20:26.854091",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 769.2108000046574,
+            "timestamp": "2026-02-05T20:20:32.841086",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 943.7554000178352,
+            "timestamp": "2026-02-05T20:20:36.719085",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          },
+          {
+            "duration_ms": 1908.9500999834854,
+            "timestamp": "2026-02-05T20:20:42.375065",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 1821.9614999834448,
+            "timestamp": "2026-02-05T20:20:49.333841",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 821.4182999799959,
+            "timestamp": "2026-02-05T20:20:53.376294",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          }
+        ],
+        "inpainting": [
+          {
+            "duration_ms": 1008.876899984898,
+            "timestamp": "2026-02-05T20:20:08.567737",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 742.2399999923073,
+            "timestamp": "2026-02-05T20:20:17.569148",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 767.3544000135735,
+            "timestamp": "2026-02-05T20:20:22.547959",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          },
+          {
+            "duration_ms": 756.0528999892995,
+            "timestamp": "2026-02-05T20:20:27.609602",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 517.6474000036251,
+            "timestamp": "2026-02-05T20:20:33.358555",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 499.55859998590313,
+            "timestamp": "2026-02-05T20:20:37.219020",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          },
+          {
+            "duration_ms": 759.9764000042342,
+            "timestamp": "2026-02-05T20:20:43.135694",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 772.29730002,
+            "timestamp": "2026-02-05T20:20:50.106542",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 503.3421000116505,
+            "timestamp": "2026-02-05T20:20:53.879995",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          }
+        ],
+        "rendering": [
+          {
+            "duration_ms": 4199.969700013753,
+            "timestamp": "2026-02-05T20:20:12.767337",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 1600.9055999747943,
+            "timestamp": "2026-02-05T20:20:19.170154",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 1600.5016000126489,
+            "timestamp": "2026-02-05T20:20:24.148235",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          },
+          {
+            "duration_ms": 3190.014199994039,
+            "timestamp": "2026-02-05T20:20:30.800703",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 1591.5221000032034,
+            "timestamp": "2026-02-05T20:20:34.950841",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 1667.5804999831598,
+            "timestamp": "2026-02-05T20:20:38.887145",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          },
+          {
+            "duration_ms": 3141.259900003206,
+            "timestamp": "2026-02-05T20:20:46.277104",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 1568.3117000153288,
+            "timestamp": "2026-02-05T20:20:51.675241",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 1750.7277999829967,
+            "timestamp": "2026-02-05T20:20:55.631216",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          }
+        ],
+        "total": [
+          {
+            "duration_ms": 16271.184699988225,
+            "timestamp": "2026-02-05T20:20:12.767337",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 6366.929200012237,
+            "timestamp": "2026-02-05T20:20:19.170154",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 4958.546599984402,
+            "timestamp": "2026-02-05T20:20:24.148235",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          },
+          {
+            "duration_ms": 6635.194399976172,
+            "timestamp": "2026-02-05T20:20:30.800703",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 4134.096599998884,
+            "timestamp": "2026-02-05T20:20:34.950841",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 3926.566999987699,
+            "timestamp": "2026-02-05T20:20:38.887145",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          },
+          {
+            "duration_ms": 7370.556100009708,
+            "timestamp": "2026-02-05T20:20:46.277104",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 5382.68879998941,
+            "timestamp": "2026-02-05T20:20:51.675241",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "155.jpg"
+            }
+          },
+          {
+            "duration_ms": 3946.005799982231,
+            "timestamp": "2026-02-05T20:20:55.631216",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "1555555.jpg"
+            }
+          }
+        ]
+      },
+      "total_runs": 9
+    }
+  },
+  "detailed_results": [
+    {
+      "image_path": "15.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 16271.184699988225,
+        "detection_ms": 3698.2333000050858,
+        "ocr_ms": 2607.9822999890894,
+        "translation_ms": 3727.386899990961,
+        "inpainting_ms": 1008.876899984898,
+        "rendering_ms": 4199.969700013753
+      },
+      "accuracy": {
+        "ocr_accuracy": 1.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.7427458858536617
+      },
+      "ocr_details": {
+        "texts": [
+          "이건…",
+          "누구야?",
+          "말도 안돼.",
+          "이딴 짓을…",
+          "도대체누가"
+        ],
+        "confidences": [
+          0.7733237147331238,
+          0.997994065284729,
+          0.9981014132499695,
+          0.6444511413574219,
+          0.9959740042686462
+        ],
+        "mean_confidence": 0.881968867778778
+      },
+      "detected_texts": [
+        "이건…",
+        "누구야?",
+        "말도 안돼.",
+        "이딴 짓을…",
+        "도대체누가"
+      ],
+      "translated_texts": [
+        "This is... ridiculous.",
+        "Who are you? Who on earth did this kind of thing..."
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "default"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "155.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 6366.929200012237,
+        "detection_ms": 375.8418000070378,
+        "ocr_ms": 277.95320001314394,
+        "translation_ms": 2808.7361000070814,
+        "inpainting_ms": 742.2399999923073,
+        "rendering_ms": 1600.9055999747943
+      },
+      "accuracy": {
+        "ocr_accuracy": 1.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.29544399823722417
+      },
+      "ocr_details": {
+        "texts": [
+          "진짜 돈을",
+          "넣었을리는없고..."
+        ],
+        "confidences": [
+          0.9966579675674438,
+          0.6481794118881226
+        ],
+        "mean_confidence": 0.8224186897277832
+      },
+      "detected_texts": [
+        "진짜 돈을",
+        "넣었을리는없고..."
+      ],
+      "translated_texts": [
+        "He wouldn't really put money in, so..."
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "default"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "1555555.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 4958.546599984402,
+        "detection_ms": 349.69030000502244,
+        "ocr_ms": 271.8444000056479,
+        "translation_ms": 1507.4756999965757,
+        "inpainting_ms": 767.3544000135735,
+        "rendering_ms": 1600.5016000126489
+      },
+      "accuracy": {
+        "ocr_accuracy": 1.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.10774873428428315
+      },
+      "ocr_details": {
+        "texts": [
+          "성낙숙쪽에서",
+          "했다기엔굳이…",
+          "이이름으로할까?"
+        ],
+        "confidences": [
+          0.998454749584198,
+          0.8996500968933105,
+          0.9971475005149841
+        ],
+        "mean_confidence": 0.9650841156641642
+      },
+      "detected_texts": [
+        "성낙숙쪽에서",
+        "했다기엔굳이…",
+        "이이름으로할까?"
+      ],
+      "translated_texts": [
+        "If Seong Nak-Suk is doing this, wouldn」t it be… better to use this name?"
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "default"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "15.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 6635.194399976172,
+        "detection_ms": 206.42299999599345,
+        "ocr_ms": 253.50779999280348,
+        "translation_ms": 1270.7675000128802,
+        "inpainting_ms": 756.0528999892995,
+        "rendering_ms": 3190.014199994039
+      },
+      "accuracy": {
+        "ocr_accuracy": 1.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.9465769909034347
+      },
+      "ocr_details": {
+        "texts": [
+          "이건…",
+          "누구야?",
+          "말도 안돼.",
+          "이딴 짓을…",
+          "도대체누가"
+        ],
+        "confidences": [
+          0.7733237147331238,
+          0.997994065284729,
+          0.9981014132499695,
+          0.6444511413574219,
+          0.9959740042686462
+        ],
+        "mean_confidence": 0.881968867778778
+      },
+      "detected_texts": [
+        "이건…",
+        "누구야?",
+        "말도 안돼.",
+        "이딴 짓을…",
+        "도대체누가"
+      ],
+      "translated_texts": [
+        "This is…unbelievable.",
+        "Who are you? Who on earth did this kind of thing…"
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "default"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "155.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 4134.096599998884,
+        "detection_ms": 408.8438999897335,
+        "ocr_ms": 282.02469999087043,
+        "translation_ms": 769.2108000046574,
+        "inpainting_ms": 517.6474000036251,
+        "rendering_ms": 1591.5221000032034
+      },
+      "accuracy": {
+        "ocr_accuracy": 1.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 1.0
+      },
+      "ocr_details": {
+        "texts": [
+          "진짜 돈을",
+          "넣었을리는없고..."
+        ],
+        "confidences": [
+          0.9966579675674438,
+          0.6481794118881226
+        ],
+        "mean_confidence": 0.8224186897277832
+      },
+      "detected_texts": [
+        "진짜 돈을",
+        "넣었을리는없고..."
+      ],
+      "translated_texts": [
+        "He probably didn't really put money in..."
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "default"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "1555555.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 3926.566999987699,
+        "detection_ms": 200.0980000011623,
+        "ocr_ms": 229.70060000079684,
+        "translation_ms": 943.7554000178352,
+        "inpainting_ms": 499.55859998590313,
+        "rendering_ms": 1667.5804999831598
+      },
+      "accuracy": {
+        "ocr_accuracy": 1.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.5834041060170845
+      },
+      "ocr_details": {
+        "texts": [
+          "성낙숙쪽에서",
+          "했다기엔굳이…",
+          "이이름으로할까?"
+        ],
+        "confidences": [
+          0.998454749584198,
+          0.8996500968933105,
+          0.9971475005149841
+        ],
+        "mean_confidence": 0.9650841156641642
+      },
+      "detected_texts": [
+        "성낙숙쪽에서",
+        "했다기엔굳이…",
+        "이이름으로할까?"
+      ],
+      "translated_texts": [
+        "To be honest, it seems unlikely that Seong Nak-suk would do this… but should we do it under this name anyway?"
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "default"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "15.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 7370.556100009708,
+        "detection_ms": 359.1969999833964,
+        "ocr_ms": 244.4977999839466,
+        "translation_ms": 1908.9500999834854,
+        "inpainting_ms": 759.9764000042342,
+        "rendering_ms": 3141.259900003206
+      },
+      "accuracy": {
+        "ocr_accuracy": 1.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.7427458858536617
+      },
+      "ocr_details": {
+        "texts": [
+          "이건…",
+          "누구야?",
+          "말도 안돼.",
+          "이딴 짓을…",
+          "도대체누가"
+        ],
+        "confidences": [
+          0.7733237147331238,
+          0.997994065284729,
+          0.9981014132499695,
+          0.6444511413574219,
+          0.9959740042686462
+        ],
+        "mean_confidence": 0.881968867778778
+      },
+      "detected_texts": [
+        "이건…",
+        "누구야?",
+        "말도 안돼.",
+        "이딴 짓을…",
+        "도대체누가"
+      ],
+      "translated_texts": [
+        "This is… absurd.",
+        "Who are you? Who on earth did this kind of thing..."
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "default"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "155.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 5382.68879998941,
+        "detection_ms": 398.7073999887798,
+        "ocr_ms": 262.10039999568835,
+        "translation_ms": 1821.9614999834448,
+        "inpainting_ms": 772.29730002,
+        "rendering_ms": 1568.3117000153288
+      },
+      "accuracy": {
+        "ocr_accuracy": 1.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.2182178902359924
+      },
+      "ocr_details": {
+        "texts": [
+          "진짜 돈을",
+          "넣었을리는없고..."
+        ],
+        "confidences": [
+          0.9966579675674438,
+          0.6481794118881226
+        ],
+        "mean_confidence": 0.8224186897277832
+      },
+      "detected_texts": [
+        "진짜 돈을",
+        "넣었을리는없고..."
+      ],
+      "translated_texts": [
+        "There is no way he actually put money in..."
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "default"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "1555555.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 3946.005799982231,
+        "detection_ms": 225.1628000230994,
+        "ocr_ms": 265.1902999787126,
+        "translation_ms": 821.4182999799959,
+        "inpainting_ms": 503.3421000116505,
+        "rendering_ms": 1750.7277999829967
+      },
+      "accuracy": {
+        "ocr_accuracy": 1.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.4794132529145283
+      },
+      "ocr_details": {
+        "texts": [
+          "성낙숙쪽에서",
+          "했다기엔굳이…",
+          "이이름으로할까?"
+        ],
+        "confidences": [
+          0.998454749584198,
+          0.8996500968933105,
+          0.9971475005149841
+        ],
+        "mean_confidence": 0.9650841156641642
+      },
+      "detected_texts": [
+        "성낙숙쪽에서",
+        "했다기엔굳이…",
+        "이이름으로할까?"
+      ],
+      "translated_texts": [
+        "To be honest, it seems unlikely that Seong Nak-Suk would... use this name, but... should I still do it?"
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "default"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    }
+  ],
+  "accuracy_evaluation": {
+    "ocr_results": [
+      {
+        "image_id": "15.jpg_0",
+        "ground_truth": "이건…",
+        "detected_text": "이건…",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 5,
+        "total_chars": 5
+      },
+      {
+        "image_id": "15.jpg_1",
+        "ground_truth": "누구야?",
+        "detected_text": "누구야?",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 4,
+        "total_chars": 4
+      },
+      {
+        "image_id": "15.jpg_2",
+        "ground_truth": "말도 안돼.",
+        "detected_text": "말도 안돼.",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 5,
+        "total_chars": 5
+      },
+      {
+        "image_id": "15.jpg_3",
+        "ground_truth": "이딴 짓을…",
+        "detected_text": "이딴 짓을…",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 7,
+        "total_chars": 7
+      },
+      {
+        "image_id": "15.jpg_4",
+        "ground_truth": "도대체누가",
+        "detected_text": "도대체누가",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 5,
+        "total_chars": 5
+      },
+      {
+        "image_id": "155.jpg_0",
+        "ground_truth": "진짜 돈을",
+        "detected_text": "진짜 돈을",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 4,
+        "total_chars": 4
+      },
+      {
+        "image_id": "155.jpg_1",
+        "ground_truth": "넣었을리는없고...",
+        "detected_text": "넣었을리는없고...",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 10,
+        "total_chars": 10
+      },
+      {
+        "image_id": "1555555.jpg_0",
+        "ground_truth": "성낙숙쪽에서",
+        "detected_text": "성낙숙쪽에서",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 6,
+        "total_chars": 6
+      },
+      {
+        "image_id": "1555555.jpg_1",
+        "ground_truth": "했다기엔굳이…",
+        "detected_text": "했다기엔굳이…",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 9,
+        "total_chars": 9
+      },
+      {
+        "image_id": "1555555.jpg_2",
+        "ground_truth": "이이름으로할까?",
+        "detected_text": "이이름으로할까?",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 8,
+        "total_chars": 8
+      },
+      {
+        "image_id": "15.jpg_0",
+        "ground_truth": "이건…",
+        "detected_text": "이건…",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 5,
+        "total_chars": 5
+      },
+      {
+        "image_id": "15.jpg_1",
+        "ground_truth": "누구야?",
+        "detected_text": "누구야?",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 4,
+        "total_chars": 4
+      },
+      {
+        "image_id": "15.jpg_2",
+        "ground_truth": "말도 안돼.",
+        "detected_text": "말도 안돼.",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 5,
+        "total_chars": 5
+      },
+      {
+        "image_id": "15.jpg_3",
+        "ground_truth": "이딴 짓을…",
+        "detected_text": "이딴 짓을…",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 7,
+        "total_chars": 7
+      },
+      {
+        "image_id": "15.jpg_4",
+        "ground_truth": "도대체누가",
+        "detected_text": "도대체누가",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 5,
+        "total_chars": 5
+      },
+      {
+        "image_id": "155.jpg_0",
+        "ground_truth": "진짜 돈을",
+        "detected_text": "진짜 돈을",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 4,
+        "total_chars": 4
+      },
+      {
+        "image_id": "155.jpg_1",
+        "ground_truth": "넣었을리는없고...",
+        "detected_text": "넣었을리는없고...",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 10,
+        "total_chars": 10
+      },
+      {
+        "image_id": "1555555.jpg_0",
+        "ground_truth": "성낙숙쪽에서",
+        "detected_text": "성낙숙쪽에서",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 6,
+        "total_chars": 6
+      },
+      {
+        "image_id": "1555555.jpg_1",
+        "ground_truth": "했다기엔굳이…",
+        "detected_text": "했다기엔굳이…",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 9,
+        "total_chars": 9
+      },
+      {
+        "image_id": "1555555.jpg_2",
+        "ground_truth": "이이름으로할까?",
+        "detected_text": "이이름으로할까?",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 8,
+        "total_chars": 8
+      },
+      {
+        "image_id": "15.jpg_0",
+        "ground_truth": "이건…",
+        "detected_text": "이건…",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 5,
+        "total_chars": 5
+      },
+      {
+        "image_id": "15.jpg_1",
+        "ground_truth": "누구야?",
+        "detected_text": "누구야?",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 4,
+        "total_chars": 4
+      },
+      {
+        "image_id": "15.jpg_2",
+        "ground_truth": "말도 안돼.",
+        "detected_text": "말도 안돼.",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 5,
+        "total_chars": 5
+      },
+      {
+        "image_id": "15.jpg_3",
+        "ground_truth": "이딴 짓을…",
+        "detected_text": "이딴 짓을…",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 7,
+        "total_chars": 7
+      },
+      {
+        "image_id": "15.jpg_4",
+        "ground_truth": "도대체누가",
+        "detected_text": "도대체누가",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 5,
+        "total_chars": 5
+      },
+      {
+        "image_id": "155.jpg_0",
+        "ground_truth": "진짜 돈을",
+        "detected_text": "진짜 돈을",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 4,
+        "total_chars": 4
+      },
+      {
+        "image_id": "155.jpg_1",
+        "ground_truth": "넣었을리는없고...",
+        "detected_text": "넣었을리는없고...",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 10,
+        "total_chars": 10
+      },
+      {
+        "image_id": "1555555.jpg_0",
+        "ground_truth": "성낙숙쪽에서",
+        "detected_text": "성낙숙쪽에서",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 6,
+        "total_chars": 6
+      },
+      {
+        "image_id": "1555555.jpg_1",
+        "ground_truth": "했다기엔굳이…",
+        "detected_text": "했다기엔굳이…",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 9,
+        "total_chars": 9
+      },
+      {
+        "image_id": "1555555.jpg_2",
+        "ground_truth": "이이름으로할까?",
+        "detected_text": "이이름으로할까?",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 8,
+        "total_chars": 8
+      }
+    ],
+    "translation_results": [
+      {
+        "image_id": "15.jpg_0",
+        "reference": "This is…unbelievable.",
+        "hypothesis": "This is... ridiculous.",
+        "bleu_score": 0.4854917717073234,
+        "precisions": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.5,
+          1.0
+        ],
+        "brevity_penalty": 1.0
+      },
+      {
+        "image_id": "15.jpg_1",
+        "reference": "Who are you? Who on earth did this kind of thing...",
+        "hypothesis": "Who are you? Who on earth did this kind of thing...",
+        "bleu_score": 1.0,
+        "precisions": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "brevity_penalty": 1.0
+      },
+      {
+        "image_id": "155.jpg_0",
+        "reference": "He probably didn't really put money in...",
+        "hypothesis": "He wouldn't really put money in, so...",
+        "bleu_score": 0.29544399823722417,
+        "precisions": [
+          0.5714285714285714,
+          0.3333333333333333,
+          0.2,
+          0.2
+        ],
+        "brevity_penalty": 1.0
+      },
+      {
+        "image_id": "1555555.jpg_0",
+        "reference": "To be honest, it seems unlikely that Seong Nak-Suk would do this... Should we use this name anyway?",
+        "hypothesis": "If Seong Nak-Suk is doing this, wouldn」t it be… better to use this name?",
+        "bleu_score": 0.10774873428428315,
+        "precisions": [
+          0.42857142857142855,
+          0.15384615384615385,
+          0.07692307692307693,
+          0.08333333333333333
+        ],
+        "brevity_penalty": 0.7514772930752859
+      },
+      {
+        "image_id": "15.jpg_0",
+        "reference": "This is…unbelievable.",
+        "hypothesis": "This is…unbelievable.",
+        "bleu_score": 1.0,
+        "precisions": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "brevity_penalty": 1.0
+      },
+      {
+        "image_id": "15.jpg_1",
+        "reference": "Who are you? Who on earth did this kind of thing...",
+        "hypothesis": "Who are you? Who on earth did this kind of thing…",
+        "bleu_score": 0.8931539818068694,
+        "precisions": [
+          0.9090909090909091,
+          0.9,
+          0.8888888888888888,
+          0.875
+        ],
+        "brevity_penalty": 1.0
+      },
+      {
+        "image_id": "155.jpg_0",
+        "reference": "He probably didn't really put money in...",
+        "hypothesis": "He probably didn't really put money in...",
+        "bleu_score": 1.0,
+        "precisions": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "brevity_penalty": 1.0
+      },
+      {
+        "image_id": "1555555.jpg_0",
+        "reference": "To be honest, it seems unlikely that Seong Nak-Suk would do this... Should we use this name anyway?",
+        "hypothesis": "To be honest, it seems unlikely that Seong Nak-suk would do this… but should we do it under this name anyway?",
+        "bleu_score": 0.5834041060170845,
+        "precisions": [
+          0.7619047619047619,
+          0.65,
+          0.5263157894736842,
+          0.4444444444444444
+        ],
+        "brevity_penalty": 1.0
+      },
+      {
+        "image_id": "15.jpg_0",
+        "reference": "This is…unbelievable.",
+        "hypothesis": "This is… absurd.",
+        "bleu_score": 0.4854917717073234,
+        "precisions": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.5,
+          1.0
+        ],
+        "brevity_penalty": 1.0
+      },
+      {
+        "image_id": "15.jpg_1",
+        "reference": "Who are you? Who on earth did this kind of thing...",
+        "hypothesis": "Who are you? Who on earth did this kind of thing...",
+        "bleu_score": 1.0,
+        "precisions": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "brevity_penalty": 1.0
+      },
+      {
+        "image_id": "155.jpg_0",
+        "reference": "He probably didn't really put money in...",
+        "hypothesis": "There is no way he actually put money in...",
+        "bleu_score": 0.2182178902359924,
+        "precisions": [
+          0.4444444444444444,
+          0.25,
+          0.14285714285714285,
+          0.14285714285714285
+        ],
+        "brevity_penalty": 1.0
+      },
+      {
+        "image_id": "1555555.jpg_0",
+        "reference": "To be honest, it seems unlikely that Seong Nak-Suk would do this... Should we use this name anyway?",
+        "hypothesis": "To be honest, it seems unlikely that Seong Nak-Suk would... use this name, but... should I still do it?",
+        "bleu_score": 0.4794132529145283,
+        "precisions": [
+          0.6842105263157895,
+          0.5,
+          0.4117647058823529,
+          0.375
+        ],
+        "brevity_penalty": 1.0
+      }
+    ],
+    "aggregate": {
+      "ocr": {
+        "mean_accuracy": 1.0,
+        "mean_cer": 0.0,
+        "min_accuracy": 1.0,
+        "max_accuracy": 1.0,
+        "sample_count": 30
+      },
+      "translation": {
+        "mean_bleu": 0.6290304589092192,
+        "min_bleu": 0.10774873428428315,
+        "max_bleu": 1.0,
+        "sample_count": 12
+      }
+    }
+  },
+  "performance_profile": {
+    "summary": {
+      "detection": {
+        "mean_ms": 691.3552777777012,
+        "median_ms": 359.1969999833964,
+        "std_dev_ms": 1130.6641956182575,
+        "min_ms": 200.0980000011623,
+        "max_ms": 3698.2333000050858,
+        "sample_count": 9
+      },
+      "ocr": {
+        "mean_ms": 521.6446111056333,
+        "median_ms": 265.1902999787126,
+        "std_dev_ms": 782.5502639119243,
+        "min_ms": 229.70060000079684,
+        "max_ms": 2607.9822999890894,
+        "sample_count": 9
+      },
+      "translation": {
+        "mean_ms": 1731.0735888863242,
+        "median_ms": 1507.4756999965757,
+        "std_dev_ms": 988.7444311294439,
+        "min_ms": 769.2108000046574,
+        "max_ms": 3727.386899990961,
+        "sample_count": 9
+      },
+      "inpainting": {
+        "mean_ms": 703.0384444450546,
+        "median_ms": 756.0528999892995,
+        "std_dev_ms": 167.97032244594027,
+        "min_ms": 499.55859998590313,
+        "max_ms": 1008.876899984898,
+        "sample_count": 9
+      },
+      "rendering": {
+        "mean_ms": 2256.7547888870145,
+        "median_ms": 1667.5804999831598,
+        "std_dev_ms": 988.0467531017819,
+        "min_ms": 1568.3117000153288,
+        "max_ms": 4199.969700013753,
+        "sample_count": 9
+      },
+      "total": {
+        "mean_ms": 6554.6410222143295,
+        "median_ms": 5382.68879998941,
+        "std_dev_ms": 3850.4941003698973,
+        "min_ms": 3926.566999987699,
+        "max_ms": 16271.184699988225,
+        "sample_count": 9
+      }
+    },
+    "resolution_analysis": {
+      "690x1600": {
+        "mean_ms": 6554.6410222143295,
+        "median_ms": 5382.68879998941,
+        "min_ms": 3926.566999987699,
+        "max_ms": 16271.184699988225,
+        "sample_count": 9
+      }
+    },
+    "raw_timings": {
+      "detection": [
+        {
+          "duration_ms": 3698.2333000050858,
+          "timestamp": "2026-02-05T20:20:00.194758",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 375.8418000070378,
+          "timestamp": "2026-02-05T20:20:13.179278",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 349.69030000502244,
+          "timestamp": "2026-02-05T20:20:19.539490",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        },
+        {
+          "duration_ms": 206.42299999599345,
+          "timestamp": "2026-02-05T20:20:24.371437",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 408.8438999897335,
+          "timestamp": "2026-02-05T20:20:31.225742",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 200.0980000011623,
+          "timestamp": "2026-02-05T20:20:35.160108",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        },
+        {
+          "duration_ms": 359.1969999833964,
+          "timestamp": "2026-02-05T20:20:39.266488",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 398.7073999887798,
+          "timestamp": "2026-02-05T20:20:46.691253",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 225.1628000230994,
+          "timestamp": "2026-02-05T20:20:51.910453",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        }
+      ],
+      "ocr": [
+        {
+          "duration_ms": 2607.9822999890894,
+          "timestamp": "2026-02-05T20:20:02.802392",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 277.95320001314394,
+          "timestamp": "2026-02-05T20:20:13.457454",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 271.8444000056479,
+          "timestamp": "2026-02-05T20:20:19.811257",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        },
+        {
+          "duration_ms": 253.50779999280348,
+          "timestamp": "2026-02-05T20:20:24.625669",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 282.02469999087043,
+          "timestamp": "2026-02-05T20:20:31.507230",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 229.70060000079684,
+          "timestamp": "2026-02-05T20:20:35.390317",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        },
+        {
+          "duration_ms": 244.4977999839466,
+          "timestamp": "2026-02-05T20:20:39.510710",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 262.10039999568835,
+          "timestamp": "2026-02-05T20:20:46.953492",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 265.1902999787126,
+          "timestamp": "2026-02-05T20:20:52.175198",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        }
+      ],
+      "translation": [
+        {
+          "duration_ms": 3727.386899990961,
+          "timestamp": "2026-02-05T20:20:07.558008",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 2808.7361000070814,
+          "timestamp": "2026-02-05T20:20:16.826472",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 1507.4756999965757,
+          "timestamp": "2026-02-05T20:20:21.780361",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        },
+        {
+          "duration_ms": 1270.7675000128802,
+          "timestamp": "2026-02-05T20:20:26.854091",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 769.2108000046574,
+          "timestamp": "2026-02-05T20:20:32.841086",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 943.7554000178352,
+          "timestamp": "2026-02-05T20:20:36.719085",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        },
+        {
+          "duration_ms": 1908.9500999834854,
+          "timestamp": "2026-02-05T20:20:42.375065",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 1821.9614999834448,
+          "timestamp": "2026-02-05T20:20:49.333841",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 821.4182999799959,
+          "timestamp": "2026-02-05T20:20:53.376294",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        }
+      ],
+      "inpainting": [
+        {
+          "duration_ms": 1008.876899984898,
+          "timestamp": "2026-02-05T20:20:08.567737",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 742.2399999923073,
+          "timestamp": "2026-02-05T20:20:17.569148",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 767.3544000135735,
+          "timestamp": "2026-02-05T20:20:22.547959",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        },
+        {
+          "duration_ms": 756.0528999892995,
+          "timestamp": "2026-02-05T20:20:27.609602",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 517.6474000036251,
+          "timestamp": "2026-02-05T20:20:33.358555",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 499.55859998590313,
+          "timestamp": "2026-02-05T20:20:37.219020",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        },
+        {
+          "duration_ms": 759.9764000042342,
+          "timestamp": "2026-02-05T20:20:43.135694",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 772.29730002,
+          "timestamp": "2026-02-05T20:20:50.106542",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 503.3421000116505,
+          "timestamp": "2026-02-05T20:20:53.879995",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        }
+      ],
+      "rendering": [
+        {
+          "duration_ms": 4199.969700013753,
+          "timestamp": "2026-02-05T20:20:12.767337",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 1600.9055999747943,
+          "timestamp": "2026-02-05T20:20:19.170154",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 1600.5016000126489,
+          "timestamp": "2026-02-05T20:20:24.148235",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        },
+        {
+          "duration_ms": 3190.014199994039,
+          "timestamp": "2026-02-05T20:20:30.800703",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 1591.5221000032034,
+          "timestamp": "2026-02-05T20:20:34.950841",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 1667.5804999831598,
+          "timestamp": "2026-02-05T20:20:38.887145",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        },
+        {
+          "duration_ms": 3141.259900003206,
+          "timestamp": "2026-02-05T20:20:46.277104",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 1568.3117000153288,
+          "timestamp": "2026-02-05T20:20:51.675241",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 1750.7277999829967,
+          "timestamp": "2026-02-05T20:20:55.631216",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        }
+      ],
+      "total": [
+        {
+          "duration_ms": 16271.184699988225,
+          "timestamp": "2026-02-05T20:20:12.767337",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 6366.929200012237,
+          "timestamp": "2026-02-05T20:20:19.170154",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 4958.546599984402,
+          "timestamp": "2026-02-05T20:20:24.148235",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        },
+        {
+          "duration_ms": 6635.194399976172,
+          "timestamp": "2026-02-05T20:20:30.800703",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 4134.096599998884,
+          "timestamp": "2026-02-05T20:20:34.950841",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 3926.566999987699,
+          "timestamp": "2026-02-05T20:20:38.887145",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        },
+        {
+          "duration_ms": 7370.556100009708,
+          "timestamp": "2026-02-05T20:20:46.277104",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 5382.68879998941,
+          "timestamp": "2026-02-05T20:20:51.675241",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "155.jpg"
+          }
+        },
+        {
+          "duration_ms": 3946.005799982231,
+          "timestamp": "2026-02-05T20:20:55.631216",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "1555555.jpg"
+          }
+        }
+      ]
+    },
+    "total_runs": 9
+  }
+}

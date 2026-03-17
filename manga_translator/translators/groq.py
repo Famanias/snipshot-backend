@@ -146,15 +146,27 @@ class GroqTranslator(CommonTranslator):
         # Prepare the system message
         sanity = [{'role': 'system', 'content': self.chat_system_template.replace('{to_lang}', to_lang)}]
         
-        # Make the API call
-        response = await self.client.chat.completions.create(
-            model=self.model,
-            messages=sanity + self.messages,
-            max_tokens=self._MAX_TOKENS // 2,
-            temperature=self.temperature,
-            top_p=self.top_p,
-            stop=["'}"]
-        )
+        # Make the API call with retry logic for rate limits
+        max_retries = 5
+        for attempt in range(max_retries):
+            try:
+                response = await self.client.chat.completions.create(
+                    model=self.model,
+                    messages=sanity + self.messages,
+                    max_tokens=self._MAX_TOKENS // 2,
+                    temperature=self.temperature,
+                    top_p=self.top_p,
+                    stop=["'}"]
+                )
+                break
+            except Exception as e:
+                if '429' in str(e) and attempt < max_retries - 1:
+                    wait_time = 30 * (attempt + 1)
+                    self.logger.warning(f'Rate limited, waiting {wait_time}s (attempt {attempt + 1}/{max_retries})')
+                    import asyncio
+                    await asyncio.sleep(wait_time)
+                else:
+                    raise
         
         # Update token counts
         self.token_count += response.usage.total_tokens

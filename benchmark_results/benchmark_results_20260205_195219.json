@@ -1,0 +1,314 @@
+{
+  "metadata": {
+    "timestamp": "2026-02-05T19:52:19.273140",
+    "total_images": 3,
+    "ground_truth_file": null
+  },
+  "summary": {
+    "error": "All benchmarks failed"
+  },
+  "detailed_results": [
+    {
+      "image_path": "15.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 0.0,
+        "detection_ms": 4219.0010999911465,
+        "ocr_ms": 3258.87469999725,
+        "translation_ms": 2523.3947999950033,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "detected_texts": [
+        "이건…",
+        "누구야?",
+        "말도 안돼.",
+        "이딴 짓을…",
+        "도대체누가"
+      ],
+      "translated_texts": [
+        "This is...unbelievable.",
+        "Who are you? Who on earth did this kind of thing…"
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": "CUDA out of memory. Tried to allocate 6.51 GiB. GPU 0 has a total capacity of 6.00 GiB of which 3.91 GiB is free. Of the allocated memory 976.47 MiB is allocated by PyTorch, and 91.53 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "image_path": "15.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 0.0,
+        "detection_ms": 248.89389998861589,
+        "ocr_ms": 232.46539998217486,
+        "translation_ms": 1915.341299987631,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "detected_texts": [
+        "이건…",
+        "누구야?",
+        "말도 안돼.",
+        "이딴 짓을…",
+        "도대체누가"
+      ],
+      "translated_texts": [
+        "This is... ridiculous.",
+        "Who are you? Who on earth did this kind of thing…"
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": "CUDA out of memory. Tried to allocate 6.51 GiB. GPU 0 has a total capacity of 6.00 GiB of which 3.91 GiB is free. Of the allocated memory 976.47 MiB is allocated by PyTorch, and 91.53 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    },
+    {
+      "image_path": "15.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 0.0,
+        "detection_ms": 198.28430001507513,
+        "ocr_ms": 212.73150001070462,
+        "translation_ms": 2030.436400003964,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "detected_texts": [
+        "이건…",
+        "누구야?",
+        "말도 안돼.",
+        "이딴 짓을…",
+        "도대체누가"
+      ],
+      "translated_texts": [
+        "This is...unbelievable.",
+        "Who is it? Who on earth did this kind of thing..."
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": "CUDA out of memory. Tried to allocate 6.51 GiB. GPU 0 has a total capacity of 6.00 GiB of which 3.91 GiB is free. Of the allocated memory 976.47 MiB is allocated by PyTorch, and 91.53 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+    }
+  ],
+  "accuracy_evaluation": {
+    "ocr_results": [],
+    "translation_results": [],
+    "aggregate": {
+      "ocr": {
+        "mean_accuracy": 0.0,
+        "mean_cer": 0.0,
+        "sample_count": 0
+      },
+      "translation": {
+        "mean_bleu": 0.0,
+        "sample_count": 0
+      }
+    }
+  },
+  "performance_profile": {
+    "summary": {
+      "detection": {
+        "mean_ms": 1555.3930999982792,
+        "median_ms": 248.89389998861589,
+        "std_dev_ms": 2306.8909848802723,
+        "min_ms": 198.28430001507513,
+        "max_ms": 4219.0010999911465,
+        "sample_count": 3
+      },
+      "ocr": {
+        "mean_ms": 1234.690533330043,
+        "median_ms": 232.46539998217486,
+        "std_dev_ms": 1753.0226787299935,
+        "min_ms": 212.73150001070462,
+        "max_ms": 3258.87469999725,
+        "sample_count": 3
+      },
+      "translation": {
+        "mean_ms": 2156.390833328866,
+        "median_ms": 2030.436400003964,
+        "std_dev_ms": 323.00256062986836,
+        "min_ms": 1915.341299987631,
+        "max_ms": 2523.3947999950033,
+        "sample_count": 3
+      }
+    },
+    "resolution_analysis": {},
+    "raw_timings": {
+      "detection": [
+        {
+          "duration_ms": 4219.0010999911465,
+          "timestamp": "2026-02-05T19:51:58.782782",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 248.89389998861589,
+          "timestamp": "2026-02-05T19:52:10.521830",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 198.28430001507513,
+          "timestamp": "2026-02-05T19:52:14.949875",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        }
+      ],
+      "ocr": [
+        {
+          "duration_ms": 3258.87469999725,
+          "timestamp": "2026-02-05T19:52:02.042357",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 232.46539998217486,
+          "timestamp": "2026-02-05T19:52:10.755042",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 212.73150001070462,
+          "timestamp": "2026-02-05T19:52:15.163069",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        }
+      ],
+      "translation": [
+        {
+          "duration_ms": 2523.3947999950033,
+          "timestamp": "2026-02-05T19:52:05.754771",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 1915.341299987631,
+          "timestamp": "2026-02-05T19:52:13.648714",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 2030.436400003964,
+          "timestamp": "2026-02-05T19:52:18.158566",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        }
+      ],
+      "inpainting": [],
+      "rendering": [],
+      "total": []
+    },
+    "total_runs": 3
+  }
+}

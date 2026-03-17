@@ -1,0 +1,39 @@
+{
+  "description": "Ground truth data for SnipShot thesis evaluation",
+  "instructions": [
+    "This file contains ground truth data for evaluating OCR accuracy and translation quality",
+    "For each image, provide:",
+    "  - text_regions: Original Japanese/source text with bounding boxes",
+    "  - translations: Source text paired with correct English translations",
+    "Accuracy is calculated by comparing detected/translated text against these references"
+  ],
+  "images": [
+    {
+      "path": "15.jpg",
+      "text_regions": [
+        {
+          "text": "サンプルテキスト",
+          "bbox": [100, 100, 300, 150],
+          "notes": "Replace with actual text from your test image"
+        }
+      ],
+      "translations": [
+        {
+          "source": "サンプルテキスト",
+          "target": "Sample text",
+          "notes": "Replace with correct translation"
+        }
+      ]
+    },
+    {
+      "path": "test_image.png",
+      "text_regions": [],
+      "translations": []
+    }
+  ],
+  "metadata": {
+    "created_date": "2026-02-05",
+    "language_pair": "JPN -> ENG",
+    "evaluator": "thesis_evaluation_pipeline"
+  }
+}

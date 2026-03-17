@@ -1,0 +1,878 @@
+{
+  "metadata": {
+    "timestamp": "2026-02-05T20:23:37.079803",
+    "total_images": 6,
+    "ground_truth_file": null
+  },
+  "summary": {
+    "total_images": 6,
+    "successful": 6,
+    "failed": 0,
+    "timing": {
+      "mean_total_ms": 849.3912000121782,
+      "mean_detection_ms": 521.562233324706,
+      "mean_ocr_ms": 327.3471833284323,
+      "mean_translation_ms": 0.0,
+      "mean_inpainting_ms": 0.0,
+      "mean_rendering_ms": 0.0
+    },
+    "ocr_confidence": {
+      "mean": 0.0,
+      "all_scores": []
+    },
+    "accuracy": {
+      "mean_accuracy": 0.0,
+      "mean_cer": 0.0,
+      "sample_count": 0
+    },
+    "bleu": {
+      "mean_bleu": 0.0,
+      "sample_count": 0
+    },
+    "profiler_stats": {
+      "summary": {
+        "detection": {
+          "mean_ms": 521.562233324706,
+          "median_ms": 327.89419998880476,
+          "std_dev_ms": 470.9001912105631,
+          "min_ms": 287.5595999939833,
+          "max_ms": 1477.415999979712,
+          "sample_count": 6
+        },
+        "ocr": {
+          "mean_ms": 327.3471833284323,
+          "median_ms": 227.58999999496154,
+          "std_dev_ms": 353.16205953578475,
+          "min_ms": 87.81709999311715,
+          "max_ms": 1026.7512999998871,
+          "sample_count": 6
+        },
+        "total": {
+          "mean_ms": 849.3912000121782,
+          "median_ms": 533.1410000217147,
+          "std_dev_ms": 815.2064220843871,
+          "min_ms": 400.6052000040654,
+          "max_ms": 2504.606100003002,
+          "sample_count": 6
+        }
+      },
+      "resolution_analysis": {
+        "640x480": {
+          "mean_ms": 2504.606100003002,
+          "median_ms": 2504.606100003002,
+          "min_ms": 2504.606100003002,
+          "max_ms": 2504.606100003002,
+          "sample_count": 1
+        },
+        "800x600": {
+          "mean_ms": 560.1182000245899,
+          "median_ms": 560.1182000245899,
+          "min_ms": 560.1182000245899,
+          "max_ms": 560.1182000245899,
+          "sample_count": 1
+        },
+        "1024x768": {
+          "mean_ms": 650.4083000181708,
+          "median_ms": 650.4083000181708,
+          "min_ms": 650.4083000181708,
+          "max_ms": 650.4083000181708,
+          "sample_count": 1
+        },
+        "1280x720": {
+          "mean_ms": 474.44560000440106,
+          "median_ms": 474.44560000440106,
+          "min_ms": 474.44560000440106,
+          "max_ms": 474.44560000440106,
+          "sample_count": 1
+        },
+        "1920x1080": {
+          "mean_ms": 400.6052000040654,
+          "median_ms": 400.6052000040654,
+          "min_ms": 400.6052000040654,
+          "max_ms": 400.6052000040654,
+          "sample_count": 1
+        },
+        "2560x1440": {
+          "mean_ms": 506.16380001883954,
+          "median_ms": 506.16380001883954,
+          "min_ms": 506.16380001883954,
+          "max_ms": 506.16380001883954,
+          "sample_count": 1
+        }
+      },
+      "raw_timings": {
+        "detection": [
+          {
+            "duration_ms": 1477.415999979712,
+            "timestamp": "2026-02-05T20:23:32.741026",
+            "metadata": {
+              "resolution": [
+                640,
+                480
+              ],
+              "image": "benchmark_results\\temp_640x480.png"
+            }
+          },
+          {
+            "duration_ms": 290.72489999816753,
+            "timestamp": "2026-02-05T20:23:34.118211",
+            "metadata": {
+              "resolution": [
+                800,
+                600
+              ],
+              "image": "benchmark_results\\temp_800x600.png"
+            }
+          },
+          {
+            "duration_ms": 353.11060000094585,
+            "timestamp": "2026-02-05T20:23:34.836630",
+            "metadata": {
+              "resolution": [
+                1024,
+                768
+              ],
+              "image": "benchmark_results\\temp_1024x768.png"
+            }
+          },
+          {
+            "duration_ms": 287.5595999939833,
+            "timestamp": "2026-02-05T20:23:35.519081",
+            "metadata": {
+              "resolution": [
+                1280,
+                720
+              ],
+              "image": "benchmark_results\\temp_1280x720.png"
+            }
+          },
+          {
+            "duration_ms": 302.67779997666366,
+            "timestamp": "2026-02-05T20:23:36.183191",
+            "metadata": {
+              "resolution": [
+                1920,
+                1080
+              ],
+              "image": "benchmark_results\\temp_1920x1080.png"
+            }
+          },
+          {
+            "duration_ms": 417.8844999987632,
+            "timestamp": "2026-02-05T20:23:36.983716",
+            "metadata": {
+              "resolution": [
+                2560,
+                1440
+              ],
+              "image": "benchmark_results\\temp_2560x1440.png"
+            }
+          }
+        ],
+        "ocr": [
+          {
+            "duration_ms": 1026.7512999998871,
+            "timestamp": "2026-02-05T20:23:33.767893",
+            "metadata": {
+              "resolution": [
+                640,
+                480
+              ],
+              "image": "benchmark_results\\temp_640x480.png"
+            }
+          },
+          {
+            "duration_ms": 268.89069998287596,
+            "timestamp": "2026-02-05T20:23:34.387456",
+            "metadata": {
+              "resolution": [
+                800,
+                600
+              ],
+              "image": "benchmark_results\\temp_800x600.png"
+            }
+          },
+          {
+            "duration_ms": 296.83769997791387,
+            "timestamp": "2026-02-05T20:23:35.133900",
+            "metadata": {
+              "resolution": [
+                1024,
+                768
+              ],
+              "image": "benchmark_results\\temp_1024x768.png"
+            }
+          },
+          {
+            "duration_ms": 186.28930000704713,
+            "timestamp": "2026-02-05T20:23:35.705250",
+            "metadata": {
+              "resolution": [
+                1280,
+                720
+              ],
+              "image": "benchmark_results\\temp_1280x720.png"
+            }
+          },
+          {
+            "duration_ms": 97.49700000975281,
+            "timestamp": "2026-02-05T20:23:36.281279",
+            "metadata": {
+              "resolution": [
+                1920,
+                1080
+              ],
+              "image": "benchmark_results\\temp_1920x1080.png"
+            }
+          },
+          {
+            "duration_ms": 87.81709999311715,
+            "timestamp": "2026-02-05T20:23:37.071795",
+            "metadata": {
+              "resolution": [
+                2560,
+                1440
+              ],
+              "image": "benchmark_results\\temp_2560x1440.png"
+            }
+          }
+        ],
+        "translation": [],
+        "inpainting": [],
+        "rendering": [],
+        "total": [
+          {
+            "duration_ms": 2504.606100003002,
+            "timestamp": "2026-02-05T20:23:33.767893",
+            "metadata": {
+              "resolution": [
+                640,
+                480
+              ],
+              "image": "benchmark_results\\temp_640x480.png"
+            }
+          },
+          {
+            "duration_ms": 560.1182000245899,
+            "timestamp": "2026-02-05T20:23:34.387456",
+            "metadata": {
+              "resolution": [
+                800,
+                600
+              ],
+              "image": "benchmark_results\\temp_800x600.png"
+            }
+          },
+          {
+            "duration_ms": 650.4083000181708,
+            "timestamp": "2026-02-05T20:23:35.133900",
+            "metadata": {
+              "resolution": [
+                1024,
+                768
+              ],
+              "image": "benchmark_results\\temp_1024x768.png"
+            }
+          },
+          {
+            "duration_ms": 474.44560000440106,
+            "timestamp": "2026-02-05T20:23:35.705250",
+            "metadata": {
+              "resolution": [
+                1280,
+                720
+              ],
+              "image": "benchmark_results\\temp_1280x720.png"
+            }
+          },
+          {
+            "duration_ms": 400.6052000040654,
+            "timestamp": "2026-02-05T20:23:36.281279",
+            "metadata": {
+              "resolution": [
+                1920,
+                1080
+              ],
+              "image": "benchmark_results\\temp_1920x1080.png"
+            }
+          },
+          {
+            "duration_ms": 506.16380001883954,
+            "timestamp": "2026-02-05T20:23:37.071795",
+            "metadata": {
+              "resolution": [
+                2560,
+                1440
+              ],
+              "image": "benchmark_results\\temp_2560x1440.png"
+            }
+          }
+        ]
+      },
+      "total_runs": 0
+    }
+  },
+  "detailed_results": [
+    {
+      "image_path": "benchmark_results\\temp_640x480.png",
+      "resolution": "640x480",
+      "timing": {
+        "total_ms": 2504.606100003002,
+        "detection_ms": 1477.415999979712,
+        "ocr_ms": 1026.7512999998871,
+        "translation_ms": 0.0,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "ocr_details": {
+        "texts": [],
+        "confidences": [],
+        "mean_confidence": 0
+      },
+      "detected_texts": [],
+      "translated_texts": [],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "benchmark_results\\temp_800x600.png",
+      "resolution": "800x600",
+      "timing": {
+        "total_ms": 560.1182000245899,
+        "detection_ms": 290.72489999816753,
+        "ocr_ms": 268.89069998287596,
+        "translation_ms": 0.0,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "ocr_details": {
+        "texts": [],
+        "confidences": [],
+        "mean_confidence": 0
+      },
+      "detected_texts": [],
+      "translated_texts": [],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "benchmark_results\\temp_1024x768.png",
+      "resolution": "1024x768",
+      "timing": {
+        "total_ms": 650.4083000181708,
+        "detection_ms": 353.11060000094585,
+        "ocr_ms": 296.83769997791387,
+        "translation_ms": 0.0,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "ocr_details": {
+        "texts": [],
+        "confidences": [],
+        "mean_confidence": 0
+      },
+      "detected_texts": [],
+      "translated_texts": [],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "benchmark_results\\temp_1280x720.png",
+      "resolution": "1280x720",
+      "timing": {
+        "total_ms": 474.44560000440106,
+        "detection_ms": 287.5595999939833,
+        "ocr_ms": 186.28930000704713,
+        "translation_ms": 0.0,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "ocr_details": {
+        "texts": [],
+        "confidences": [],
+        "mean_confidence": 0
+      },
+      "detected_texts": [],
+      "translated_texts": [],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "benchmark_results\\temp_1920x1080.png",
+      "resolution": "1920x1080",
+      "timing": {
+        "total_ms": 400.6052000040654,
+        "detection_ms": 302.67779997666366,
+        "ocr_ms": 97.49700000975281,
+        "translation_ms": 0.0,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "ocr_details": {
+        "texts": [],
+        "confidences": [],
+        "mean_confidence": 0
+      },
+      "detected_texts": [],
+      "translated_texts": [],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "benchmark_results\\temp_2560x1440.png",
+      "resolution": "2560x1440",
+      "timing": {
+        "total_ms": 506.16380001883954,
+        "detection_ms": 417.8844999987632,
+        "ocr_ms": 87.81709999311715,
+        "translation_ms": 0.0,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "ocr_details": {
+        "texts": [],
+        "confidences": [],
+        "mean_confidence": 0
+      },
+      "detected_texts": [],
+      "translated_texts": [],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    }
+  ],
+  "accuracy_evaluation": {
+    "ocr_results": [],
+    "translation_results": [],
+    "aggregate": {
+      "ocr": {
+        "mean_accuracy": 0.0,
+        "mean_cer": 0.0,
+        "sample_count": 0
+      },
+      "translation": {
+        "mean_bleu": 0.0,
+        "sample_count": 0
+      }
+    }
+  },
+  "performance_profile": {
+    "summary": {
+      "detection": {
+        "mean_ms": 521.562233324706,
+        "median_ms": 327.89419998880476,
+        "std_dev_ms": 470.9001912105631,
+        "min_ms": 287.5595999939833,
+        "max_ms": 1477.415999979712,
+        "sample_count": 6
+      },
+      "ocr": {
+        "mean_ms": 327.3471833284323,
+        "median_ms": 227.58999999496154,
+        "std_dev_ms": 353.16205953578475,
+        "min_ms": 87.81709999311715,
+        "max_ms": 1026.7512999998871,
+        "sample_count": 6
+      },
+      "total": {
+        "mean_ms": 849.3912000121782,
+        "median_ms": 533.1410000217147,
+        "std_dev_ms": 815.2064220843871,
+        "min_ms": 400.6052000040654,
+        "max_ms": 2504.606100003002,
+        "sample_count": 6
+      }
+    },
+    "resolution_analysis": {
+      "640x480": {
+        "mean_ms": 2504.606100003002,
+        "median_ms": 2504.606100003002,
+        "min_ms": 2504.606100003002,
+        "max_ms": 2504.606100003002,
+        "sample_count": 1
+      },
+      "800x600": {
+        "mean_ms": 560.1182000245899,
+        "median_ms": 560.1182000245899,
+        "min_ms": 560.1182000245899,
+        "max_ms": 560.1182000245899,
+        "sample_count": 1
+      },
+      "1024x768": {
+        "mean_ms": 650.4083000181708,
+        "median_ms": 650.4083000181708,
+        "min_ms": 650.4083000181708,
+        "max_ms": 650.4083000181708,
+        "sample_count": 1
+      },
+      "1280x720": {
+        "mean_ms": 474.44560000440106,
+        "median_ms": 474.44560000440106,
+        "min_ms": 474.44560000440106,
+        "max_ms": 474.44560000440106,
+        "sample_count": 1
+      },
+      "1920x1080": {
+        "mean_ms": 400.6052000040654,
+        "median_ms": 400.6052000040654,
+        "min_ms": 400.6052000040654,
+        "max_ms": 400.6052000040654,
+        "sample_count": 1
+      },
+      "2560x1440": {
+        "mean_ms": 506.16380001883954,
+        "median_ms": 506.16380001883954,
+        "min_ms": 506.16380001883954,
+        "max_ms": 506.16380001883954,
+        "sample_count": 1
+      }
+    },
+    "raw_timings": {
+      "detection": [
+        {
+          "duration_ms": 1477.415999979712,
+          "timestamp": "2026-02-05T20:23:32.741026",
+          "metadata": {
+            "resolution": [
+              640,
+              480
+            ],
+            "image": "benchmark_results\\temp_640x480.png"
+          }
+        },
+        {
+          "duration_ms": 290.72489999816753,
+          "timestamp": "2026-02-05T20:23:34.118211",
+          "metadata": {
+            "resolution": [
+              800,
+              600
+            ],
+            "image": "benchmark_results\\temp_800x600.png"
+          }
+        },
+        {
+          "duration_ms": 353.11060000094585,
+          "timestamp": "2026-02-05T20:23:34.836630",
+          "metadata": {
+            "resolution": [
+              1024,
+              768
+            ],
+            "image": "benchmark_results\\temp_1024x768.png"
+          }
+        },
+        {
+          "duration_ms": 287.5595999939833,
+          "timestamp": "2026-02-05T20:23:35.519081",
+          "metadata": {
+            "resolution": [
+              1280,
+              720
+            ],
+            "image": "benchmark_results\\temp_1280x720.png"
+          }
+        },
+        {
+          "duration_ms": 302.67779997666366,
+          "timestamp": "2026-02-05T20:23:36.183191",
+          "metadata": {
+            "resolution": [
+              1920,
+              1080
+            ],
+            "image": "benchmark_results\\temp_1920x1080.png"
+          }
+        },
+        {
+          "duration_ms": 417.8844999987632,
+          "timestamp": "2026-02-05T20:23:36.983716",
+          "metadata": {
+            "resolution": [
+              2560,
+              1440
+            ],
+            "image": "benchmark_results\\temp_2560x1440.png"
+          }
+        }
+      ],
+      "ocr": [
+        {
+          "duration_ms": 1026.7512999998871,
+          "timestamp": "2026-02-05T20:23:33.767893",
+          "metadata": {
+            "resolution": [
+              640,
+              480
+            ],
+            "image": "benchmark_results\\temp_640x480.png"
+          }
+        },
+        {
+          "duration_ms": 268.89069998287596,
+          "timestamp": "2026-02-05T20:23:34.387456",
+          "metadata": {
+            "resolution": [
+              800,
+              600
+            ],
+            "image": "benchmark_results\\temp_800x600.png"
+          }
+        },
+        {
+          "duration_ms": 296.83769997791387,
+          "timestamp": "2026-02-05T20:23:35.133900",
+          "metadata": {
+            "resolution": [
+              1024,
+              768
+            ],
+            "image": "benchmark_results\\temp_1024x768.png"
+          }
+        },
+        {
+          "duration_ms": 186.28930000704713,
+          "timestamp": "2026-02-05T20:23:35.705250",
+          "metadata": {
+            "resolution": [
+              1280,
+              720
+            ],
+            "image": "benchmark_results\\temp_1280x720.png"
+          }
+        },
+        {
+          "duration_ms": 97.49700000975281,
+          "timestamp": "2026-02-05T20:23:36.281279",
+          "metadata": {
+            "resolution": [
+              1920,
+              1080
+            ],
+            "image": "benchmark_results\\temp_1920x1080.png"
+          }
+        },
+        {
+          "duration_ms": 87.81709999311715,
+          "timestamp": "2026-02-05T20:23:37.071795",
+          "metadata": {
+            "resolution": [
+              2560,
+              1440
+            ],
+            "image": "benchmark_results\\temp_2560x1440.png"
+          }
+        }
+      ],
+      "translation": [],
+      "inpainting": [],
+      "rendering": [],
+      "total": [
+        {
+          "duration_ms": 2504.606100003002,
+          "timestamp": "2026-02-05T20:23:33.767893",
+          "metadata": {
+            "resolution": [
+              640,
+              480
+            ],
+            "image": "benchmark_results\\temp_640x480.png"
+          }
+        },
+        {
+          "duration_ms": 560.1182000245899,
+          "timestamp": "2026-02-05T20:23:34.387456",
+          "metadata": {
+            "resolution": [
+              800,
+              600
+            ],
+            "image": "benchmark_results\\temp_800x600.png"
+          }
+        },
+        {
+          "duration_ms": 650.4083000181708,
+          "timestamp": "2026-02-05T20:23:35.133900",
+          "metadata": {
+            "resolution": [
+              1024,
+              768
+            ],
+            "image": "benchmark_results\\temp_1024x768.png"
+          }
+        },
+        {
+          "duration_ms": 474.44560000440106,
+          "timestamp": "2026-02-05T20:23:35.705250",
+          "metadata": {
+            "resolution": [
+              1280,
+              720
+            ],
+            "image": "benchmark_results\\temp_1280x720.png"
+          }
+        },
+        {
+          "duration_ms": 400.6052000040654,
+          "timestamp": "2026-02-05T20:23:36.281279",
+          "metadata": {
+            "resolution": [
+              1920,
+              1080
+            ],
+            "image": "benchmark_results\\temp_1920x1080.png"
+          }
+        },
+        {
+          "duration_ms": 506.16380001883954,
+          "timestamp": "2026-02-05T20:23:37.071795",
+          "metadata": {
+            "resolution": [
+              2560,
+              1440
+            ],
+            "image": "benchmark_results\\temp_2560x1440.png"
+          }
+        }
+      ]
+    },
+    "total_runs": 0
+  }
+}

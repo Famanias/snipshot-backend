@@ -1,0 +1,487 @@
+{
+  "metadata": {
+    "timestamp": "2026-02-08T01:06:16.531210",
+    "total_images": 1,
+    "ground_truth_file": "thesis_evaluation/ground_truth_9images.json"
+  },
+  "summary": {
+    "total_images": 1,
+    "successful": 1,
+    "failed": 0,
+    "timing": {
+      "mean_total_ms": 8575.600600000143,
+      "mean_detection_ms": 1332.5364000002082,
+      "mean_ocr_ms": 934.682399999474,
+      "mean_translation_ms": 874.7917999999117,
+      "mean_inpainting_ms": 702.6527999996688,
+      "mean_rendering_ms": 3722.9409000001397
+    },
+    "ocr_confidence": {
+      "mean": 0.881968867778778,
+      "all_scores": [
+        0.7733237147331238,
+        0.997994065284729,
+        0.9981014132499695,
+        0.6444511413574219,
+        0.9959740042686462
+      ]
+    },
+    "accuracy": {
+      "mean_accuracy": 1.0,
+      "mean_cer": 0.0,
+      "min_accuracy": 1.0,
+      "max_accuracy": 1.0,
+      "sample_count": 5
+    },
+    "bleu": {
+      "mean_bleu": 0.7144409712401767,
+      "min_bleu": 0.42888194248035344,
+      "max_bleu": 1.0,
+      "sample_count": 2
+    },
+    "profiler_stats": {
+      "summary": {
+        "detection": {
+          "mean_ms": 1332.5364000002082,
+          "median_ms": 1332.5364000002082,
+          "std_dev_ms": 0.0,
+          "min_ms": 1332.5364000002082,
+          "max_ms": 1332.5364000002082,
+          "sample_count": 1
+        },
+        "ocr": {
+          "mean_ms": 934.682399999474,
+          "median_ms": 934.682399999474,
+          "std_dev_ms": 0.0,
+          "min_ms": 934.682399999474,
+          "max_ms": 934.682399999474,
+          "sample_count": 1
+        },
+        "translation": {
+          "mean_ms": 874.7917999999117,
+          "median_ms": 874.7917999999117,
+          "std_dev_ms": 0.0,
+          "min_ms": 874.7917999999117,
+          "max_ms": 874.7917999999117,
+          "sample_count": 1
+        },
+        "inpainting": {
+          "mean_ms": 702.6527999996688,
+          "median_ms": 702.6527999996688,
+          "std_dev_ms": 0.0,
+          "min_ms": 702.6527999996688,
+          "max_ms": 702.6527999996688,
+          "sample_count": 1
+        },
+        "rendering": {
+          "mean_ms": 3722.9409000001397,
+          "median_ms": 3722.9409000001397,
+          "std_dev_ms": 0.0,
+          "min_ms": 3722.9409000001397,
+          "max_ms": 3722.9409000001397,
+          "sample_count": 1
+        },
+        "total": {
+          "mean_ms": 8575.600600000143,
+          "median_ms": 8575.600600000143,
+          "std_dev_ms": 0.0,
+          "min_ms": 8575.600600000143,
+          "max_ms": 8575.600600000143,
+          "sample_count": 1
+        }
+      },
+      "resolution_analysis": {
+        "690x1600": {
+          "mean_ms": 8575.600600000143,
+          "median_ms": 8575.600600000143,
+          "min_ms": 8575.600600000143,
+          "max_ms": 8575.600600000143,
+          "sample_count": 1
+        }
+      },
+      "raw_timings": {
+        "detection": [
+          {
+            "duration_ms": 1332.5364000002082,
+            "timestamp": "2026-02-08T01:06:09.281801",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "test images/easy/13.jpg"
+            }
+          }
+        ],
+        "ocr": [
+          {
+            "duration_ms": 934.682399999474,
+            "timestamp": "2026-02-08T01:06:10.216651",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "test images/easy/13.jpg"
+            }
+          }
+        ],
+        "translation": [
+          {
+            "duration_ms": 874.7917999999117,
+            "timestamp": "2026-02-08T01:06:12.099319",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "test images/easy/13.jpg"
+            }
+          }
+        ],
+        "inpainting": [
+          {
+            "duration_ms": 702.6527999996688,
+            "timestamp": "2026-02-08T01:06:12.801958",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "test images/easy/13.jpg"
+            }
+          }
+        ],
+        "rendering": [
+          {
+            "duration_ms": 3722.9409000001397,
+            "timestamp": "2026-02-08T01:06:16.525205",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "test images/easy/13.jpg"
+            }
+          }
+        ],
+        "total": [
+          {
+            "duration_ms": 8575.600600000143,
+            "timestamp": "2026-02-08T01:06:16.525205",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "test images/easy/13.jpg"
+            }
+          }
+        ]
+      },
+      "total_runs": 1
+    }
+  },
+  "detailed_results": [
+    {
+      "image_path": "test images/easy/13.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 8575.600600000143,
+        "detection_ms": 1332.5364000002082,
+        "ocr_ms": 934.682399999474,
+        "translation_ms": 874.7917999999117,
+        "inpainting_ms": 702.6527999996688,
+        "rendering_ms": 3722.9409000001397
+      },
+      "accuracy": {
+        "ocr_accuracy": 1.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.7144409712401767
+      },
+      "ocr_details": {
+        "texts": [
+          "이건…",
+          "누구야?",
+          "말도 안돼.",
+          "이딴 짓을…",
+          "도대체누가"
+        ],
+        "confidences": [
+          0.7733237147331238,
+          0.997994065284729,
+          0.9981014132499695,
+          0.6444511413574219,
+          0.9959740042686462
+        ],
+        "mean_confidence": 0.881968867778778
+      },
+      "detected_texts": [
+        "이건…",
+        "누구야?",
+        "말도 안돼.",
+        "이딴 짓을…",
+        "도대체누가"
+      ],
+      "translated_texts": [
+        "This is...unbelievable.",
+        "Who are you? Who on earth did this kind of thing…"
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "default"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    }
+  ],
+  "accuracy_evaluation": {
+    "ocr_results": [
+      {
+        "image_id": "13.jpg_0",
+        "ground_truth": "이건…",
+        "detected_text": "이건…",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 5,
+        "total_chars": 5
+      },
+      {
+        "image_id": "13.jpg_1",
+        "ground_truth": "누구야?",
+        "detected_text": "누구야?",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 4,
+        "total_chars": 4
+      },
+      {
+        "image_id": "13.jpg_2",
+        "ground_truth": "말도 안돼.",
+        "detected_text": "말도 안돼.",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 5,
+        "total_chars": 5
+      },
+      {
+        "image_id": "13.jpg_3",
+        "ground_truth": "이딴 짓을…",
+        "detected_text": "이딴 짓을…",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 7,
+        "total_chars": 7
+      },
+      {
+        "image_id": "13.jpg_4",
+        "ground_truth": "도대체누가",
+        "detected_text": "도대체누가",
+        "accuracy": 1.0,
+        "cer": 0.0,
+        "correct_chars": 5,
+        "total_chars": 5
+      }
+    ],
+    "translation_results": [
+      {
+        "image_id": "13.jpg_0",
+        "reference": "This is... ridiculous.",
+        "hypothesis": "This is...unbelievable.",
+        "bleu_score": 0.42888194248035344,
+        "precisions": [
+          0.5,
+          0.5,
+          1.0,
+          1.0
+        ],
+        "brevity_penalty": 0.6065306597126334
+      },
+      {
+        "image_id": "13.jpg_1",
+        "reference": "Who are you? Who on earth did this kind of thing…",
+        "hypothesis": "Who are you? Who on earth did this kind of thing…",
+        "bleu_score": 1.0,
+        "precisions": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "brevity_penalty": 1.0
+      }
+    ],
+    "aggregate": {
+      "ocr": {
+        "mean_accuracy": 1.0,
+        "mean_cer": 0.0,
+        "min_accuracy": 1.0,
+        "max_accuracy": 1.0,
+        "sample_count": 5
+      },
+      "translation": {
+        "mean_bleu": 0.7144409712401767,
+        "min_bleu": 0.42888194248035344,
+        "max_bleu": 1.0,
+        "sample_count": 2
+      }
+    }
+  },
+  "performance_profile": {
+    "summary": {
+      "detection": {
+        "mean_ms": 1332.5364000002082,
+        "median_ms": 1332.5364000002082,
+        "std_dev_ms": 0.0,
+        "min_ms": 1332.5364000002082,
+        "max_ms": 1332.5364000002082,
+        "sample_count": 1
+      },
+      "ocr": {
+        "mean_ms": 934.682399999474,
+        "median_ms": 934.682399999474,
+        "std_dev_ms": 0.0,
+        "min_ms": 934.682399999474,
+        "max_ms": 934.682399999474,
+        "sample_count": 1
+      },
+      "translation": {
+        "mean_ms": 874.7917999999117,
+        "median_ms": 874.7917999999117,
+        "std_dev_ms": 0.0,
+        "min_ms": 874.7917999999117,
+        "max_ms": 874.7917999999117,
+        "sample_count": 1
+      },
+      "inpainting": {
+        "mean_ms": 702.6527999996688,
+        "median_ms": 702.6527999996688,
+        "std_dev_ms": 0.0,
+        "min_ms": 702.6527999996688,
+        "max_ms": 702.6527999996688,
+        "sample_count": 1
+      },
+      "rendering": {
+        "mean_ms": 3722.9409000001397,
+        "median_ms": 3722.9409000001397,
+        "std_dev_ms": 0.0,
+        "min_ms": 3722.9409000001397,
+        "max_ms": 3722.9409000001397,
+        "sample_count": 1
+      },
+      "total": {
+        "mean_ms": 8575.600600000143,
+        "median_ms": 8575.600600000143,
+        "std_dev_ms": 0.0,
+        "min_ms": 8575.600600000143,
+        "max_ms": 8575.600600000143,
+        "sample_count": 1
+      }
+    },
+    "resolution_analysis": {
+      "690x1600": {
+        "mean_ms": 8575.600600000143,
+        "median_ms": 8575.600600000143,
+        "min_ms": 8575.600600000143,
+        "max_ms": 8575.600600000143,
+        "sample_count": 1
+      }
+    },
+    "raw_timings": {
+      "detection": [
+        {
+          "duration_ms": 1332.5364000002082,
+          "timestamp": "2026-02-08T01:06:09.281801",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "test images/easy/13.jpg"
+          }
+        }
+      ],
+      "ocr": [
+        {
+          "duration_ms": 934.682399999474,
+          "timestamp": "2026-02-08T01:06:10.216651",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "test images/easy/13.jpg"
+          }
+        }
+      ],
+      "translation": [
+        {
+          "duration_ms": 874.7917999999117,
+          "timestamp": "2026-02-08T01:06:12.099319",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "test images/easy/13.jpg"
+          }
+        }
+      ],
+      "inpainting": [
+        {
+          "duration_ms": 702.6527999996688,
+          "timestamp": "2026-02-08T01:06:12.801958",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "test images/easy/13.jpg"
+          }
+        }
+      ],
+      "rendering": [
+        {
+          "duration_ms": 3722.9409000001397,
+          "timestamp": "2026-02-08T01:06:16.525205",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "test images/easy/13.jpg"
+          }
+        }
+      ],
+      "total": [
+        {
+          "duration_ms": 8575.600600000143,
+          "timestamp": "2026-02-08T01:06:16.525205",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "test images/easy/13.jpg"
+          }
+        }
+      ]
+    },
+    "total_runs": 1
+  }
+}

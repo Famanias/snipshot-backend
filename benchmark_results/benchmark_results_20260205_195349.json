@@ -1,0 +1,741 @@
+{
+  "metadata": {
+    "timestamp": "2026-02-05T19:53:49.535623",
+    "total_images": 3,
+    "ground_truth_file": null
+  },
+  "summary": {
+    "total_images": 3,
+    "successful": 3,
+    "failed": 0,
+    "timing": {
+      "mean_total_ms": 9261.733066668967,
+      "mean_detection_ms": 881.2927000108175,
+      "mean_ocr_ms": 478.89276667653274,
+      "mean_translation_ms": 2597.012933333948,
+      "mean_inpainting_ms": 911.0650000026604,
+      "mean_rendering_ms": 3418.2489666660936
+    },
+    "accuracy": {
+      "mean_accuracy": 0.0,
+      "mean_cer": 0.0,
+      "sample_count": 0
+    },
+    "bleu": {
+      "mean_bleu": 0.0,
+      "sample_count": 0
+    },
+    "profiler_stats": {
+      "summary": {
+        "detection": {
+          "mean_ms": 881.2927000108175,
+          "median_ms": 379.0099000034388,
+          "std_dev_ms": 883.6139321659645,
+          "min_ms": 363.3063000161201,
+          "max_ms": 1901.5619000128936,
+          "sample_count": 3
+        },
+        "ocr": {
+          "mean_ms": 478.89276667653274,
+          "median_ms": 243.29780001426116,
+          "std_dev_ms": 427.73713998468,
+          "min_ms": 220.7510000152979,
+          "max_ms": 972.6295000000391,
+          "sample_count": 3
+        },
+        "translation": {
+          "mean_ms": 2597.012933333948,
+          "median_ms": 2720.3811000217684,
+          "std_dev_ms": 1315.6878757405236,
+          "min_ms": 1223.986099998001,
+          "max_ms": 3846.6715999820735,
+          "sample_count": 3
+        },
+        "inpainting": {
+          "mean_ms": 911.0650000026604,
+          "median_ms": 757.8331000113394,
+          "std_dev_ms": 284.65909972552845,
+          "min_ms": 735.8460999967065,
+          "max_ms": 1239.5157999999356,
+          "sample_count": 3
+        },
+        "rendering": {
+          "mean_ms": 3418.2489666660936,
+          "median_ms": 3075.855999981286,
+          "std_dev_ms": 627.0910840135288,
+          "min_ms": 3036.8891000107396,
+          "max_ms": 4142.0018000062555,
+          "sample_count": 3
+        },
+        "total": {
+          "mean_ms": 9261.733066668967,
+          "median_ms": 8126.098300010199,
+          "std_dev_ms": 3428.649924114134,
+          "min_ms": 6544.981899991399,
+          "max_ms": 13114.119000005303,
+          "sample_count": 3
+        }
+      },
+      "resolution_analysis": {
+        "690x1600": {
+          "mean_ms": 9261.733066668967,
+          "median_ms": 8126.098300010199,
+          "min_ms": 6544.981899991399,
+          "max_ms": 13114.119000005303,
+          "sample_count": 3
+        }
+      },
+      "raw_timings": {
+        "detection": [
+          {
+            "duration_ms": 1901.5619000128936,
+            "timestamp": "2026-02-05T19:53:23.614508",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 379.0099000034388,
+            "timestamp": "2026-02-05T19:53:35.222882",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 363.3063000161201,
+            "timestamp": "2026-02-05T19:53:43.348676",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          }
+        ],
+        "ocr": [
+          {
+            "duration_ms": 972.6295000000391,
+            "timestamp": "2026-02-05T19:53:24.586983",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 220.7510000152979,
+            "timestamp": "2026-02-05T19:53:35.444083",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 243.29780001426116,
+            "timestamp": "2026-02-05T19:53:43.592817",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          }
+        ],
+        "translation": [
+          {
+            "duration_ms": 3846.6715999820735,
+            "timestamp": "2026-02-05T19:53:29.445144",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 2720.3811000217684,
+            "timestamp": "2026-02-05T19:53:39.135200",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 1223.986099998001,
+            "timestamp": "2026-02-05T19:53:45.757838",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          }
+        ],
+        "inpainting": [
+          {
+            "duration_ms": 1239.5157999999356,
+            "timestamp": "2026-02-05T19:53:30.684732",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 757.8331000113394,
+            "timestamp": "2026-02-05T19:53:39.894099",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 735.8460999967065,
+            "timestamp": "2026-02-05T19:53:46.494507",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          }
+        ],
+        "rendering": [
+          {
+            "duration_ms": 4142.0018000062555,
+            "timestamp": "2026-02-05T19:53:34.826520",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 3075.855999981286,
+            "timestamp": "2026-02-05T19:53:42.969246",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 3036.8891000107396,
+            "timestamp": "2026-02-05T19:53:49.530619",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          }
+        ],
+        "total": [
+          {
+            "duration_ms": 13114.119000005303,
+            "timestamp": "2026-02-05T19:53:34.826520",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 8126.098300010199,
+            "timestamp": "2026-02-05T19:53:42.969246",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          },
+          {
+            "duration_ms": 6544.981899991399,
+            "timestamp": "2026-02-05T19:53:49.531620",
+            "metadata": {
+              "resolution": [
+                690,
+                1600
+              ],
+              "image": "15.jpg"
+            }
+          }
+        ]
+      },
+      "total_runs": 3
+    }
+  },
+  "detailed_results": [
+    {
+      "image_path": "15.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 13114.119000005303,
+        "detection_ms": 1901.5619000128936,
+        "ocr_ms": 972.6295000000391,
+        "translation_ms": 3846.6715999820735,
+        "inpainting_ms": 1239.5157999999356,
+        "rendering_ms": 4142.0018000062555
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "detected_texts": [
+        "이건…",
+        "누구야?",
+        "말도 안돼.",
+        "이딴 짓을…",
+        "도대체누가"
+      ],
+      "translated_texts": [
+        "This is...unbelievable.",
+        "Who are you? Who on earth did this kind of thing…"
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "default"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "15.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 8126.098300010199,
+        "detection_ms": 379.0099000034388,
+        "ocr_ms": 220.7510000152979,
+        "translation_ms": 2720.3811000217684,
+        "inpainting_ms": 757.8331000113394,
+        "rendering_ms": 3075.855999981286
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "detected_texts": [
+        "이건…",
+        "누구야?",
+        "말도 안돼.",
+        "이딴 짓을…",
+        "도대체누가"
+      ],
+      "translated_texts": [
+        "This is…unbelievable.",
+        "Who are you? Who on earth did this kind of thing…"
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "default"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "15.jpg",
+      "resolution": "690x1600",
+      "timing": {
+        "total_ms": 6544.981899991399,
+        "detection_ms": 363.3063000161201,
+        "ocr_ms": 243.29780001426116,
+        "translation_ms": 1223.986099998001,
+        "inpainting_ms": 735.8460999967065,
+        "rendering_ms": 3036.8891000107396
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "detected_texts": [
+        "이건…",
+        "누구야?",
+        "말도 안돼.",
+        "이딴 짓을…",
+        "도대체누가"
+      ],
+      "translated_texts": [
+        "This is... ridiculous.",
+        "Who are you? Who on earth did this sort of thing…"
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536,
+          "box_threshold": 0.7
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "default"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    }
+  ],
+  "accuracy_evaluation": {
+    "ocr_results": [],
+    "translation_results": [],
+    "aggregate": {
+      "ocr": {
+        "mean_accuracy": 0.0,
+        "mean_cer": 0.0,
+        "sample_count": 0
+      },
+      "translation": {
+        "mean_bleu": 0.0,
+        "sample_count": 0
+      }
+    }
+  },
+  "performance_profile": {
+    "summary": {
+      "detection": {
+        "mean_ms": 881.2927000108175,
+        "median_ms": 379.0099000034388,
+        "std_dev_ms": 883.6139321659645,
+        "min_ms": 363.3063000161201,
+        "max_ms": 1901.5619000128936,
+        "sample_count": 3
+      },
+      "ocr": {
+        "mean_ms": 478.89276667653274,
+        "median_ms": 243.29780001426116,
+        "std_dev_ms": 427.73713998468,
+        "min_ms": 220.7510000152979,
+        "max_ms": 972.6295000000391,
+        "sample_count": 3
+      },
+      "translation": {
+        "mean_ms": 2597.012933333948,
+        "median_ms": 2720.3811000217684,
+        "std_dev_ms": 1315.6878757405236,
+        "min_ms": 1223.986099998001,
+        "max_ms": 3846.6715999820735,
+        "sample_count": 3
+      },
+      "inpainting": {
+        "mean_ms": 911.0650000026604,
+        "median_ms": 757.8331000113394,
+        "std_dev_ms": 284.65909972552845,
+        "min_ms": 735.8460999967065,
+        "max_ms": 1239.5157999999356,
+        "sample_count": 3
+      },
+      "rendering": {
+        "mean_ms": 3418.2489666660936,
+        "median_ms": 3075.855999981286,
+        "std_dev_ms": 627.0910840135288,
+        "min_ms": 3036.8891000107396,
+        "max_ms": 4142.0018000062555,
+        "sample_count": 3
+      },
+      "total": {
+        "mean_ms": 9261.733066668967,
+        "median_ms": 8126.098300010199,
+        "std_dev_ms": 3428.649924114134,
+        "min_ms": 6544.981899991399,
+        "max_ms": 13114.119000005303,
+        "sample_count": 3
+      }
+    },
+    "resolution_analysis": {
+      "690x1600": {
+        "mean_ms": 9261.733066668967,
+        "median_ms": 8126.098300010199,
+        "min_ms": 6544.981899991399,
+        "max_ms": 13114.119000005303,
+        "sample_count": 3
+      }
+    },
+    "raw_timings": {
+      "detection": [
+        {
+          "duration_ms": 1901.5619000128936,
+          "timestamp": "2026-02-05T19:53:23.614508",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 379.0099000034388,
+          "timestamp": "2026-02-05T19:53:35.222882",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 363.3063000161201,
+          "timestamp": "2026-02-05T19:53:43.348676",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        }
+      ],
+      "ocr": [
+        {
+          "duration_ms": 972.6295000000391,
+          "timestamp": "2026-02-05T19:53:24.586983",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 220.7510000152979,
+          "timestamp": "2026-02-05T19:53:35.444083",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 243.29780001426116,
+          "timestamp": "2026-02-05T19:53:43.592817",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        }
+      ],
+      "translation": [
+        {
+          "duration_ms": 3846.6715999820735,
+          "timestamp": "2026-02-05T19:53:29.445144",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 2720.3811000217684,
+          "timestamp": "2026-02-05T19:53:39.135200",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 1223.986099998001,
+          "timestamp": "2026-02-05T19:53:45.757838",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        }
+      ],
+      "inpainting": [
+        {
+          "duration_ms": 1239.5157999999356,
+          "timestamp": "2026-02-05T19:53:30.684732",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 757.8331000113394,
+          "timestamp": "2026-02-05T19:53:39.894099",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 735.8460999967065,
+          "timestamp": "2026-02-05T19:53:46.494507",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        }
+      ],
+      "rendering": [
+        {
+          "duration_ms": 4142.0018000062555,
+          "timestamp": "2026-02-05T19:53:34.826520",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 3075.855999981286,
+          "timestamp": "2026-02-05T19:53:42.969246",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 3036.8891000107396,
+          "timestamp": "2026-02-05T19:53:49.530619",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        }
+      ],
+      "total": [
+        {
+          "duration_ms": 13114.119000005303,
+          "timestamp": "2026-02-05T19:53:34.826520",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 8126.098300010199,
+          "timestamp": "2026-02-05T19:53:42.969246",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        },
+        {
+          "duration_ms": 6544.981899991399,
+          "timestamp": "2026-02-05T19:53:49.531620",
+          "metadata": {
+            "resolution": [
+              690,
+              1600
+            ],
+            "image": "15.jpg"
+          }
+        }
+      ]
+    },
+    "total_runs": 3
+  }
+}

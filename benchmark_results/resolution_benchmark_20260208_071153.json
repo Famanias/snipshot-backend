@@ -1,0 +1,1061 @@
+{
+  "metadata": {
+    "timestamp": "2026-02-08T07:11:53.666077",
+    "total_images": 6,
+    "ground_truth_file": null
+  },
+  "summary": {
+    "total_images": 6,
+    "successful": 6,
+    "failed": 0,
+    "timing": {
+      "mean_total_ms": 6614.808333333713,
+      "mean_detection_ms": 945.5359666674971,
+      "mean_ocr_ms": 575.705483333877,
+      "mean_translation_ms": 1448.8501166670176,
+      "mean_inpainting_ms": 1326.3507166666386,
+      "mean_rendering_ms": 1913.0972000008721
+    },
+    "ocr_confidence": {
+      "mean": 0.23228889517486095,
+      "all_scores": [
+        0.7586841583251953,
+        0.5116219520568848,
+        0.9945409893989563,
+        0.20405235886573792,
+        0.9499947428703308,
+        0.9789924025535583,
+        0.4241284132003784,
+        0.8637776374816895,
+        0.9990343451499939,
+        0.8800892233848572,
+        0.8304460048675537,
+        0.2856052815914154
+      ]
+    },
+    "accuracy": {
+      "mean_accuracy": 0.0,
+      "mean_cer": 0.0,
+      "sample_count": 0
+    },
+    "bleu": {
+      "mean_bleu": 0.0,
+      "sample_count": 0
+    },
+    "profiler_stats": {
+      "summary": {
+        "detection": {
+          "mean_ms": 945.5359666674971,
+          "median_ms": 356.6303000006883,
+          "std_dev_ms": 1353.1862143027697,
+          "min_ms": 285.31370000200695,
+          "max_ms": 3697.3638000017672,
+          "sample_count": 6
+        },
+        "ocr": {
+          "mean_ms": 1151.410966667754,
+          "median_ms": 361.5958000009414,
+          "std_dev_ms": 1401.5583258911663,
+          "min_ms": 322.9994000030274,
+          "max_ms": 2769.6376999992935,
+          "sample_count": 3
+        },
+        "translation": {
+          "mean_ms": 4346.550350001053,
+          "median_ms": 4346.550350001053,
+          "std_dev_ms": 3358.2108292280673,
+          "min_ms": 1971.9366999997874,
+          "max_ms": 6721.164000002318,
+          "sample_count": 2
+        },
+        "inpainting": {
+          "mean_ms": 3979.052149999916,
+          "median_ms": 3979.052149999916,
+          "std_dev_ms": 371.9809468646067,
+          "min_ms": 3716.0218999997596,
+          "max_ms": 4242.082400000072,
+          "sample_count": 2
+        },
+        "rendering": {
+          "mean_ms": 5739.291600002616,
+          "median_ms": 5739.291600002616,
+          "std_dev_ms": 2269.660739650227,
+          "min_ms": 4134.3991000030655,
+          "max_ms": 7344.184100002167,
+          "sample_count": 2
+        },
+        "total": {
+          "mean_ms": 6614.808333333713,
+          "median_ms": 3545.2874500006146,
+          "std_dev_ms": 7937.726819174733,
+          "min_ms": 285.54109999822685,
+          "max_ms": 19485.077600002114,
+          "sample_count": 6
+        }
+      },
+      "resolution_analysis": {
+        "640x480": {
+          "mean_ms": 6467.573000001721,
+          "median_ms": 6467.573000001721,
+          "min_ms": 6467.573000001721,
+          "max_ms": 6467.573000001721,
+          "sample_count": 1
+        },
+        "800x600": {
+          "mean_ms": 19485.077600002114,
+          "median_ms": 19485.077600002114,
+          "min_ms": 19485.077600002114,
+          "max_ms": 19485.077600002114,
+          "sample_count": 1
+        },
+        "1024x768": {
+          "mean_ms": 12468.985999999859,
+          "median_ms": 12468.985999999859,
+          "min_ms": 12468.985999999859,
+          "max_ms": 12468.985999999859,
+          "sample_count": 1
+        },
+        "1280x720": {
+          "mean_ms": 623.0018999995082,
+          "median_ms": 623.0018999995082,
+          "min_ms": 623.0018999995082,
+          "max_ms": 623.0018999995082,
+          "sample_count": 1
+        },
+        "1920x1080": {
+          "mean_ms": 285.54109999822685,
+          "median_ms": 285.54109999822685,
+          "min_ms": 285.54109999822685,
+          "max_ms": 285.54109999822685,
+          "sample_count": 1
+        },
+        "2560x1440": {
+          "mean_ms": 358.6704000008467,
+          "median_ms": 358.6704000008467,
+          "min_ms": 358.6704000008467,
+          "max_ms": 358.6704000008467,
+          "sample_count": 1
+        }
+      },
+      "raw_timings": {
+        "detection": [
+          {
+            "duration_ms": 3697.3638000017672,
+            "timestamp": "2026-02-08T07:11:16.787975",
+            "metadata": {
+              "resolution": [
+                640,
+                480
+              ],
+              "image": "benchmark_results\\temp_640x480.png"
+            }
+          },
+          {
+            "duration_ms": 354.514200000267,
+            "timestamp": "2026-02-08T07:11:19.991153",
+            "metadata": {
+              "resolution": [
+                800,
+                600
+              ],
+              "image": "benchmark_results\\temp_800x600.png"
+            }
+          },
+          {
+            "duration_ms": 354.86609999861685,
+            "timestamp": "2026-02-08T07:11:39.604351",
+            "metadata": {
+              "resolution": [
+                1024,
+                768
+              ],
+              "image": "benchmark_results\\temp_1024x768.png"
+            }
+          },
+          {
+            "duration_ms": 622.7634999995644,
+            "timestamp": "2026-02-08T07:11:52.473006",
+            "metadata": {
+              "resolution": [
+                1280,
+                720
+              ],
+              "image": "benchmark_results\\temp_1280x720.png"
+            }
+          },
+          {
+            "duration_ms": 285.31370000200695,
+            "timestamp": "2026-02-08T07:11:52.971128",
+            "metadata": {
+              "resolution": [
+                1920,
+                1080
+              ],
+              "image": "benchmark_results\\temp_1920x1080.png"
+            }
+          },
+          {
+            "duration_ms": 358.39450000275974,
+            "timestamp": "2026-02-08T07:11:53.660072",
+            "metadata": {
+              "resolution": [
+                2560,
+                1440
+              ],
+              "image": "benchmark_results\\temp_2560x1440.png"
+            }
+          }
+        ],
+        "ocr": [
+          {
+            "duration_ms": 2769.6376999992935,
+            "timestamp": "2026-02-08T07:11:19.557759",
+            "metadata": {
+              "resolution": [
+                640,
+                480
+              ],
+              "image": "benchmark_results\\temp_640x480.png"
+            }
+          },
+          {
+            "duration_ms": 322.9994000030274,
+            "timestamp": "2026-02-08T07:11:20.314448",
+            "metadata": {
+              "resolution": [
+                800,
+                600
+              ],
+              "image": "benchmark_results\\temp_800x600.png"
+            }
+          },
+          {
+            "duration_ms": 361.5958000009414,
+            "timestamp": "2026-02-08T07:11:39.966213",
+            "metadata": {
+              "resolution": [
+                1024,
+                768
+              ],
+              "image": "benchmark_results\\temp_1024x768.png"
+            }
+          }
+        ],
+        "translation": [
+          {
+            "duration_ms": 6721.164000002318,
+            "timestamp": "2026-02-08T07:11:28.061747",
+            "metadata": {
+              "resolution": [
+                800,
+                600
+              ],
+              "image": "benchmark_results\\temp_800x600.png"
+            }
+          },
+          {
+            "duration_ms": 1971.9366999997874,
+            "timestamp": "2026-02-08T07:11:43.341955",
+            "metadata": {
+              "resolution": [
+                1024,
+                768
+              ],
+              "image": "benchmark_results\\temp_1024x768.png"
+            }
+          }
+        ],
+        "inpainting": [
+          {
+            "duration_ms": 3716.0218999997596,
+            "timestamp": "2026-02-08T07:11:31.777997",
+            "metadata": {
+              "resolution": [
+                800,
+                600
+              ],
+              "image": "benchmark_results\\temp_800x600.png"
+            }
+          },
+          {
+            "duration_ms": 4242.082400000072,
+            "timestamp": "2026-02-08T07:11:47.583789",
+            "metadata": {
+              "resolution": [
+                1024,
+                768
+              ],
+              "image": "benchmark_results\\temp_1024x768.png"
+            }
+          }
+        ],
+        "rendering": [
+          {
+            "duration_ms": 7344.184100002167,
+            "timestamp": "2026-02-08T07:11:39.121913",
+            "metadata": {
+              "resolution": [
+                800,
+                600
+              ],
+              "image": "benchmark_results\\temp_800x600.png"
+            }
+          },
+          {
+            "duration_ms": 4134.3991000030655,
+            "timestamp": "2026-02-08T07:11:51.718458",
+            "metadata": {
+              "resolution": [
+                1024,
+                768
+              ],
+              "image": "benchmark_results\\temp_1024x768.png"
+            }
+          }
+        ],
+        "total": [
+          {
+            "duration_ms": 6467.573000001721,
+            "timestamp": "2026-02-08T07:11:19.557759",
+            "metadata": {
+              "resolution": [
+                640,
+                480
+              ],
+              "image": "benchmark_results\\temp_640x480.png"
+            }
+          },
+          {
+            "duration_ms": 19485.077600002114,
+            "timestamp": "2026-02-08T07:11:39.121913",
+            "metadata": {
+              "resolution": [
+                800,
+                600
+              ],
+              "image": "benchmark_results\\temp_800x600.png"
+            }
+          },
+          {
+            "duration_ms": 12468.985999999859,
+            "timestamp": "2026-02-08T07:11:51.718458",
+            "metadata": {
+              "resolution": [
+                1024,
+                768
+              ],
+              "image": "benchmark_results\\temp_1024x768.png"
+            }
+          },
+          {
+            "duration_ms": 623.0018999995082,
+            "timestamp": "2026-02-08T07:11:52.473006",
+            "metadata": {
+              "resolution": [
+                1280,
+                720
+              ],
+              "image": "benchmark_results\\temp_1280x720.png"
+            }
+          },
+          {
+            "duration_ms": 285.54109999822685,
+            "timestamp": "2026-02-08T07:11:52.972129",
+            "metadata": {
+              "resolution": [
+                1920,
+                1080
+              ],
+              "image": "benchmark_results\\temp_1920x1080.png"
+            }
+          },
+          {
+            "duration_ms": 358.6704000008467,
+            "timestamp": "2026-02-08T07:11:53.660072",
+            "metadata": {
+              "resolution": [
+                2560,
+                1440
+              ],
+              "image": "benchmark_results\\temp_2560x1440.png"
+            }
+          }
+        ]
+      },
+      "total_runs": 0
+    }
+  },
+  "detailed_results": [
+    {
+      "image_path": "benchmark_results\\temp_640x480.png",
+      "resolution": "640x480",
+      "timing": {
+        "total_ms": 6467.573000001721,
+        "detection_ms": 3697.3638000017672,
+        "ocr_ms": 2769.6376999992935,
+        "translation_ms": 0.0,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "ocr_details": {
+        "texts": [],
+        "confidences": [],
+        "mean_confidence": 0
+      },
+      "detected_texts": [],
+      "translated_texts": [],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "benchmark_results\\temp_800x600.png",
+      "resolution": "800x600",
+      "timing": {
+        "total_ms": 19485.077600002114,
+        "detection_ms": 354.514200000267,
+        "ocr_ms": 322.9994000030274,
+        "translation_ms": 6721.164000002318,
+        "inpainting_ms": 3716.0218999997596,
+        "rendering_ms": 7344.184100002167
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "ocr_details": {
+        "texts": [
+          "21番染色体が",
+          "生まれてくる",
+          "よるものでも",
+          "をいいう事です"
+        ],
+        "confidences": [
+          0.7586841583251953,
+          0.5116219520568848,
+          0.9945409893989563,
+          0.20405235886573792
+        ],
+        "mean_confidence": 0.6172248646616936
+      },
+      "detected_texts": [
+        "21番染色体が",
+        "生まれてくる",
+        "よるものでも",
+        "をいいう事です"
+      ],
+      "translated_texts": [
+        "Chromosome 21 is",
+        "because of tonight",
+        "is a good thing",
+        "be born"
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "benchmark_results\\temp_1024x768.png",
+      "resolution": "1024x768",
+      "timing": {
+        "total_ms": 12468.985999999859,
+        "detection_ms": 354.86609999861685,
+        "ocr_ms": 361.5958000009414,
+        "translation_ms": 1971.9366999997874,
+        "inpainting_ms": 4242.082400000072,
+        "rendering_ms": 4134.3991000030655
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "ocr_details": {
+        "texts": [
+          "あなた達夫婦の",
+          "可能性があります",
+          "タウン症児は",
+          "生まれてくる",
+          "よるものでも",
+          "どこのご夫婦にも",
+          "ないという事です",
+          "道伝によるものでも"
+        ],
+        "confidences": [
+          0.9499947428703308,
+          0.9789924025535583,
+          0.4241284132003784,
+          0.8637776374816895,
+          0.9990343451499939,
+          0.8800892233848572,
+          0.8304460048675537,
+          0.2856052815914154
+        ],
+        "mean_confidence": 0.7765085063874722
+      },
+      "detected_texts": [
+        "あなた達夫婦の",
+        "可能性があります",
+        "タウン症児は",
+        "生まれてくる",
+        "よるものでも",
+        "どこのご夫婦にも",
+        "ないという事です",
+        "道伝によるものでも"
+      ],
+      "translated_texts": [
+        "It is neither due to the night nor the path you and your husband took.",
+        "Down syndrome children can be born to any couple."
+      ],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "benchmark_results\\temp_1280x720.png",
+      "resolution": "1280x720",
+      "timing": {
+        "total_ms": 623.0018999995082,
+        "detection_ms": 622.7634999995644,
+        "ocr_ms": 0.0,
+        "translation_ms": 0.0,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "ocr_details": {
+        "texts": [],
+        "confidences": [],
+        "mean_confidence": 0
+      },
+      "detected_texts": [],
+      "translated_texts": [],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "benchmark_results\\temp_1920x1080.png",
+      "resolution": "1920x1080",
+      "timing": {
+        "total_ms": 285.54109999822685,
+        "detection_ms": 285.31370000200695,
+        "ocr_ms": 0.0,
+        "translation_ms": 0.0,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "ocr_details": {
+        "texts": [],
+        "confidences": [],
+        "mean_confidence": 0
+      },
+      "detected_texts": [],
+      "translated_texts": [],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    },
+    {
+      "image_path": "benchmark_results\\temp_2560x1440.png",
+      "resolution": "2560x1440",
+      "timing": {
+        "total_ms": 358.6704000008467,
+        "detection_ms": 358.39450000275974,
+        "ocr_ms": 0.0,
+        "translation_ms": 0.0,
+        "inpainting_ms": 0.0,
+        "rendering_ms": 0.0
+      },
+      "accuracy": {
+        "ocr_accuracy": 0.0,
+        "ocr_cer": 0.0,
+        "bleu_score": 0.0
+      },
+      "ocr_details": {
+        "texts": [],
+        "confidences": [],
+        "mean_confidence": 0
+      },
+      "detected_texts": [],
+      "translated_texts": [],
+      "config": {
+        "detector": {
+          "detector": "default",
+          "detection_size": 1536
+        },
+        "ocr": {
+          "ocr": "48px"
+        },
+        "translator": {
+          "translator": "groq",
+          "target_lang": "ENG"
+        },
+        "inpainter": {
+          "inpainter": "lama_large"
+        },
+        "render": {
+          "renderer": "default"
+        }
+      },
+      "error": ""
+    }
+  ],
+  "accuracy_evaluation": {
+    "ocr_results": [],
+    "translation_results": [],
+    "aggregate": {
+      "ocr": {
+        "mean_accuracy": 0.0,
+        "mean_cer": 0.0,
+        "sample_count": 0
+      },
+      "translation": {
+        "mean_bleu": 0.0,
+        "sample_count": 0
+      }
+    }
+  },
+  "performance_profile": {
+    "summary": {
+      "detection": {
+        "mean_ms": 945.5359666674971,
+        "median_ms": 356.6303000006883,
+        "std_dev_ms": 1353.1862143027697,
+        "min_ms": 285.31370000200695,
+        "max_ms": 3697.3638000017672,
+        "sample_count": 6
+      },
+      "ocr": {
+        "mean_ms": 1151.410966667754,
+        "median_ms": 361.5958000009414,
+        "std_dev_ms": 1401.5583258911663,
+        "min_ms": 322.9994000030274,
+        "max_ms": 2769.6376999992935,
+        "sample_count": 3
+      },
+      "translation": {
+        "mean_ms": 4346.550350001053,
+        "median_ms": 4346.550350001053,
+        "std_dev_ms": 3358.2108292280673,
+        "min_ms": 1971.9366999997874,
+        "max_ms": 6721.164000002318,
+        "sample_count": 2
+      },
+      "inpainting": {
+        "mean_ms": 3979.052149999916,
+        "median_ms": 3979.052149999916,
+        "std_dev_ms": 371.9809468646067,
+        "min_ms": 3716.0218999997596,
+        "max_ms": 4242.082400000072,
+        "sample_count": 2
+      },
+      "rendering": {
+        "mean_ms": 5739.291600002616,
+        "median_ms": 5739.291600002616,
+        "std_dev_ms": 2269.660739650227,
+        "min_ms": 4134.3991000030655,
+        "max_ms": 7344.184100002167,
+        "sample_count": 2
+      },
+      "total": {
+        "mean_ms": 6614.808333333713,
+        "median_ms": 3545.2874500006146,
+        "std_dev_ms": 7937.726819174733,
+        "min_ms": 285.54109999822685,
+        "max_ms": 19485.077600002114,
+        "sample_count": 6
+      }
+    },
+    "resolution_analysis": {
+      "640x480": {
+        "mean_ms": 6467.573000001721,
+        "median_ms": 6467.573000001721,
+        "min_ms": 6467.573000001721,
+        "max_ms": 6467.573000001721,
+        "sample_count": 1
+      },
+      "800x600": {
+        "mean_ms": 19485.077600002114,
+        "median_ms": 19485.077600002114,
+        "min_ms": 19485.077600002114,
+        "max_ms": 19485.077600002114,
+        "sample_count": 1
+      },
+      "1024x768": {
+        "mean_ms": 12468.985999999859,
+        "median_ms": 12468.985999999859,
+        "min_ms": 12468.985999999859,
+        "max_ms": 12468.985999999859,
+        "sample_count": 1
+      },
+      "1280x720": {
+        "mean_ms": 623.0018999995082,
+        "median_ms": 623.0018999995082,
+        "min_ms": 623.0018999995082,
+        "max_ms": 623.0018999995082,
+        "sample_count": 1
+      },
+      "1920x1080": {
+        "mean_ms": 285.54109999822685,
+        "median_ms": 285.54109999822685,
+        "min_ms": 285.54109999822685,
+        "max_ms": 285.54109999822685,
+        "sample_count": 1
+      },
+      "2560x1440": {
+        "mean_ms": 358.6704000008467,
+        "median_ms": 358.6704000008467,
+        "min_ms": 358.6704000008467,
+        "max_ms": 358.6704000008467,
+        "sample_count": 1
+      }
+    },
+    "raw_timings": {
+      "detection": [
+        {
+          "duration_ms": 3697.3638000017672,
+          "timestamp": "2026-02-08T07:11:16.787975",
+          "metadata": {
+            "resolution": [
+              640,
+              480
+            ],
+            "image": "benchmark_results\\temp_640x480.png"
+          }
+        },
+        {
+          "duration_ms": 354.514200000267,
+          "timestamp": "2026-02-08T07:11:19.991153",
+          "metadata": {
+            "resolution": [
+              800,
+              600
+            ],
+            "image": "benchmark_results\\temp_800x600.png"
+          }
+        },
+        {
+          "duration_ms": 354.86609999861685,
+          "timestamp": "2026-02-08T07:11:39.604351",
+          "metadata": {
+            "resolution": [
+              1024,
+              768
+            ],
+            "image": "benchmark_results\\temp_1024x768.png"
+          }
+        },
+        {
+          "duration_ms": 622.7634999995644,
+          "timestamp": "2026-02-08T07:11:52.473006",
+          "metadata": {
+            "resolution": [
+              1280,
+              720
+            ],
+            "image": "benchmark_results\\temp_1280x720.png"
+          }
+        },
+        {
+          "duration_ms": 285.31370000200695,
+          "timestamp": "2026-02-08T07:11:52.971128",
+          "metadata": {
+            "resolution": [
+              1920,
+              1080
+            ],
+            "image": "benchmark_results\\temp_1920x1080.png"
+          }
+        },
+        {
+          "duration_ms": 358.39450000275974,
+          "timestamp": "2026-02-08T07:11:53.660072",
+          "metadata": {
+            "resolution": [
+              2560,
+              1440
+            ],
+            "image": "benchmark_results\\temp_2560x1440.png"
+          }
+        }
+      ],
+      "ocr": [
+        {
+          "duration_ms": 2769.6376999992935,
+          "timestamp": "2026-02-08T07:11:19.557759",
+          "metadata": {
+            "resolution": [
+              640,
+              480
+            ],
+            "image": "benchmark_results\\temp_640x480.png"
+          }
+        },
+        {
+          "duration_ms": 322.9994000030274,
+          "timestamp": "2026-02-08T07:11:20.314448",
+          "metadata": {
+            "resolution": [
+              800,
+              600
+            ],
+            "image": "benchmark_results\\temp_800x600.png"
+          }
+        },
+        {
+          "duration_ms": 361.5958000009414,
+          "timestamp": "2026-02-08T07:11:39.966213",
+          "metadata": {
+            "resolution": [
+              1024,
+              768
+            ],
+            "image": "benchmark_results\\temp_1024x768.png"
+          }
+        }
+      ],
+      "translation": [
+        {
+          "duration_ms": 6721.164000002318,
+          "timestamp": "2026-02-08T07:11:28.061747",
+          "metadata": {
+            "resolution": [
+              800,
+              600
+            ],
+            "image": "benchmark_results\\temp_800x600.png"
+          }
+        },
+        {
+          "duration_ms": 1971.9366999997874,
+          "timestamp": "2026-02-08T07:11:43.341955",
+          "metadata": {
+            "resolution": [
+              1024,
+              768
+            ],
+            "image": "benchmark_results\\temp_1024x768.png"
+          }
+        }
+      ],
+      "inpainting": [
+        {
+          "duration_ms": 3716.0218999997596,
+          "timestamp": "2026-02-08T07:11:31.777997",
+          "metadata": {
+            "resolution": [
+              800,
+              600
+            ],
+            "image": "benchmark_results\\temp_800x600.png"
+          }
+        },
+        {
+          "duration_ms": 4242.082400000072,
+          "timestamp": "2026-02-08T07:11:47.583789",
+          "metadata": {
+            "resolution": [
+              1024,
+              768
+            ],
+            "image": "benchmark_results\\temp_1024x768.png"
+          }
+        }
+      ],
+      "rendering": [
+        {
+          "duration_ms": 7344.184100002167,
+          "timestamp": "2026-02-08T07:11:39.121913",
+          "metadata": {
+            "resolution": [
+              800,
+              600
+            ],
+            "image": "benchmark_results\\temp_800x600.png"
+          }
+        },
+        {
+          "duration_ms": 4134.3991000030655,
+          "timestamp": "2026-02-08T07:11:51.718458",
+          "metadata": {
+            "resolution": [
+              1024,
+              768
+            ],
+            "image": "benchmark_results\\temp_1024x768.png"
+          }
+        }
+      ],
+      "total": [
+        {
+          "duration_ms": 6467.573000001721,
+          "timestamp": "2026-02-08T07:11:19.557759",
+          "metadata": {
+            "resolution": [
+              640,
+              480
+            ],
+            "image": "benchmark_results\\temp_640x480.png"
+          }
+        },
+        {
+          "duration_ms": 19485.077600002114,
+          "timestamp": "2026-02-08T07:11:39.121913",
+          "metadata": {
+            "resolution": [
+              800,
+              600
+            ],
+            "image": "benchmark_results\\temp_800x600.png"
+          }
+        },
+        {
+          "duration_ms": 12468.985999999859,
+          "timestamp": "2026-02-08T07:11:51.718458",
+          "metadata": {
+            "resolution": [
+              1024,
+              768
+            ],
+            "image": "benchmark_results\\temp_1024x768.png"
+          }
+        },
+        {
+          "duration_ms": 623.0018999995082,
+          "timestamp": "2026-02-08T07:11:52.473006",
+          "metadata": {
+            "resolution": [
+              1280,
+              720
+            ],
+            "image": "benchmark_results\\temp_1280x720.png"
+          }
+        },
+        {
+          "duration_ms": 285.54109999822685,
+          "timestamp": "2026-02-08T07:11:52.972129",
+          "metadata": {
+            "resolution": [
+              1920,
+              1080
+            ],
+            "image": "benchmark_results\\temp_1920x1080.png"
+          }
+        },
+        {
+          "duration_ms": 358.6704000008467,
+          "timestamp": "2026-02-08T07:11:53.660072",
+          "metadata": {
+            "resolution": [
+              2560,
+              1440
+            ],
+            "image": "benchmark_results\\temp_2560x1440.png"
+          }
+        }
+      ]
+    },
+    "total_runs": 0
+  }
+}

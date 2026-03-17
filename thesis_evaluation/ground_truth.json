@@ -1,0 +1,164 @@
+{
+  "description": "Ground truth for thesis evaluation",
+  "images": [
+    {
+      "path": "15.jpg",
+      "text_regions": [
+        {
+          "text": "이건…",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "text": "누구야?",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "text": "말도 안돼.",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "text": "이딴 짓을…",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "text": "도대체누가",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "translations": [
+        {
+          "source": "이건…",
+          "target": "This is…unbelievable."
+        },
+        {
+          "source": "누구야?",
+          "target": "Who are you? Who on earth did this kind of thing..."
+        }
+      ],
+      "system_detected": {
+        "texts": [
+          "이건…",
+          "누구야?",
+          "말도 안돼.",
+          "이딴 짓을…",
+          "도대체누가"
+        ],
+        "translations": [
+          "This is…unbelievable.",
+          "Who are you? Who on earth did this kind of thing..."
+        ]
+      }
+    },
+    {
+      "path": "155.jpg",
+      "text_regions": [
+        {
+          "text": "진짜 돈을",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "text": "넣었을리는없고...",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "translations": [
+        {
+          "source": "진짜 돈을",
+          "target": "He probably didn't really put money in..."
+        }
+      ],
+      "system_detected": {
+        "texts": [
+          "진짜 돈을",
+          "넣었을리는없고..."
+        ],
+        "translations": [
+          "He probably didn't really put money in..."
+        ]
+      }
+    },
+    {
+      "path": "1555555.jpg",
+      "text_regions": [
+        {
+          "text": "성낙숙쪽에서",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "text": "했다기엔굳이…",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "text": "이이름으로할까?",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "translations": [
+        {
+          "source": "성낙숙쪽에서",
+          "target": "To be honest, it seems unlikely that Seong Nak-Suk would do this... Should we use this name anyway?"
+        }
+      ],
+      "system_detected": {
+        "texts": [
+          "성낙숙쪽에서",
+          "했다기엔굳이…",
+          "이이름으로할까?"
+        ],
+        "translations": [
+          "To be honest, it seems unlikely that Seong Nak-Suk would do this... Should we use this name anyway?"
+        ]
+      }
+    }
+  ]
+}
