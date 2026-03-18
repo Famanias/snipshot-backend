@@ -428,7 +428,7 @@ def main():
     parser.add_argument("--local", action="store_true", help="Run only local tests (1-3), skip server tests")
     parser.add_argument("--save-inpainted", action="store_true", help="Also save an inpaint-only preview image (*_inpainted.png)")
     parser.add_argument("--inpaint-only", action="store_true", help="Run only up to inpainting and save *_inpainted.png (skip translation/render)")
-    parser.add_argument("--image", default="test-image-complex2.jpg", help="Path to a test image or directory of images")
+    parser.add_argument("--image", default="test-image-medium.png", help="Path to a test image or directory of images")
     parser.add_argument("--url", default="http://localhost:8001", help="Server URL for endpoint tests (default: http://localhost:8001)")
     parser.add_argument("--target-lang", default="ENG", help="Target language for local translate (default: ENG)")
     parser.add_argument("--detection-size", type=int, default=1536, help="Detector size for local translate (default: 1536)")
