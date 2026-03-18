@@ -118,13 +118,15 @@ def _resize_regions_to_font_size(
                 (((target_fs - original_fs) / original_fs) * 0.4 + 1)
                 if original_fs > 0 else 1.0
             )
-            final_scale = max(font_size_scale, target_scale)
-            final_scale = max(1, min(final_scale, 1.1))
+            base_scale = max(font_size_scale, target_scale)
+            over_x, over_y = _estimate_overflow_scales(region, target_fs)
+            final_scale_x = max(1.0, min(max(base_scale, over_x), 1.15))
+            final_scale_y = max(1.0, min(max(base_scale, over_y), 1.15))
 
-            if final_scale > 1.001:
+            if final_scale_x > 1.001 or final_scale_y > 1.001:
                 try:
                     poly = Polygon(region.unrotated_min_rect[0])
-                    poly = affinity.scale(poly, xfact=final_scale, yfact=final_scale, origin='center')
+                    poly = affinity.scale(poly, xfact=final_scale_x, yfact=final_scale_y, origin='center')
                     scaled_pts = np.array(poly.exterior.coords[:4])
                     dst_points = rotate_polygons(
                         region.center, scaled_pts.reshape(1, -1), -region.angle, to_int=False
@@ -153,6 +155,77 @@ def _order_points(pts: np.ndarray) -> np.ndarray:
     tr = pts[np.argmin(d)]
     bl = pts[np.argmax(d)]
     return np.array([tl, tr, br, bl])
+
+
+def _compute_inner_margin(target_w: int, target_h: int, text_len: int) -> int:
+    """Compute smooth, text-aware inner margin for bubble rendering."""
+    min_dim = max(1, min(target_w, target_h))
+    base = 0.06 * min_dim + 2.0
+    density_factor = max(0.75, min(1.15, 1.05 - 0.0035 * text_len))
+    margin = int(round(base * density_factor))
+    return max(2, min(20, margin))
+
+
+def _center_text_in_box(temp_box: np.ndarray, target_w: int, target_h: int) -> np.ndarray:
+    """Center rendered text in a target box, shrinking proportionally if needed."""
+    target_w = max(1, int(target_w))
+    target_h = max(1, int(target_h))
+
+    h, w, _ = temp_box.shape
+    content = temp_box
+
+    if h > target_h or w > target_w:
+        sx = target_w / max(w, 1)
+        sy = target_h / max(h, 1)
+        scale = max(0.1, min(sx, sy))
+        new_w = max(1, int(round(w * scale)))
+        new_h = max(1, int(round(h * scale)))
+        interp = cv2.INTER_AREA if scale < 1.0 else cv2.INTER_LINEAR
+        content = cv2.resize(temp_box, (new_w, new_h), interpolation=interp)
+        h, w = new_h, new_w
+
+    out = np.zeros((target_h, target_w, 4), dtype=np.uint8)
+    x0 = max(0, (target_w - w) // 2)
+    y0 = max(0, (target_h - h) // 2)
+    x1 = min(target_w, x0 + w)
+    y1 = min(target_h, y0 + h)
+    out[y0:y1, x0:x1] = content[: y1 - y0, : x1 - x0]
+    return out
+
+
+def _estimate_overflow_scales(region: TextBlock, target_fs: int) -> tuple[float, float]:
+    """Estimate anisotropic expansion scales for non-bubble overflow handling."""
+    translation = region.get_translation_for_rendering()
+    lang = getattr(region, "target_lang", "en_US")
+
+    if region.horizontal:
+        lines, widths = text_render.calc_horizontal(
+            target_fs,
+            translation,
+            max_width=region.unrotated_size[0],
+            max_height=region.unrotated_size[1],
+            language=lang,
+        )
+        used_rows = max(len(region.texts), 1)
+        needed_rows = max(len(lines), 1)
+        row_overflow = max(1.0, needed_rows / used_rows)
+        width_overflow = max(1.0, (max(widths) if widths else 0) / max(region.unrotated_size[0], 1))
+        scale_x = 1.0 + 0.30 * (width_overflow - 1.0) + 0.20 * (row_overflow - 1.0)
+        scale_y = 1.0 + 0.55 * (row_overflow - 1.0)
+    else:
+        cols, col_heights = text_render.calc_vertical(
+            target_fs,
+            translation,
+            max_height=region.unrotated_size[1],
+        )
+        used_cols = max(len(region.texts), 1)
+        needed_cols = max(len(cols), 1)
+        col_overflow = max(1.0, needed_cols / used_cols)
+        height_overflow = max(1.0, (max(col_heights) if col_heights else 0) / max(region.unrotated_size[1], 1))
+        scale_x = 1.0 + 0.55 * (col_overflow - 1.0)
+        scale_y = 1.0 + 0.30 * (height_overflow - 1.0) + 0.20 * (col_overflow - 1.0)
+
+    return min(max(scale_x, 1.0), 1.15), min(max(scale_y, 1.0), 1.15)
 
 
 def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, disable_font_border):
@@ -199,42 +272,18 @@ def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, 
     if temp_box is None:
         return img
 
-    h, w, _ = temp_box.shape
-    r_temp = w / h
-    r_orig = np.mean(norm_h / norm_v)
+    target_w = max(1, int(round(norm_h[0])))
+    target_h = max(1, int(round(norm_v[0])))
+    margin = _compute_inner_margin(target_w, target_h, len(region.get_translation_for_rendering()))
 
-    # Pad temp_box to match original region aspect ratio
-    box = None
-    if render_h:
-        if r_temp > r_orig:
-            h_ext = int((w / r_orig - h) // 2) if r_orig > 0 else 0
-            if h_ext >= 0:
-                box = np.zeros((h + h_ext * 2, w, 4), dtype=np.uint8)
-                box[h_ext:h_ext + h, 0:w] = temp_box
-            else:
-                box = temp_box.copy()
-        else:
-            w_ext = int((h * r_orig - w) // 2)
-            if w_ext >= 0:
-                box = np.zeros((h, w + w_ext * 2, 4), dtype=np.uint8)
-                box[0:h, 0:w] = temp_box
-            else:
-                box = temp_box.copy()
-    else:
-        if r_temp > r_orig:
-            h_ext = int(w / (2 * r_orig) - h / 2) if r_orig > 0 else 0
-            if h_ext >= 0:
-                box = np.zeros((h + h_ext * 2, w, 4), dtype=np.uint8)
-                box[0:h, 0:w] = temp_box
-            else:
-                box = temp_box.copy()
-        else:
-            w_ext = int((h * r_orig - w) / 2)
-            if w_ext >= 0:
-                box = np.zeros((h, w + w_ext * 2, 4), dtype=np.uint8)
-                box[0:h, w_ext:w_ext + w] = temp_box
-            else:
-                box = temp_box.copy()
+    inner_w = max(1, target_w - margin * 2)
+    inner_h = max(1, target_h - margin * 2)
+    centered_inner = _center_text_in_box(temp_box, inner_w, inner_h)
+
+    box = np.zeros((target_h, target_w, 4), dtype=np.uint8)
+    ox = max(0, (target_w - inner_w) // 2)
+    oy = max(0, (target_h - inner_h) // 2)
+    box[oy:oy + inner_h, ox:ox + inner_w] = centered_inner
 
     src_pts = np.array([[0, 0], [box.shape[1], 0], [box.shape[1], box.shape[0]], [0, box.shape[0]]]).astype(np.float32)
     M, _ = cv2.findHomography(src_pts, dst_points, cv2.RANSAC, 5.0)
@@ -251,32 +300,66 @@ def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, 
 
 
 def _find_optimal_font_size(text, box_w, box_h, initial_fs, lang, min_fs=10):
-    """Binary-search for the largest font size that fits *text* inside *box_w* × *box_h*."""
-    # Upper bound: at most half the box width (so calc_horizontal won't auto-expand),
-    # a fraction of box height, and never absurdly large.
-    max_fs = min(int(box_w / 2), int(box_h * 0.4), initial_fs * 3, 80)
-    lo, hi = min_fs, max(min_fs, max_fs)
+    """
+    Binary-search for the largest font size that fits text inside box.
+    
+    PHASE 1 IMPROVEMENTS:
+    - Smooth formula based on min(box_w, box_h) instead of discrete classes
+    - Accounts for padding and line spacing (15% instead of 1%)
+    - More iterations for precision (14 instead of 12)
+    - Adaptive margin calculation
+    """
+    # Calculate adaptive safe margin (5-12% of smallest dimension)
+    min_dim = min(box_w, box_h)
+    margin_ratio = max(0.05, min(0.12, 8 / min_dim))  # Smooth curve
+    margin = max(8, int(min_dim * margin_ratio))
+    
+    safe_w = max(margin * 2, box_w - margin * 2)
+    safe_h = max(margin * 2, box_h - margin * 2)
+    
+    # Smooth formula for max font size based on smallest dimension
+    # Small bubbles (< 80px): Conservative to ensure readability
+    # Medium bubbles (80-200px): Linear growth
+    # Large bubbles (> 200px): Capped but generous
+    if min_dim < 80:
+        max_fs = min(int(min_dim * 0.35), 28)
+    elif min_dim < 200:
+        # Linear interpolation: 28px at 80px -> 48px at 200px
+        max_fs = int(28 + (min_dim - 80) * 0.167)
+    else:
+        max_fs = min(int(min_dim * 0.28), 72)
+    
+    # Don't exceed reasonable bounds
+    max_fs = min(max_fs, initial_fs * 2.5)  # Max 2.5x original
+    max_fs = max(max_fs, min_fs + 4)         # Ensure room for growth
+    
+    lo, hi = min_fs, max_fs
     best = min_fs
-
-    for _ in range(12):
+    
+    # More iterations for precision
+    for _ in range(14):
         if lo > hi:
             break
         mid = (lo + hi) // 2
         if mid < 1:
             break
-
-        lines, _ = text_render.calc_horizontal(mid, text, box_w, box_h, lang)
-        # Match put_text_horizontal canvas height:
-        #   canvas_h = fs * n_lines + spacing*(n-1) + (fs + bg_size)*2
+        
+        lines, widths = text_render.calc_horizontal(mid, text, safe_w, safe_h, lang)
+        
+        # Account for improved line spacing (15% instead of 1%)
         bg_size = int(max(mid * 0.07, 1))
-        total_h = mid * len(lines) + (mid + bg_size) * 2
-
-        if total_h <= box_h:
+        line_spacing_px = max(int(mid * 0.15), 3)  # New improved spacing
+        total_h = mid * len(lines) + line_spacing_px * max(0, len(lines) - 1) + margin * 2
+        
+        max_line_w = max(widths) if widths else 0
+        
+        # Check if text fits with margin buffer
+        if total_h <= box_h and max_line_w + margin * 2 <= box_w:
             best = mid
             lo = mid + 1
         else:
             hi = mid - 1
-
+    
     return best
 
 

@@ -362,6 +362,75 @@ def select_hyphenator(lang: str):
         return None
 
 
+def _is_cjk_language(lang: str) -> bool:
+    """Check if language should skip hyphenation (CJK, Thai, etc.)."""
+    lang_lower = lang.lower()
+    # CJK and other languages that don't use spaces/hyphenation
+    cjk_codes = ['ja', 'jp', 'zh', 'ko', 'th', 'lo', 'my', 'km']
+    return any(lang_lower.startswith(code) for code in cjk_codes)
+
+
+def _syllabify_word(word: str, font_size: int, hyphenator=None, lang: str = 'en_US'):
+    """
+    Smart word breaking that avoids crude character-level splits.
+    
+    Incorporates:
+    - Language awareness (skip hyphenation for CJK)
+    - Hyphenation for long words (10+ chars)
+    - Natural grouping for mid-length words (4-9 chars)
+    - Keeps short words intact (1-3 chars)
+    """
+    # Skip hyphenation for CJK languages
+    if _is_cjk_language(lang):
+        return [word]
+    
+    # Keep short words intact
+    if len(word) <= 3:
+        return [word]
+    
+    # Try hyphenation for long words
+    if hyphenator and len(word) >= 10 and len(word) <= 100:
+        try:
+            syls = hyphenator.syllables(word)
+            if syls:  # Only use if hyphenation succeeded
+                return syls
+        except Exception:
+            pass
+    
+    # For 4-9 char words: prefer keeping whole or smart grouping
+    if len(word) <= 9:
+        # Simple heuristic: break after vowels when followed by consonants
+        # This gives more natural breaks like "me-di-um" vs "m-e-d-i-u-m"
+        result = []
+        current = ""
+        vowels = "aeiouAEIOU"
+        
+        for i, c in enumerate(word):
+            current += c
+            # Break after vowel if next is consonant (and we have 2+ chars)
+            if len(current) >= 2 and c in vowels and (i + 1 < len(word) and word[i+1] not in vowels):
+                result.append(current)
+                current = ""
+        
+        if current:
+            result.append(current)
+        
+        # Only use smart grouping if it produces 2-4 clean chunks
+        if result and 2 <= len(result) <= 4:
+            return result
+        
+        # Otherwise, keep whole word (better than char-by-char)
+        return [word]
+    
+    # For very long words without hyphenation: chunk into groups of 3-4 chars
+    if len(word) > 15:
+        chunk_size = 3
+        return [word[i:i+chunk_size] for i in range(0, len(word), chunk_size)]
+    
+    # Default: keep whole word
+    return [word]
+
+
 def calc_horizontal(font_size: int, text: str, max_width: int, max_height: int,
                     language: str = 'en_US', hyphenate: bool = True):
     max_width = max(max_width, 2 * font_size)
@@ -382,21 +451,18 @@ def calc_horizontal(font_size: int, text: str, max_width: int, max_height: int,
         else:
             break
 
-    # Split into syllables
+    # Split into syllables using smart word breaking
     syllables = []
     hyphenator = select_hyphenator(language) if hyphenate else None
     for word in words:
-        syls = []
-        if hyphenator and len(word) <= 100:
-            try:
-                syls = hyphenator.syllables(word)
-            except Exception:
-                syls = []
-        if not syls:
-            syls = [word] if len(word) <= 3 else list(word)
+        # Use new smart syllabification
+        syls = _syllabify_word(word, font_size, hyphenator, language)
+        
+        # Handle edge case: if a syllable is still too wide, split it
         normed = []
         for s in syls:
             if get_string_width(font_size, s) > max_width:
+                # Last resort: character-level split for extremely narrow boxes
                 normed.extend(list(s))
             else:
                 normed.append(s)
@@ -570,7 +636,9 @@ def put_text_vertical(font_size: int, text: str, h: int, alignment: str,
     if not text:
         return None
     bg_size = int(max(font_size * 0.07, 1)) if bg is not None else 0
-    spacing_x = int(font_size * (line_spacing or 0.2))
+    # Improved line spacing: 10% for vertical text
+    line_spacing_ratio = line_spacing if line_spacing else 0.10
+    spacing_x = max(int(font_size * line_spacing_ratio), 2)  # Minimum 2px
 
     num_char_y = max(h // font_size, 1)
     num_char_x = len(text) // num_char_y + 1
@@ -605,7 +673,9 @@ def put_text_horizontal(font_size: int, text: str, width: int, height: int, alig
     if not text:
         return None
     bg_size = int(max(font_size * 0.07, 1)) if bg is not None else 0
-    spacing_y = int(font_size * (line_spacing or 0.01))
+    # Improved line spacing: 15% of font size (professional typography standard)
+    line_spacing_ratio = line_spacing if line_spacing else 0.15
+    spacing_y = max(int(font_size * line_spacing_ratio), 3)  # Minimum 3px
 
     line_text_list, line_width_list = calc_horizontal(font_size, text, width, height, lang, hyphenate)
 
