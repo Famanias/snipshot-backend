@@ -201,19 +201,19 @@ async def test_server(api_url: str, image_path: str):
         })
 
         # 5. /translate/raw
-        print("\n[5] POST /translate/raw...")
-        resp = await client.post(
-            f"{api_url}/translate/raw",
-            files={"image": ("test.jpg", image_bytes, "image/jpeg")},
-            data={"config": config_json},
-        )
-        if resp.status_code == 200 and "image/png" in resp.headers.get("content-type", ""):
-            out_path = "test_snipshot_raw.png"
-            with open(out_path, "wb") as f:
-                f.write(resp.content)
-            print(f"    OK  Got PNG ({len(resp.content)} bytes) → {out_path}")
-        else:
-            print(f"    FAIL  status {resp.status_code}: {resp.text[:200]}")
+        # print("\n[5] POST /translate/raw...")
+        # resp = await client.post(
+        #     f"{api_url}/translate/raw",
+        #     files={"image": ("test.jpg", image_bytes, "image/jpeg")},
+        #     data={"config": config_json},
+        # )
+        # if resp.status_code == 200 and "image/png" in resp.headers.get("content-type", ""):
+        #     out_path = "test_snipshot_raw.png"
+        #     with open(out_path, "wb") as f:
+        #         f.write(resp.content)
+        #     print(f"    OK  Got PNG ({len(resp.content)} bytes) → {out_path}")
+        # else:
+        #     print(f"    FAIL  status {resp.status_code}: {resp.text[:200]}")
 
         # 6. /translate (Supabase upload)
         # print("\n[6] POST /translate (Supabase upload)...")
@@ -243,7 +243,7 @@ async def test_server(api_url: str, image_path: str):
 def main():
     parser = argparse.ArgumentParser(description="Test snipshot_engine")
     parser.add_argument("--local", action="store_true", help="Run only local tests (1-3), skip server tests")
-    parser.add_argument("--image", default="test-image.png", help="Path to a manga/manhwa test image (default: 15.jpg)")
+    parser.add_argument("--image", default="test-image-medium.png", help="Path to a manga/manhwa test image (default: 15.jpg)")
     parser.add_argument("--url", default="http://localhost:8001", help="Server URL for endpoint tests (default: http://localhost:8001)")
     args = parser.parse_args()
 

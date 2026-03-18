@@ -96,6 +96,10 @@ def _detect_single_bubble(
     if flood_area < tw * th * 1.2:
         return None
 
+    # Adaptive erosion padding: larger bubbles can tolerate larger padding,
+    # while dense/long text gets tighter padding to preserve usable area.
+    adaptive_padding = _adaptive_padding(flood_area, region, tw, th, padding)
+
     # Compactness check: real bubbles are roughly convex, not jagged/leaky.
     contours, _ = cv2.findContours(bubble_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     if contours:
@@ -105,7 +109,7 @@ def _detect_single_bubble(
             return None  # highly non-convex → not a clean bubble
 
     # ── 3. Erode to get safe interior ────────────────────────────────
-    eroded = _erode_mask(bubble_mask, cx, cy, padding)
+    eroded = _erode_mask(bubble_mask, cx, cy, adaptive_padding)
     if eroded is None:
         return None
 
@@ -144,6 +148,38 @@ def _erode_mask(mask, cx, cy, padding):
     if mask[cy, cx] > 0:
         return mask
     return None
+
+
+def _adaptive_padding(
+    flood_area: int,
+    region: TextBlock,
+    text_w: int,
+    text_h: int,
+    base_padding: int,
+) -> int:
+    """Compute erosion padding from bubble size and text density.
+
+    Uses a smooth formula rather than fixed area classes:
+    - Larger bubbles get more padding.
+    - Longer/denser text gets less padding to avoid cramped rendering.
+    - Preserves caller-provided ``base_padding`` as a soft prior.
+    """
+    bubble_dim = max(1.0, float(np.sqrt(max(flood_area, 1))))
+    text_len = len(getattr(region, "translation", "") or region.text or "")
+
+    # Size-driven padding component (smooth growth with bubble dimension)
+    size_padding = 0.06 * bubble_dim
+
+    # Text density proxy: higher density => less interior erosion
+    text_density = text_len / max(bubble_dim, 1.0)
+    density_factor = max(0.72, min(1.12, 1.06 - 0.16 * text_density))
+
+    # Blend caller default with adaptive value for backward compatibility
+    blended = (0.45 * float(base_padding) + 0.55 * size_padding) * density_factor
+
+    # Prevent erosion from consuming tiny bubbles
+    upper_bound = max(3, int(min(text_w, text_h) * 0.22))
+    return int(max(3, min(24, min(upper_bound, round(blended)))))
 
 
 def _resolve_overlaps(text_regions, bubble_rects):
