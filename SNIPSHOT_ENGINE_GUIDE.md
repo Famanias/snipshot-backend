@@ -60,11 +60,21 @@ PORT=8000
 
 ### 3. Run the server
 
+Recommended:
+
+```bash
+python main.py
+```
+
+This starts `snipshot_engine.server:app` on `0.0.0.0:8001`.
+
+You can also run Uvicorn directly:
+
 ```bash
 uvicorn snipshot_engine.server:app --host 0.0.0.0 --port 8001
 ```
 
-Or with auto-reload during development:
+With auto-reload during development:
 
 ```bash
 uvicorn snipshot_engine.server:app --host 0.0.0.0 --port 8001 --reload
