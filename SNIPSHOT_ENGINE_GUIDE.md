@@ -61,13 +61,13 @@ PORT=8000
 ### 3. Run the server
 
 ```bash
-uvicorn snipshot_engine.server:app --host 0.0.0.0 --port 8000
+uvicorn snipshot_engine.server:app --host 0.0.0.0 --port 8001
 ```
 
 Or with auto-reload during development:
 
 ```bash
-uvicorn snipshot_engine.server:app --host 0.0.0.0 --port 8000 --reload
+uvicorn snipshot_engine.server:app --host 0.0.0.0 --port 8001 --reload
 ```
 
 Models are loaded **lazily** on the first translation request (expect a delay on the first call).
