@@ -6,7 +6,7 @@ from manga_translator import Config
 
 async def test_local_translate():
     # 1. Load an image
-    img = Image.open("15.jpg")
+    img = Image.open("test-image.png")
 
     # 2. JSON-style config (same as your web UI)
     config_json = {
