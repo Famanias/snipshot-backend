@@ -11,14 +11,14 @@ Tests:
 
 Usage:
   # Test 1-3 only (no server needed):
-    python test_snipshot_engine.py --local
+        python test.py --local
 
-  # Test 1-6 (start the server first with uvicorn):
-    uvicorn snipshot_engine.server:app --port 8000
-    python test_snipshot_engine.py
+    # Test 1-6 (start the server first):
+        python main.py
+        python test.py
 
   # Specify a different image or server URL:
-    python test_snipshot_engine.py --image 155.jpg --url http://localhost:9000
+        python test.py --image 155.jpg --url http://localhost:9000
 """
 
 import argparse
@@ -180,7 +180,7 @@ async def test_server(api_url: str, image_path: str):
         except httpx.ConnectError:
             print(f"    FAIL  Cannot connect to {api_url}")
             print("    Is the server running? Start it with:")
-            print(f"      uvicorn snipshot_engine.server:app --port 8000")
+            print("      python main.py")
             return False
 
         # Load image bytes
@@ -244,7 +244,7 @@ def main():
     parser = argparse.ArgumentParser(description="Test snipshot_engine")
     parser.add_argument("--local", action="store_true", help="Run only local tests (1-3), skip server tests")
     parser.add_argument("--image", default="test-image.png", help="Path to a manga/manhwa test image (default: 15.jpg)")
-    parser.add_argument("--url", default="http://localhost:8001", help="Server URL for endpoint tests (default: http://localhost:8000)")
+    parser.add_argument("--url", default="http://localhost:8001", help="Server URL for endpoint tests (default: http://localhost:8001)")
     args = parser.parse_args()
 
     print("=" * 60)
