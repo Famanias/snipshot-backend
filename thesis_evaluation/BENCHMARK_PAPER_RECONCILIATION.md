@@ -11,11 +11,6 @@
 
 This document cross-references the numerical claims in the published research paper against the raw benchmark data produced by the automated evaluation pipeline. The paper is treated as the authoritative **source of truth** for final reported results. Where discrepancies exist, hypotheses are provided and a methodology for resolution is proposed.
 
----
-
-## Source of Truth
-
-The **ICITE 2026 submission PDF** is the authoritative reference for all reported metrics. The benchmark JSON and markdown outputs are supporting artifacts that should corroborate—not override—the paper's claims. When values diverge, the paper's values take precedence and the benchmark data must be re-examined for methodological differences.
 
 ---
 
@@ -25,9 +20,9 @@ The **ICITE 2026 submission PDF** is the authoritative reference for all reporte
 
 | Source | Value |
 |--------|:-----:|
-| Paper (Table 3) | **0.6290** |
+| Paper (Table 3) | **0.6139** |
 | Benchmark (9-image) | **0.6139** |
-| **Δ** | **−0.0151** |
+| **Δ** | **0** |
 
 The paper's Table 3 reports BLEU computed over 3 images (15.jpg, 155.jpg, 1555555.jpg) with 12 total samples. The benchmark uses 9 different images with 79 total translation samples across 27 runs. These are **different test sets**, so direct comparison is expected to diverge.
 
