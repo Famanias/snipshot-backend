@@ -29,7 +29,8 @@ app.add_middleware(
 )
 
 # Initialize Groq client
-client = Groq(api_key=os.environ.get("GROQ_MAVERICK"))
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+GROQ_MODEL = os.environ.get("GROQ_MODEL", "meta-llama/llama-4-maverick-17b-128e-instruct")
 
 # Language mapping for supported languages
 lang_mapping = {
@@ -166,7 +167,7 @@ async def extract_text(request: OCRRequest):
                     ]
                 }
             ],
-            model="meta-llama/llama-4-maverick-17b-128e-instruct",
+            model=GROQ_MODEL,
             temperature=0.0,
             max_completion_tokens=1024,
         )
@@ -250,7 +251,7 @@ async def extract_text(request: OCRRequest):
                         {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{base64_image}"}}
                     ]}
                 ],
-                model="meta-llama/llama-4-maverick-17b-128e-instruct",
+                model=GROQ_MODEL,
                 temperature=0.0,
                 max_completion_tokens=1024,
             )
@@ -354,7 +355,7 @@ async def translate_text(request: TranslationRequest):
                     "content": translate_user_prompt
                 },
             ],
-            model="meta-llama/llama-4-maverick-17b-128e-instruct",
+            model=GROQ_MODEL,
             temperature=0.2,
             max_completion_tokens=1024,
         )
