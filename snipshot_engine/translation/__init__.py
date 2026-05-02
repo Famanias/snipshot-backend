@@ -18,6 +18,8 @@ load_dotenv(override=False)
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 GROQ_MODEL = os.getenv("GROQ_MODEL", "meta-llama/llama-4-scout-17b-16e-instruct")
+print(f"[debug] GROQ_API_KEY starts with: {GROQ_API_KEY[:10]}... length: {len(GROQ_API_KEY)}", flush=True)
+print(f"[debug] GROQ_MODEL: {GROQ_MODEL}", flush=True)
 
 VALID_LANGUAGES = {
     "CHS": "Chinese (Simplified)", "CHT": "Chinese (Traditional)", "CSY": "Czech",
