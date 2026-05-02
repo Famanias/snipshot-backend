@@ -39,7 +39,7 @@ def _replace_prefix(s: str, old: str, new: str) -> str:
 class ModelWrapper(ABC):
     """Unified download + load + infer lifecycle for a single model."""
 
-    _MODEL_DIR = os.path.join(BASE_PATH, "models")
+    _MODEL_DIR = os.getenv("MODEL_DIR", os.path.join(BASE_PATH, "models"))
     _MODEL_SUB_DIR = ""
     _MODEL_MAPPING: dict = {}
     _KEY = ""
