@@ -18,8 +18,6 @@ load_dotenv(override=False)
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 GROQ_MODEL = os.getenv("GROQ_MODEL", "meta-llama/llama-4-scout-17b-16e-instruct")
-print(f"[debug] GROQ_API_KEY starts with: {GROQ_API_KEY[:10]}... length: {len(GROQ_API_KEY)}", flush=True)
-print(f"[debug] GROQ_MODEL: {GROQ_MODEL}", flush=True)
 
 VALID_LANGUAGES = {
     "CHS": "Chinese (Simplified)", "CHT": "Chinese (Traditional)", "CSY": "Czech",
@@ -168,7 +166,7 @@ class GroqTranslator(CommonTranslator):
     _CHAT_SAMPLE = [
         'Translate into Simplified Chinese. Return the result in JSON format.\n\n'
         '{"untranslated": "<|1|>恥ずかしい… 目立ちたくない… 私が消えたい…\\n<|2|>きみ… 大丈夫⁉\\n<|3|>なんだこいつ 空気読めて ないのか…？"}\n',
-        '\n{"translated": "<|1|>好尴尬…我不想引人注目…我想消失…\\n<|2|>你…没事吧⁉\\n<|3|>这家伙怎么看不懂气氛的…？"}\n',
+        '{"translated": "<|1|>好尴尬…我不想引人注目…我想消失…\\n<|2|>你…没事吧⁉\\n<|3|>这家伙怎么看不懂气氛的…？"}',
     ]
 
     def __init__(self):
@@ -198,10 +196,10 @@ class GroqTranslator(CommonTranslator):
             f'Translate the following text into {to_lang}. Return the result in JSON format.\n\n'
             f'{{"untranslated": "{prompt}"}}\n'
         )
-        self.messages += [
-            {"role": "user", "content": prompt_with_lang},
-            {"role": "assistant", "content": "{'translated':'"},
-        ]
+
+        # Add user message only — no assistant prefill (Groq does not support it)
+        self.messages.append({"role": "user", "content": prompt_with_lang})
+
         if len(self.messages) > self._MAX_CONTEXT:
             self.messages = self.messages[-self._MAX_CONTEXT:]
 
@@ -213,26 +211,26 @@ class GroqTranslator(CommonTranslator):
             max_tokens=self._MAX_TOKENS // 2,
             temperature=0.5,
             top_p=1,
-            stop=["'}"],
         )
 
         self.token_count += response.usage.total_tokens
         self.token_count_last = response.usage.total_tokens
 
         content = response.choices[0].message.content.strip()
-        self.messages = self.messages[:-1]  # remove assistant stub
 
-        # Context retention: keep assistant response
+        # Keep assistant response for context
         self.messages.append({"role": "assistant", "content": content})
 
-        cleaned = (
-            content.replace("{'translated':'", "")
-            .replace("}", "")
-            .replace("\\'", "'")
-            .replace('\\"', '"')
-            .strip("'{}")
-        )
-        return cleaned
+        # Parse JSON response — expected format: {"translated": "..."}
+        try:
+            import json
+            parsed = json.loads(content)
+            return parsed.get("translated", content)
+        except Exception:
+            # Fallback: strip common JSON wrapper manually
+            cleaned = re.sub(r'^\s*\{.*?"translated"\s*:\s*"', '', content, flags=re.DOTALL)
+            cleaned = re.sub(r'"\s*\}\s*$', '', cleaned)
+            return cleaned.strip()
 
 
 # ── Module-level API ─────────────────────────────────────────────────
