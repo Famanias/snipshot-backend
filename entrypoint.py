@@ -41,8 +41,9 @@ for model in MODELS:
 print("[startup] All models verified. Starting API...")
 os.execvp("gunicorn", [
     "gunicorn",
-    "--workers", "2",
+    "--workers", "1",
     "--worker-class", "uvicorn.workers.UvicornWorker",
     "--bind", "0.0.0.0:8001",
+    "--timeout", "0",
     "snipshot_engine.server:app"
 ])
