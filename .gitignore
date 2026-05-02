@@ -28,3 +28,4 @@ database_api/*
 landing/
 landing/*
 .claude/agents/Claude.agent.md
+snipshot-deployment-status.md
