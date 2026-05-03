@@ -1,13 +1,14 @@
-"""Translation module — Groq LLM API translator."""
+"""Translation module — OpenRouter LLM API translator."""
 
 import re
 import os
+import json
 import time
 import asyncio
 from typing import List
 from abc import abstractmethod
 
-import groq
+from openai import AsyncOpenAI
 from dotenv import load_dotenv
 
 from ..utils.log import get_logger
@@ -16,8 +17,8 @@ from ..utils.generic2 import is_valuable_text
 
 load_dotenv(override=False)
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
-GROQ_MODEL = os.getenv("GROQ_MODEL", "meta-llama/llama-4-scout-17b-16e-instruct")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
+OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "meta-llama/llama-3.3-70b-instruct")
 
 VALID_LANGUAGES = {
     "CHS": "Chinese (Simplified)", "CHT": "Chinese (Traditional)", "CSY": "Czech",
@@ -127,9 +128,10 @@ class CommonTranslator:
         return trans
 
 
-# ── Groq translator ─────────────────────────────────────────────────
+# ── OpenRouter translator ────────────────────────────────────────────
 
 class GroqTranslator(CommonTranslator):
+    # Kept as GroqTranslator to avoid changing other files that reference this class
     _LANGUAGE_CODE_MAP = {
         "CHS": "Simplified Chinese", "CHT": "Traditional Chinese", "CSY": "Czech",
         "NLD": "Dutch", "ENG": "English", "FRA": "French", "DEU": "German",
@@ -171,12 +173,15 @@ class GroqTranslator(CommonTranslator):
 
     def __init__(self):
         super().__init__()
-        self.client = groq.AsyncGroq(api_key=GROQ_API_KEY)
-        if not self.client.api_key:
-            raise MissingAPIKeyException("Set GROQ_API_KEY env var before using the Groq translator.")
+        if not OPENROUTER_API_KEY:
+            raise MissingAPIKeyException("Set OPENROUTER_API_KEY env var before using the translator.")
+        self.client = AsyncOpenAI(
+            api_key=OPENROUTER_API_KEY,
+            base_url="https://openrouter.ai/api/v1",
+        )
         self.token_count = 0
         self.token_count_last = 0
-        self.model = GROQ_MODEL
+        self.model = OPENROUTER_MODEL
         self.messages = [
             {"role": "user", "content": self._CHAT_SAMPLE[0]},
             {"role": "assistant", "content": self._CHAT_SAMPLE[1]},
@@ -186,7 +191,7 @@ class GroqTranslator(CommonTranslator):
         translations = []
         for prompt in queries:
             response = await self._request_translation(to_lang, prompt)
-            self.logger.debug("Groq response: %s", response)
+            self.logger.debug("OpenRouter response: %s", response)
             translations.append(response.strip())
         self.logger.info("Used %d tokens (Total: %d)", self.token_count_last, self.token_count)
         return translations
@@ -197,7 +202,6 @@ class GroqTranslator(CommonTranslator):
             f'{{"untranslated": "{prompt}"}}\n'
         )
 
-        # Add user message only — no assistant prefill (Groq does not support it)
         self.messages.append({"role": "user", "content": prompt_with_lang})
 
         if len(self.messages) > self._MAX_CONTEXT:
@@ -218,16 +222,12 @@ class GroqTranslator(CommonTranslator):
 
         content = response.choices[0].message.content.strip()
 
-        # Keep assistant response for context
         self.messages.append({"role": "assistant", "content": content})
 
-        # Parse JSON response — expected format: {"translated": "..."}
         try:
-            import json
             parsed = json.loads(content)
             return parsed.get("translated", content)
         except Exception:
-            # Fallback: strip common JSON wrapper manually
             cleaned = re.sub(r'^\s*\{.*?"translated"\s*:\s*"', '', content, flags=re.DOTALL)
             cleaned = re.sub(r'"\s*\}\s*$', '', cleaned)
             return cleaned.strip()
