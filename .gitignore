@@ -15,3 +15,15 @@ models/
 models/**
 models/*
 snipshot-deployment-status.md
+
+
+.venv/  
+.venv/**
+
+
+venv/
+venv/**
+models/detection/detect-20241225.ckpt
+models/inpainting/inpainting.ckpt
+models/ocr/alphabet-all-v7.txt
+models/ocr/ocr_ar_48px.ckpt
