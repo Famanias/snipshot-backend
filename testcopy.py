@@ -30,6 +30,71 @@ import time
 from pathlib import Path
 
 
+# ── Recommended manga/manhwa config defaults ─────────────────────────────
+#
+# These values are tuned for manga/manhwa speech-bubble translation:
+#
+#   Detector:
+#     text_threshold   0.4  — catches faint/stylized bubble text
+#     box_threshold    0.6  — avoids missing partially obscured bubbles
+#     unclip_ratio     2.5  — expands boxes to capture full bubble area
+#     det_auto_rotate  True — handles diagonal/rotated SFX text
+#     det_gamma_correct True — improves detection on dark/low-contrast scans
+#
+#   OCR:
+#     min_text_length  1    — captures even single-character text
+#
+#   Inpainter:
+#     inpainter        lama_large — best quality bubble erasure
+#     inpainting_size  2048       — high-res for clean background fill
+#     inpainting_precision bf16   — best speed/quality balance
+#
+#   Renderer:
+#     renderer         manga2eng  — purpose-built for manga-to-English layout
+#     alignment        center     — most speech bubbles look best centered
+#     direction        horizontal — English reads horizontally
+#     uppercase        True       — standard comic/manga convention
+#     no_hyphenation   True       — hyphenation looks unnatural in bubbles
+#     rtl              False      — English reads left-to-right
+#     font_size_minimum 10        — prevents unreadably tiny text
+#     disable_font_border False   — keep outline for readability over backgrounds
+#
+#   Top-level:
+#     mask_dilation_offset 40    — ensures full bubble text area is erased
+# ─────────────────────────────────────────────────────────────────────────
+
+MANGA_CONFIG = {
+    "detector": {
+        "detection_size": 1536,         # overridden dynamically if --auto-detector
+        "text_threshold": 0.4,          # ↓ from 0.5 — catches faint/stylized text
+        "box_threshold": 0.6,           # ↓ from 0.7 — avoids missing partial bubbles
+        "unclip_ratio": 2.5,            # ↑ from 2.3 — captures full bubble area
+        "det_auto_rotate": True,        # handles rotated SFX / diagonal text
+        "det_gamma_correct": True,      # improves low-contrast / dark scan detection
+    },
+    "ocr": {
+        "min_text_length": 1,           # capture even single-character text
+    },
+    "inpainter": {
+        "inpainter": "lama_large",      # best quality bubble erasure
+        "inpainting_size": 2048,        # high-res for clean background fill
+        "inpainting_precision": "bf16",
+    },
+    "render": {
+        "renderer": "manga2eng",        # purpose-built for manga-to-English layout
+        "alignment": "center",          # speech bubbles look best centered
+        "direction": "horizontal",      # English reads horizontally
+        "uppercase": True,              # standard comic/manga convention
+        "no_hyphenation": True,         # hyphenation looks unnatural in bubbles
+        "rtl": False,                   # English reads left-to-right
+        "font_size_minimum": 10,        # prevents unreadably tiny text
+        "disable_font_border": False,   # keep outline for readability over backgrounds
+    },
+    "mask_dilation_offset": 40,         # ↑ from 30 — fully erases bubble text area
+    "kernel_size": 3,
+}
+
+
 async def _run_inpaint_preview(translator, pil_image):
     """Run pipeline up to inpainting and return PIL image + region count."""
     import numpy as np
@@ -108,7 +173,11 @@ async def _run_inpaint_preview(translator, pil_image):
 
 
 def _infer_dynamic_detector_params(width: int, height: int) -> dict:
-    """Infer detector settings from image dimensions for local test sweeps."""
+    """
+    Infer detector settings from image dimensions for local test sweeps.
+    Thresholds are tuned lower than stock defaults to avoid missing manga
+    text in partially obscured or stylised speech bubbles.
+    """
     long_side = max(width, height)
     mp = (width * height) / 1_000_000.0
 
@@ -116,14 +185,15 @@ def _infer_dynamic_detector_params(width: int, height: int) -> dict:
     detection_size = int(round(long_side / 64.0) * 64)
     detection_size = max(1024, min(3072, detection_size))
 
+    # ↓ Thresholds lowered vs. original to reduce missed bubbles in manga.
     if mp < 1.0:
-        box_threshold = 0.55
+        box_threshold = 0.50
     elif mp < 2.5:
-        box_threshold = 0.60
+        box_threshold = 0.55
     elif mp < 4.0:
-        box_threshold = 0.65
+        box_threshold = 0.60
     else:
-        box_threshold = 0.70
+        box_threshold = 0.65
 
     return {
         "detection_size": detection_size,
@@ -151,6 +221,24 @@ def _collect_image_paths(image_arg: str):
         return out
 
     return [image_arg]
+
+
+# ── Build a merged config, letting CLI args override MANGA_CONFIG ─────────
+
+def _build_config(target_lang: str, detection_size: int, box_threshold: float, inpainting_size: int) -> dict:
+    """
+    Merge MANGA_CONFIG with any CLI-level overrides.
+    translator.target_lang and the three sizing params can be
+    specified per-run; everything else stays at the manga defaults.
+    """
+    cfg = {
+        **MANGA_CONFIG,
+        "translator": {"target_lang": target_lang},
+    }
+    cfg["detector"] = {**MANGA_CONFIG["detector"], "detection_size": detection_size, "box_threshold": box_threshold}
+    cfg["inpainter"] = {**MANGA_CONFIG["inpainter"], "inpainting_size": inpainting_size}
+    return cfg
+
 
 # ---------------------------------------------------------------------------
 # 1. Import check
@@ -216,7 +304,25 @@ def test_config():
     print(f"    Default inpainter:  {cfg.inpainter.inpainter.value}")
     print(f"    Default renderer:   {cfg.render.renderer.value}")
 
-    # Custom config (like the frontend would send)
+    # Manga-recommended config assertions
+    manga_cfg = Config(**MANGA_CONFIG)
+    assert manga_cfg.detector.text_threshold == 0.4,        "text_threshold should be 0.4"
+    assert manga_cfg.detector.box_threshold == 0.6,         "box_threshold should be 0.6"
+    assert manga_cfg.detector.unclip_ratio == 2.5,          "unclip_ratio should be 2.5"
+    assert manga_cfg.detector.det_auto_rotate is True,      "det_auto_rotate should be True"
+    assert manga_cfg.detector.det_gamma_correct is True,    "det_gamma_correct should be True"
+    assert manga_cfg.ocr.min_text_length == 1,              "min_text_length should be 1"
+    assert manga_cfg.render.renderer.value == "manga2eng",  "renderer should be manga2eng"
+    assert manga_cfg.render.alignment.value == "center",    "alignment should be center"
+    assert manga_cfg.render.direction.value == "horizontal","direction should be horizontal"
+    assert manga_cfg.render.uppercase is True,              "uppercase should be True"
+    assert manga_cfg.render.no_hyphenation is True,         "no_hyphenation should be True"
+    assert manga_cfg.render.rtl is False,                   "rtl should be False"
+    assert manga_cfg.render.font_size_minimum == 10,        "font_size_minimum should be 10"
+    assert manga_cfg.mask_dilation_offset == 40,            "mask_dilation_offset should be 40"
+    print("    Manga config assertions passed.")
+
+    # Custom override (like the frontend would send)
     custom = Config(**{
         "detector": {"detection_size": 1024, "box_threshold": 0.5},
         "translator": {"target_lang": "CHS"},
@@ -303,17 +409,13 @@ async def test_local_translate(
     inpaint_only: bool = False,
     target_lang: str = "ENG",
     detection_size: int = 1536,
-    box_threshold: float = 0.7,
+    box_threshold: float = 0.6,       # ↓ from 0.7
     inpainting_size: int = 2048,
     auto_detector: bool = False,
 ):
     from snipshot_engine import SnipshotTranslator, Config
 
-    config = Config(**{
-        "translator": {"target_lang": target_lang},
-        "inpainter": {"inpainter": "lama_large", "inpainting_size": inpainting_size},
-        "detector": {"detection_size": detection_size, "box_threshold": box_threshold},
-    })
+    config = Config(**_build_config(target_lang, detection_size, box_threshold, inpainting_size))
 
     translator = SnipshotTranslator(config, device="cpu")
 
@@ -378,9 +480,10 @@ async def test_server(api_url: str, image_path: str):
             PILImage.new("RGB", (200, 200), "white").save(buf, format="PNG")
             image_bytes = buf.getvalue()
 
+        # Use manga-recommended config for server tests too
         config_json = json.dumps({
+            **MANGA_CONFIG,
             "translator": {"target_lang": "ENG"},
-            "detector": {"detection_size": 1536, "box_threshold": 0.7},
         })
 
         # 5. /translate/raw
@@ -428,11 +531,11 @@ def main():
     parser.add_argument("--local", action="store_true", help="Run only local tests (1-3), skip server tests")
     parser.add_argument("--save-inpainted", action="store_true", help="Also save an inpaint-only preview image (*_inpainted.png)")
     parser.add_argument("--inpaint-only", action="store_true", help="Run only up to inpainting and save *_inpainted.png (skip translation/render)")
-    parser.add_argument("--image", default="test-image-medium.png", help="Path to a test image or directory of images")
+    parser.add_argument("--image", default="test-image-easy1.jpg", help="Path to a test image or directory of images")
     parser.add_argument("--url", default="http://localhost:8001", help="Server URL for endpoint tests (default: http://localhost:8001)")
     parser.add_argument("--target-lang", default="ENG", help="Target language for local translate (default: ENG)")
     parser.add_argument("--detection-size", type=int, default=1536, help="Detector size for local translate (default: 1536)")
-    parser.add_argument("--box-threshold", type=float, default=0.7, help="Detector box threshold for local translate (default: 0.7)")
+    parser.add_argument("--box-threshold", type=float, default=0.6, help="Detector box threshold for local translate (default: 0.6)")  # ↓ from 0.7
     parser.add_argument("--inpainting-size", type=int, default=2048, help="Inpainting size for local translate (default: 2048)")
     parser.add_argument("--auto-detector", action="store_true", help="Auto-tune detector size/threshold per image dimensions")
     args = parser.parse_args()
