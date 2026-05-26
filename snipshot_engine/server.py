@@ -15,10 +15,15 @@ import json
 import os
 import time
 import logging
+import jwt
 
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Depends, status, Request
 from fastapi.responses import Response, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 from PIL import Image
 from dotenv import load_dotenv
 
@@ -28,6 +33,54 @@ from .translator import SnipshotTranslator
 load_dotenv()
 
 logger = logging.getLogger("snipshot_engine.server")
+
+# Read environment variables and fail fast
+SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET")
+if not SUPABASE_JWT_SECRET:
+    logger.critical("Startup aborted: SUPABASE_JWT_SECRET is missing.")
+    raise RuntimeError("SUPABASE_JWT_SECRET is missing from the environment.")
+
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+TRANSLATOR_URL = os.getenv("TRANSLATOR_URL", "")
+
+if ENVIRONMENT != "development" and not TRANSLATOR_URL.startswith("https://"):
+    logger.critical(
+        "Startup aborted: TRANSLATOR_URL must use HTTPS in non-development environments. "
+        "Got %r. Set ENVIRONMENT=development to bypass this check locally.",
+        TRANSLATOR_URL,
+    )
+    raise RuntimeError(
+        f"TRANSLATOR_URL must start with 'https://' in environment '{ENVIRONMENT}'. "
+        f"Got: {TRANSLATOR_URL!r}"
+    )
+
+# HTTPBearer automatically checks for the Authorization header
+security = HTTPBearer()
+
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
+    """Verifies the incoming Supabase JWT token."""
+    token = credentials.credentials
+    try:
+        # Decode and verify token signature, expiry, and audience
+        payload = jwt.decode(
+            token,
+            SUPABASE_JWT_SECRET,
+            algorithms=["HS256"],
+            audience="authenticated"  # Enforce Supabase audience claim
+        )
+        return payload
+    except jwt.ExpiredSignatureError as e:
+        logger.warning("JWT verification failed – token expired: %s", e)
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token."
+        )
+    except jwt.PyJWTError as e:
+        logger.warning("JWT verification failed: %s", e)
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token."
+        )
 
 # ── Supabase ─────────────────────────────────────────────────────────────
 
@@ -81,6 +134,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Explicit rate-limit toggle — overrides environment default if set
+isRateLimited = os.getenv("RATE_LIMIT_ENABLED", str(ENVIRONMENT != "development")).lower() == "true"
+
+limiter = Limiter(key_func=get_remote_address, enabled=isRateLimited)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
 # Translator instance — created lazily on first request
 _translator: SnipshotTranslator | None = None
 
@@ -117,9 +177,12 @@ def health():
 
 
 @app.post("/translate")
+@limiter.limit("60/minute")
 async def translate(
+    request: Request,
     image: UploadFile = File(...),
     config: str = Form("{}"),
+    user: dict = Depends(get_current_user)
 ):
     """Translate image and upload result to Supabase Storage."""
     try:
@@ -150,9 +213,12 @@ async def translate(
 
 
 @app.post("/translate/raw")
+@limiter.limit("60/minute")
 async def translate_raw(
+    request: Request,
     image: UploadFile = File(...),
     config: str = Form("{}"),
+    user: dict = Depends(get_current_user)
 ):
     """Translate image and return raw PNG bytes."""
     try:
