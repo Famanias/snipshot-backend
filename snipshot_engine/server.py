@@ -16,6 +16,7 @@ import os
 import time
 import logging
 import jwt
+from jwt import PyJWKClient
 
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Depends, status, Request
 from fastapi.responses import Response, JSONResponse
@@ -35,10 +36,17 @@ load_dotenv()
 logger = logging.getLogger("snipshot_engine.server")
 
 # Read environment variables and fail fast
+SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET")
 if not SUPABASE_JWT_SECRET:
     logger.critical("Startup aborted: SUPABASE_JWT_SECRET is missing.")
     raise RuntimeError("SUPABASE_JWT_SECRET is missing from the environment.")
+
+# Set up JWK Client for asymmetric key verification (e.g. ES256)
+jwks_client = None
+if SUPABASE_URL:
+    jwks_url = f"{SUPABASE_URL.rstrip('/')}/auth/v1/.well-known/jwks.json"
+    jwks_client = PyJWKClient(jwks_url)
 
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 TRANSLATOR_URL = os.getenv("TRANSLATOR_URL", "")
@@ -61,13 +69,25 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
     """Verifies the incoming Supabase JWT token."""
     token = credentials.credentials
     try:
-        # Decode and verify token signature, expiry, and audience
-        payload = jwt.decode(
-            token,
-            SUPABASE_JWT_SECRET,
-            algorithms=["HS256"],
-            audience="authenticated"  # Enforce Supabase audience claim
-        )
+        # Determine signature type from JWT header
+        unverified_header = jwt.get_unverified_header(token)
+        alg = unverified_header.get("alg")
+        
+        if alg in ["ES256", "RS256"] and jwks_client:
+            signing_key = jwks_client.get_signing_key_from_jwt(token)
+            payload = jwt.decode(
+                token,
+                signing_key.key,
+                algorithms=[alg],
+                audience="authenticated"
+            )
+        else:
+            payload = jwt.decode(
+                token,
+                SUPABASE_JWT_SECRET,
+                algorithms=["HS256"],
+                audience="authenticated"
+            )
         return payload
     except jwt.ExpiredSignatureError as e:
         logger.warning("JWT verification failed – token expired: %s", e)
@@ -76,7 +96,11 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
             detail="Invalid token."
         )
     except jwt.PyJWTError as e:
-        logger.warning("JWT verification failed: %s", e)
+        try:
+            header = jwt.get_unverified_header(token)
+            logger.warning("JWT verification failed: %s. Unverified Header: %s", e, header)
+        except Exception as ex:
+            logger.warning("JWT verification failed: %s. Failed to parse header: %s", e, ex)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token."
@@ -84,7 +108,7 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
 
 # ── Supabase ─────────────────────────────────────────────────────────────
 
-SUPABASE_URL = os.getenv("SUPABASE_URL")
+# SUPABASE_URL is already defined at startup
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
 SUPABASE_STORAGE_BUCKET = os.getenv("SUPABASE_STORAGE_BUCKET", "images")
 
