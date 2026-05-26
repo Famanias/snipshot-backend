@@ -63,10 +63,33 @@ if ENVIRONMENT != "development" and not TRANSLATOR_URL.startswith("https://"):
     )
 
 # HTTPBearer automatically checks for the Authorization header
-security = HTTPBearer()
+security = HTTPBearer(auto_error=False)
 
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
     """Verifies the incoming Supabase JWT token."""
+    # In development environment, bypass token verification if missing/invalid
+    if ENVIRONMENT == "development":
+        if not credentials:
+            return {"role": "authenticated", "email": "dev@local.dev", "sub": "dev-user"}
+        try:
+            token = credentials.credentials
+            unverified_header = jwt.get_unverified_header(token)
+            alg = unverified_header.get("alg")
+            if alg in ["ES256", "RS256"] and jwks_client:
+                signing_key = jwks_client.get_signing_key_from_jwt(token)
+                return jwt.decode(token, signing_key.key, algorithms=[alg], audience="authenticated")
+            else:
+                return jwt.decode(token, SUPABASE_JWT_SECRET, algorithms=["HS256"], audience="authenticated")
+        except Exception:
+            return {"role": "authenticated", "email": "dev@local.dev", "sub": "dev-user"}
+
+    # In production/non-development, enforce token presence and valid signature
+    if not credentials:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated"
+        )
+        
     token = credentials.credentials
     try:
         # Determine signature type from JWT header
