@@ -1,10 +1,12 @@
 # Backend Migration Plan: Moving off Azure to Hugging Face Spaces (Free Tier)
 
-This document outlines the strategy for migrating the SnipShot backend off Azure to a completely free hosting stack using **Hugging Face Spaces (Docker SDK)**, **Supabase**, and **Cloudinary**.
+This document outlines the strategy for migrating the SnipShot backend off Azure to a completely free hosting stack using **Hugging Face Spaces (Docker SDK)** and **Supabase**.
 
 ---
 
-## 1. Current Hosting Architecture (Azure & Docker)
+## Background
+
+### Current Hosting Architecture (Azure & Docker)
 
 Before migrating, it is important to document the existing architecture:
 * **Host Environment:** Azure App Service (Web App for Containers) or an Azure VM, running a custom Docker container based on the project's standard `Dockerfile`.
@@ -12,11 +14,9 @@ Before migrating, it is important to document the existing architecture:
 * **Model Storage & Provisioning:** If `AZURE_STORAGE_ACCOUNT` is set, `entrypoint.py` uses Azure Blob Storage and Managed Identity (`ManagedIdentityCredential`) to download the three ML models (`detect-20241225.ckpt`, `lama_large_512px.ckpt`, and `ocr_ar_48px.ckpt`) into `/app/models/` at startup. If they are missing and Azure credentials are not provided, startup fails.
 * **Port Bindings:** The current Docker setup exposes and binds the Gunicorn/FastAPI app to port `8001`.
 
----
+### Why Hugging Face Spaces?
 
-## 2. Why Hugging Face Spaces?
-
-Standard free hosting tiers (Render Free, Koyeb Free, Zeabur Free) limit container memory to **512 MB RAM**. 
+Standard free hosting tiers (Render Free, Koyeb Free, Zeabur Free) limit container memory to **512 MB RAM**.
 
 The SnipShot backend runs deep learning models using PyTorch on CPU:
 * **Detection:** `detect-20241225.ckpt` (~308 MB)
@@ -32,25 +32,50 @@ Loading PyTorch plus these three checkpoints simultaneously requires at least **
 * Runs any custom `Dockerfile` on port `7860`.
 * Spins down after 48 hours of inactivity, but wakes up automatically on the first incoming HTTP request.
 
----
-
-## 3. Infrastructure Replacements
+### Infrastructure Replacements
 
 | Expiring Azure Component | Free Alternative | Configuration in `.env` |
 | :--- | :--- | :--- |
 | **Azure Web App (Docker Container)** | **Hugging Face Space (Docker SDK)** | Expose API on port `7860` |
 | **Azure Blob Storage (Models)** | **Baked into Docker Image** | Pre-downloaded from GitHub/Hugging Face during Docker build |
-| **Azure Blob Storage (Translated Images)** | **Supabase Storage** (or Cloudinary) | `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `SUPABASE_STORAGE_BUCKET` |
+| **Azure Blob Storage (Translated Images)** | **Supabase Storage** | `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `SUPABASE_STORAGE_BUCKET` |
 | **Azure SQL Database** | **Supabase PostgreSQL** (if needed) | `DATABASE_URL` |
 
 ---
 
-## 4. Required Code Modifications
+## Phase 1: Set Up Supabase
 
-To make the codebase compatible with Hugging Face's Docker runtime, the following changes are proposed:
+1. Create a free project on [Supabase](https://supabase.com/).
+2. In your project settings, find the API keys and URL.
+3. Go to **Storage** and create a public bucket named `images`.
 
-### 3.1. Dockerfile Update
-Hugging Face runs containers as a non-root user (UID `1000`) and routes incoming traffic to port `7860`. Pre-downloading the models during the build stage prevents slow startup times.
+---
+
+## Phase 2: Set Up Hugging Face Space
+
+1. Go to [Hugging Face Spaces](https://huggingface.co/spaces) and click **Create new Space**.
+2. Name your space and select **Docker** as the SDK, then choose the **Blank** template.
+
+---
+
+## Phase 3: Configure Environment Secrets
+
+In your HF Space settings under **Variables and secrets**, add:
+* `SUPABASE_URL`: `<your-supabase-url>`
+* `SUPABASE_JWT_SECRET`: `<your-supabase-jwt-secret>`
+* `SUPABASE_SERVICE_KEY`: `<your-supabase-service-role-key>`
+* `SUPABASE_STORAGE_BUCKET`: `images`
+* `GROQ_API_KEY`: `<your-groq-api-key>`
+
+---
+
+## Phase 4: Update the Codebase
+
+Hugging Face runs containers as a non-root user (UID `1000`) and routes incoming traffic to port `7860`. The following changes are required to make the codebase compatible with Hugging Face's Docker runtime.
+
+### 4.1. Dockerfile Update
+
+Pre-downloading the models during the build stage prevents slow startup times.
 
 ```dockerfile
 FROM python:3.10
@@ -89,7 +114,8 @@ EXPOSE 7860
 CMD ["python3", "entrypoint.py"]
 ```
 
-### 3.2. entrypoint.py Update
+### 4.2. entrypoint.py Update
+
 Simplify the entrypoint by removing the strict Azure Blob Storage check and letting Gunicorn bind to the custom port.
 
 ```python
@@ -124,23 +150,11 @@ os.execvp("gunicorn", [
 
 ---
 
-## 5. Step-by-Step Migration Guide
+## Phase 5: Deploy to Hugging Face
 
-1. **Set up Supabase:**
-   * Create a free project on [Supabase](https://supabase.com/).
-   * In your project settings, find the API keys and URL.
-   * Go to **Storage** and create a public bucket named `images`.
-2. **Create a Hugging Face Space:**
-   * Go to [Hugging Face Spaces](https://huggingface.co/spaces) and click **Create new Space**.
-   * Name your space and select **Docker** as the SDK, then choose the **Blank** template.
-3. **Configure Environment Secrets:**
-   * In your HF Space settings under **Variables and secrets**, add:
-     * `SUPABASE_URL`: `<your-supabase-url>`
-     * `SUPABASE_JWT_SECRET`: `<your-supabase-jwt-secret>`
-     * `SUPABASE_SERVICE_KEY`: `<your-supabase-service-role-key>`
-     * `SUPABASE_STORAGE_BUCKET`: `images`
-     * `GROQ_API_KEY`: `<your-groq-api-key>`
-4. **Deploy Code:**
-   * Clone the Hugging Face Space Git repository, copy your codebase including the updated `Dockerfile` and `entrypoint.py`, commit, and push.
-   * HF will automatically build the Docker image and deploy the API. Your public API endpoint will be:
-     `https://<your-username>-<your-space-name>.hf.space`
+Clone the Hugging Face Space Git repository, copy your codebase including the updated `Dockerfile` and `entrypoint.py`, commit, and push. HF will automatically build the Docker image and deploy the API.
+
+Your public API endpoint will be:
+```
+https://<your-username>-<your-space-name>.hf.space
+```
