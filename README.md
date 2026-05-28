@@ -1,3 +1,13 @@
+---
+title: Snipshot Backend
+emoji: 🐳
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+---
+
+
 # SnipShot Backend
 
 Image translation service with user accounts and cloud storage.
