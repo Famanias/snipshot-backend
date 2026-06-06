@@ -1,9 +1,12 @@
-from fastapi import FastAPI, File, Form, UploadFile  # type: ignore
+from fastapi import FastAPI, File, Form, UploadFile, Request  # type: ignore
 from fastapi.middleware.cors import CORSMiddleware   # type: ignore
 from groq import Groq                                # type: ignore
 from dotenv import load_dotenv                       # type: ignore
 from langdetect import detect                        # type: ignore
 from PIL import Image                                # type: ignore
+from slowapi import Limiter, _rate_limit_exceeded_handler  # type: ignore
+from slowapi.util import get_remote_address          # type: ignore
+from slowapi.errors import RateLimitExceeded         # type: ignore
 
 import os
 import base64
@@ -19,6 +22,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Explicit rate-limit toggle — overrides environment default if set
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+isRateLimited = os.getenv("RATE_LIMIT_ENABLED", str(ENVIRONMENT != "development")).lower() == "true"
+
+limiter = Limiter(key_func=get_remote_address, enabled=isRateLimited)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
@@ -65,7 +76,9 @@ def validate_and_compress_image(raw_bytes: bytes) -> tuple[bytes, str]:
 
 
 @app.post("/translate-image")
+@limiter.limit("30/minute")
 async def translate_image(
+    request: Request,
     image: UploadFile = File(...),
     target_lang: str = Form(default="en"),
 ):
