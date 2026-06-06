@@ -1,5 +1,6 @@
-from fastapi import FastAPI, File, Form, UploadFile, Request  # type: ignore
+from fastapi import FastAPI, File, Form, UploadFile, Request, Depends, status, HTTPException  # type: ignore
 from fastapi.middleware.cors import CORSMiddleware   # type: ignore
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials  # type: ignore
 from groq import Groq                                # type: ignore
 from dotenv import load_dotenv                       # type: ignore
 from langdetect import detect                        # type: ignore
@@ -11,6 +12,9 @@ from slowapi.errors import RateLimitExceeded         # type: ignore
 import os
 import base64
 import io
+import jwt
+from jwt import PyJWKClient
+import logging
 
 app = FastAPI()
 load_dotenv()
@@ -30,6 +34,88 @@ isRateLimited = os.getenv("RATE_LIMIT_ENABLED", str(ENVIRONMENT != "development"
 limiter = Limiter(key_func=get_remote_address, enabled=isRateLimited)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+logger = logging.getLogger("snipshot_engine.main")
+
+# Read environment variables and fail fast
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET")
+if not SUPABASE_JWT_SECRET:
+    logger.critical("Startup aborted: SUPABASE_JWT_SECRET is missing.")
+    raise RuntimeError("SUPABASE_JWT_SECRET is missing from the environment.")
+
+# Set up JWK Client for asymmetric key verification (e.g. ES256)
+jwks_client = None
+if SUPABASE_URL:
+    jwks_url = f"{SUPABASE_URL.rstrip('/')}/auth/v1/.well-known/jwks.json"
+    jwks_client = PyJWKClient(jwks_url)
+
+# HTTPBearer automatically checks for the Authorization header
+security = HTTPBearer(auto_error=False)
+
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
+    """Verifies the incoming Supabase JWT token."""
+    # In development environment, bypass token verification if missing/invalid
+    if ENVIRONMENT == "development":
+        if not credentials:
+            return {"role": "authenticated", "email": "dev@local.dev", "sub": "dev-user"}
+        try:
+            token = credentials.credentials
+            unverified_header = jwt.get_unverified_header(token)
+            alg = unverified_header.get("alg")
+            if alg in ["ES256", "RS256"] and jwks_client:
+                signing_key = jwks_client.get_signing_key_from_jwt(token)
+                return jwt.decode(token, signing_key.key, algorithms=[alg], audience="authenticated")
+            else:
+                return jwt.decode(token, SUPABASE_JWT_SECRET, algorithms=["HS256"], audience="authenticated")
+        except Exception:
+            return {"role": "authenticated", "email": "dev@local.dev", "sub": "dev-user"}
+
+    # In production/non-development, enforce token presence and valid signature
+    if not credentials:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated"
+        )
+        
+    token = credentials.credentials
+    try:
+        # Determine signature type from JWT header
+        unverified_header = jwt.get_unverified_header(token)
+        alg = unverified_header.get("alg")
+        
+        if alg in ["ES256", "RS256"] and jwks_client:
+            signing_key = jwks_client.get_signing_key_from_jwt(token)
+            payload = jwt.decode(
+                token,
+                signing_key.key,
+                algorithms=[alg],
+                audience="authenticated"
+            )
+        else:
+            payload = jwt.decode(
+                token,
+                SUPABASE_JWT_SECRET,
+                algorithms=["HS256"],
+                audience="authenticated"
+            )
+        return payload
+    except jwt.ExpiredSignatureError as e:
+        logger.warning("JWT verification failed – token expired: %s", e)
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token."
+        )
+    except jwt.PyJWTError as e:
+        try:
+            header = jwt.get_unverified_header(token)
+            logger.warning("JWT verification failed: %s. Unverified Header: %s", e, header)
+        except Exception as ex:
+            logger.warning("JWT verification failed: %s. Failed to parse header: %s", e, ex)
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token."
+        )
 
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
@@ -81,6 +167,7 @@ async def translate_image(
     request: Request,
     image: UploadFile = File(...),
     target_lang: str = Form(default="en"),
+    user: dict = Depends(get_current_user),
 ):
     try:
         # --- Validate file type ---
