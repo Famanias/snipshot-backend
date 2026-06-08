@@ -291,3 +291,5 @@ print(f"Translated image URL: {data['image_url']}")
 ## License
 
 MIT
+
+Pipeline originally forked from https://github.com/zyddnys/manga-image-translator and made some code modifications.
