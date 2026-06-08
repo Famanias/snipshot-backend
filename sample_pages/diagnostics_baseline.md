@@ -7,23 +7,23 @@ Translation mode: identity baseline (`translation = OCR text`) to isolate render
 
 | Complexity | Images | Regions | Bubble Detect % | Font Mean | Small Font <16% | Spacing px Mean | Overflow % | Shrink % |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| complex | 4 | 64 | 25.0 | 30.8 | 14.1 | 4.5 | 100.0 | 100.0 |
-| easy | 3 | 4 | 100.0 | 51.0 | 0.0 | 7.2 | 100.0 | 100.0 |
-| medium | 3 | 23 | 34.8 | 36.1 | 0.0 | 4.9 | 100.0 | 100.0 |
+| complex | 4 | 64 | 25.0 | 30.2 | 15.6 | 4.4 | 100.0 | 100.0 |
+| easy | 3 | 4 | 100.0 | 51.8 | 0.0 | 7.2 | 100.0 | 100.0 |
+| medium | 3 | 23 | 34.8 | 36.0 | 0.0 | 4.8 | 100.0 | 100.0 |
 
 ## Per Image
 
 | Image | Complexity | Regions | Bubble % | Font Mean | Small<16% | Overflow % | Shrink % |
 |---|---|---:|---:|---:|---:|---:|---:|
 | test-image-complex1.png | complex | 13 | 0.0 | 17.9 | 38.5 | 100.0 | 100.0 |
-| test-image-complex2.jpg | complex | 10 | 10.0 | 50.6 | 0.0 | 100.0 | 100.0 |
-| test-image-complex3.png | complex | 27 | 55.6 | 26.4 | 14.8 | 100.0 | 100.0 |
+| test-image-complex2.jpg | complex | 10 | 10.0 | 50.3 | 0.0 | 100.0 | 100.0 |
+| test-image-complex3.png | complex | 27 | 55.6 | 25.2 | 18.5 | 100.0 | 100.0 |
 | test-image-complex4.png | complex | 14 | 0.0 | 37.0 | 0.0 | 100.0 | 100.0 |
-| test-image-easy1.jpg | easy | 2 | 100.0 | 53.5 | 0.0 | 100.0 | 100.0 |
-| test-image-easy2.jpg | easy | 1 | 100.0 | 49.0 | 0.0 | 100.0 | 100.0 |
-| test-image-easy3.jpg | easy | 1 | 100.0 | 48.0 | 0.0 | 100.0 | 100.0 |
+| test-image-easy1.jpg | easy | 2 | 100.0 | 57.0 | 0.0 | 100.0 | 100.0 |
+| test-image-easy2.jpg | easy | 1 | 100.0 | 48.0 | 0.0 | 100.0 | 100.0 |
+| test-image-easy3.jpg | easy | 1 | 100.0 | 45.0 | 0.0 | 100.0 | 100.0 |
 | test-image-medium.png | medium | 5 | 0.0 | 27.2 | 0.0 | 100.0 | 100.0 |
-| test-image-medium1.png | medium | 8 | 100.0 | 50.0 | 0.0 | 100.0 | 100.0 |
+| test-image-medium1.png | medium | 8 | 100.0 | 49.6 | 0.0 | 100.0 | 100.0 |
 | test-image-medium2.png | medium | 10 | 0.0 | 29.4 | 0.0 | 100.0 | 100.0 |
 
 ## Notes

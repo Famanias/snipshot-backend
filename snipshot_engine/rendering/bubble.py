@@ -79,6 +79,43 @@ def detect_bubbles(
 # ── internals ────────────────────────────────────────────────────────
 
 
+def find_largest_inscribed_rectangle(mask: np.ndarray) -> tuple[int, int, int, int]:
+    """
+    Finds the largest axis-aligned rectangle fully contained within the white pixels (255) of a binary mask.
+    Returns (x, y, w, h). If no rectangle is found, returns (0, 0, 0, 0).
+    """
+    if mask is None or mask.size == 0:
+        return 0, 0, 0, 0
+    
+    H, W = mask.shape
+    heights = np.zeros(W, dtype=np.int32)
+    max_area = 0
+    best_x, best_y, best_w, best_h = 0, 0, 0, 0
+    
+    for r in range(H):
+        row_vals = mask[r]
+        heights = np.where(row_vals > 0, heights + 1, 0)
+        
+        stack = []
+        for c in range(W + 1):
+            h = heights[c] if c < W else 0
+            start_c = c
+            while stack and stack[-1][1] > h:
+                pos_c, height = stack.pop()
+                width = c - pos_c
+                area = width * height
+                if area > max_area:
+                    max_area = area
+                    best_x = pos_c
+                    best_y = r - height + 1
+                    best_w = width
+                    best_h = height
+                start_c = pos_c
+            stack.append((start_c, h))
+            
+    return int(best_x), int(best_y), int(best_w), int(best_h)
+
+
 def _detect_single_bubble(
     gray, cx, cy, h, w, img_area, region,
     min_area, max_ratio, padding,
@@ -93,6 +130,8 @@ def _detect_single_bubble(
 
     best_rect: Optional[np.ndarray] = None
     best_score = -1.0
+    best_component = None
+    best_bbox = None
 
     for sx, sy in _candidate_seed_points(cx, cy, tw, th, w, h):
         # ── 1. Flood fill from candidate seed ───────────────────────
@@ -142,10 +181,49 @@ def _detect_single_bubble(
         if score > best_score:
             best_score = score
             best_rect = _rect_to_dst(bx, by, bw, bh)
+            best_component = component
+            best_bbox = (bx, by, bw, bh)
 
-    if best_rect is None:
+    if best_rect is None or best_component is None or best_bbox is None:
         return None
-    return best_rect, float(max(0.0, min(1.0, best_score)))
+
+    # Calculate Largest Inscribed Rectangle exactly once on the final selected best component
+    lir_x, lir_y, lir_w, lir_h = find_largest_inscribed_rectangle(best_component)
+    bx, by, bw, bh = best_bbox
+    bbox_area = max(1, bw * bh)
+    lir_area = lir_w * lir_h
+
+    # Log areas and retention rate
+    retention_pct = (lir_area / bbox_area) * 100.0
+    logger.info(
+        "Bubble LIR Area Calculation - BBox: %d px², LIR: %d px², Retention: %.1f%%",
+        bbox_area,
+        lir_area,
+        retention_pct,
+    )
+
+    # 45% Area-Loss Fallback check
+    if lir_area < 0.45 * bbox_area or lir_w <= 0 or lir_h <= 0:
+        logger.info("LIR Area Retention below threshold (45%%) or invalid LIR. Falling back to component bounding box.")
+        final_rect = best_rect
+    else:
+        # Perform geometric validity assertion: LIR must be subset of component mask
+        assert np.all(best_component[lir_y:lir_y+lir_h, lir_x:lir_x+lir_w] == 255), "LIR geometric validation failed: rectangle contains background pixels"
+
+        # Apply safety margin (2% inset, min 2px, max 5px)
+        inset_w = max(2, min(5, int(round(lir_w * 0.02))))
+        inset_h = max(2, min(5, int(round(lir_h * 0.02))))
+        
+        # Only apply inset if it leaves enough space (at least 10px in width/height)
+        if lir_w - 2 * inset_w >= 10 and lir_h - 2 * inset_h >= 10:
+            lir_x += inset_w
+            lir_y += inset_h
+            lir_w -= 2 * inset_w
+            lir_h -= 2 * inset_h
+
+        final_rect = _rect_to_dst(lir_x, lir_y, lir_w, lir_h)
+
+    return final_rect, float(max(0.0, min(1.0, best_score)))
 
 
 def _candidate_seed_points(cx: int, cy: int, tw: int, th: int, w: int, h: int) -> list[tuple[int, int]]:
@@ -170,15 +248,23 @@ def _candidate_seed_points(cx: int, cy: int, tw: int, th: int, w: int, h: int) -
 
 
 def _flood_fill(gray: np.ndarray, sx: int, sy: int) -> tuple[np.ndarray, int]:
-    flood_mask = np.zeros((gray.shape[0] + 2, gray.shape[1] + 2), np.uint8)
-    gray_copy = gray.copy()
+    h, w = gray.shape
+    # Get seed pixel value dynamically
+    seed_val = int(gray[sy, sx])
+    
+    # Binarize: pixels close to seed value (within 35 levels) become 255 (foreground), others become 0 (border).
+    # This prevents the flood fill from leaking through smudged/blurry inpainted bubble borders.
+    thresh = np.where((gray >= max(0, seed_val - 35)) & (gray <= min(255, seed_val + 35)), 255, 0).astype(np.uint8)
+    
+    flood_mask = np.zeros((h + 2, w + 2), np.uint8)
+    # Simple binary flood fill on the thresholded image
     cv2.floodFill(
-        gray_copy,
+        thresh,
         flood_mask,
         (int(sx), int(sy)),
         newVal=0,
-        loDiff=(35,),
-        upDiff=(35,),
+        loDiff=(10,),
+        upDiff=(10,),
         flags=cv2.FLOODFILL_MASK_ONLY | (255 << 8),
     )
     bubble_mask = flood_mask[1:-1, 1:-1]
