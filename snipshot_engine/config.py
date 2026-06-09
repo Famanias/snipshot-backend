@@ -69,7 +69,7 @@ class RenderConfig(BaseModel):
     alignment: Alignment = Alignment.auto
     disable_font_border: bool = False
     font_size_offset: int = 0
-    font_size_minimum: int = -1
+    font_size_minimum: int = 18
     direction: Direction = Direction.auto
     uppercase: bool = False
     lowercase: bool = False

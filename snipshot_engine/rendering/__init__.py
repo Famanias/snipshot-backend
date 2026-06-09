@@ -352,7 +352,7 @@ def _estimate_overflow_scales(
     return min(max(scale_x, 1.0), 2.5), min(max(scale_y, 1.0), 2.5)
 
 
-def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, disable_font_border):
+def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, disable_font_border, font_size_minimum=0):
     fg, bg = region.get_font_colors()
     fg, bg = _fg_bg_compare(fg, bg)
     if disable_font_border:
@@ -374,11 +374,22 @@ def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, 
     target_w = max(1, int(round(norm_h[0])))
     target_h = max(1, int(round(norm_v[0])))
 
+    bubble_conf = float(getattr(region, "_bubble_confidence", 0.0) or 0.0)
+    if bubble_conf >= 0.45:
+        margin = _compute_inner_margin(target_w, target_h, len(region.get_translation_for_rendering()))
+        inner_w = max(1, target_w - margin * 2)
+        inner_h = max(1, target_h - margin * 2)
+    else:
+        margin = 0
+        inner_w = target_w
+        inner_h = target_h
+
+    # Render text wrapped to the safe inner box bounds rather than the target box bounds
     temp_box = _render_temp_text_box(
         region,
         region.font_size,
-        target_w,
-        target_h,
+        inner_w,
+        inner_h,
         fg,
         bg,
         hyphenate,
@@ -389,15 +400,10 @@ def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, 
     if temp_box is None:
         return img
 
-    margin = _compute_inner_margin(target_w, target_h, len(region.get_translation_for_rendering()))
-
-    inner_w = max(1, target_w - margin * 2)
-    inner_h = max(1, target_h - margin * 2)
-
     # Fit by font-size adjustment only. Avoid additional raster downscaling.
-    bubble_conf = float(getattr(region, "_bubble_confidence", 0.0) or 0.0)
     shrink_step_ratio = 0.03 if bubble_conf < 0.45 else 0.05
     max_fit_steps = 4 if bubble_conf < 0.45 else 6
+    min_fs_limit = max(6, font_size_minimum) if font_size_minimum > 0 else 8
 
     fit_steps = 0
     while (
@@ -405,7 +411,7 @@ def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, 
         and fit_steps < max_fit_steps
     ):
         fs0 = int(region.font_size)
-        trial_fs = max(8, fs0 - max(1, int(round(fs0 * shrink_step_ratio))))
+        trial_fs = max(min_fs_limit, fs0 - max(1, int(round(fs0 * shrink_step_ratio))))
         if trial_fs >= fs0:
             break
         prev_over = max(
@@ -415,8 +421,8 @@ def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, 
         trial_box = _render_temp_text_box(
             region,
             trial_fs,
-            target_w,
-            target_h,
+            inner_w,
+            inner_h,
             fg,
             bg,
             hyphenate,
@@ -434,6 +440,14 @@ def _render_region(img, region: TextBlock, dst_points, hyphenate, line_spacing, 
         temp_box = trial_box
         region.font_size = trial_fs
         fit_steps += 1
+
+    # Raster shrink fallback: if the text still exceeds inner bounds, scale it down to fit
+    tb_h, tb_w, _ = temp_box.shape
+    if tb_w > inner_w or tb_h > inner_h:
+        scale = min(inner_w / tb_w, inner_h / tb_h)
+        new_w = max(1, int(round(tb_w * scale)))
+        new_h = max(1, int(round(tb_h * scale)))
+        temp_box = cv2.resize(temp_box, (new_w, new_h), interpolation=cv2.INTER_AREA)
 
     centered_inner = _center_text_in_box(temp_box, inner_w, inner_h)
 
@@ -592,6 +606,7 @@ async def dispatch(
                 bw, bh,
                 region.font_size,
                 getattr(region, "target_lang", "en_US"),
+                min_fs=max(6, font_size_minimum) if font_size_minimum > 0 else 8,
                 render_h=render_h,
                 line_spacing=line_spacing,
                 region=region,
@@ -613,5 +628,5 @@ async def dispatch(
 
     # ── 3. Render ────────────────────────────────────────────────────
     for region, dst_points in zip(text_regions, dst_points_list):
-        img = _render_region(img, region, dst_points, hyphenate, line_spacing, disable_font_border)
+        img = _render_region(img, region, dst_points, hyphenate, line_spacing, disable_font_border, font_size_minimum)
     return img
